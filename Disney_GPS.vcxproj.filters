@@ -20,7 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data.json">
+    <None Include="data\data.json">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="data\Data_src.json">
       <Filter>Fichiers de ressources</Filter>
     </None>
   </ItemGroup>

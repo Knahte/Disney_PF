@@ -57,7 +57,6 @@ std::vector<attraction> attractionsOpenJson(const std::string& data_URL) {
         // Parcourir toutes les attractions
         for (const json& attraction_data : data["Attractions"]) {
             attraction new_attraction;
-            std::cout << data << std::endl << std::endl;
             new_attraction.ID = attraction_data["id"];
             new_attraction.name = attraction_data["name"];
             new_attraction.location.lon = attraction_data["location"]["lon"];
