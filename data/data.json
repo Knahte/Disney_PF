@@ -1,0 +1,22 @@
+{
+  "Attractions": [
+    {
+      "id": 19,
+      "name": "it's a small world",
+      "location": {
+        "lat": 48.8744488,
+        "lon": 2.775635
+      },
+      "visited": false
+    },
+    {
+      "id": 2702,
+      "name": "Adventure Isle",
+      "location": {
+        "lat": 48.8725848,
+        "lon": 2.7732881
+      },
+      "visited": false
+    }
+  ]
+}

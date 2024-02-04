@@ -1,0 +1,329 @@
+{
+  "lands": [
+    {
+      "id": 17,
+      "name": "Adventureland",
+      "rides": [
+        {
+          "id": 2702,
+          "name": "Adventure Isle",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 7306,
+          "name": "Indiana Jones and the Temple of Peril Single Rider",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2,
+          "name": "Indiana Jones� and the Temple of Peril",
+          "is_open": true,
+          "wait_time": 15,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 1,
+          "name": "La Cabane des Robinson",
+          "is_open": true,
+          "wait_time": 5,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2703,
+          "name": "Le Passage Enchant� d'Aladdin",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2705,
+          "name": "Pirate Galleon",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 3,
+          "name": "Pirates of the Caribbean",
+          "is_open": true,
+          "wait_time": 15,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2704,
+          "name": "Pirates' Beach",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Discoveryland",
+      "rides": [
+        {
+          "id": 4,
+          "name": "Autopia, presented by Avis",
+          "is_open": true,
+          "wait_time": 25,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 5,
+          "name": "Buzz Lightyear Laser Blast",
+          "is_open": true,
+          "wait_time": 35,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2706,
+          "name": "Disneyland Railroad Discoveryland Station",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 6,
+          "name": "Les Myst�res du Nautilus",
+          "is_open": true,
+          "wait_time": 5,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2707,
+          "name": "Mickey�s PhilharMagic",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 7,
+          "name": "Orbitron�",
+          "is_open": true,
+          "wait_time": 10,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 9,
+          "name": "Star Tours: The Adventures Continue*",
+          "is_open": true,
+          "wait_time": 25,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 8,
+          "name": "Star Wars Hyperspace Mountain",
+          "is_open": true,
+          "wait_time": 30,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 7278,
+          "name": "Star Wars Hyperspace Mountain Single Rider",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 4573,
+          "name": "Welcome to Starport: A Star Wars Encounter",
+          "is_open": true,
+          "wait_time": 25,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Fantasyland",
+      "rides": [
+        {
+          "id": 19,
+          "name": "\"it's a small world\"",
+          "is_open": true,
+          "wait_time": 10,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 14,
+          "name": "Alice's Curious Labyrinth",
+          "is_open": true,
+          "wait_time": 5,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 15,
+          "name": "Blanche-Neige et les Sept Nains�",
+          "is_open": true,
+          "wait_time": 20,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 17,
+          "name": "Casey Jr. � le Petit Train du Cirque",
+          "is_open": true,
+          "wait_time": 10,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 11,
+          "name": "Disneyland Railroad",
+          "is_open": true,
+          "wait_time": 10,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2711,
+          "name": "Disneyland Railroad Fantasyland Station",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 18,
+          "name": "Dumbo the Flying Elephant",
+          "is_open": true,
+          "wait_time": 15,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2710,
+          "name": "La Tani�re du Dragon",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 16,
+          "name": "Le Carrousel de Lancelot ",
+          "is_open": true,
+          "wait_time": 5,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 21,
+          "name": "Le Pays des Contes de F�es",
+          "is_open": true,
+          "wait_time": 5,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 23,
+          "name": "Les Voyages de Pinocchio",
+          "is_open": true,
+          "wait_time": 15,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 20,
+          "name": "Mad Hatter's Tea Cups",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 13,
+          "name": "Meet Mickey Mouse",
+          "is_open": true,
+          "wait_time": 45,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 22,
+          "name": "Peter Pan's Flight",
+          "is_open": true,
+          "wait_time": 45,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 24,
+          "name": "Princess Pavilion",
+          "is_open": true,
+          "wait_time": 120,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Frontierland",
+      "rides": [
+        {
+          "id": 25,
+          "name": "Big Thunder Mountain",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2714,
+          "name": "Disneyland Railroad Frontierland Depot",
+          "is_open": true,
+          "wait_time": 10,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2713,
+          "name": "Frontierland Playground",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 26,
+          "name": "Phantom Manor",
+          "is_open": true,
+          "wait_time": 10,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 27,
+          "name": "River Rogue Keelboats",
+          "is_open": false,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 2712,
+          "name": "Rustler Roundup Shootin' Gallery",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 28,
+          "name": "Thunder Mesa Riverboat Landing",
+          "is_open": true,
+          "wait_time": 15,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Main Street U.S.A",
+      "rides": [
+        {
+          "id": 2708,
+          "name": "Disneyland Railroad Main Street Station",
+          "is_open": true,
+          "wait_time": 0,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        },
+        {
+          "id": 12,
+          "name": "Main Street Vehicles",
+          "is_open": true,
+          "wait_time": 5,
+          "last_updated": "2024-02-04T10:10:16.000Z"
+        }
+      ]
+    }
+  ],
+  "rides": []
+}
