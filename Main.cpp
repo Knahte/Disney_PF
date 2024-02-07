@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <map>
 #include "Include/nlohmann/json.hpp"
 
 using json = nlohmann::json;
@@ -69,35 +70,47 @@ std::vector<attraction> attractionsOpenJson(const std::string& data_URL) {
     }
     catch (const std::exception& e) {
         std::cerr << "Erreur lors de l'analyse du fichier JSON : " << e.what() << std::endl;
+    }
+
+    // Fermer le fichier
+    file.close();
+
+    return attractions;
 }
 
-// Fermer le fichier
-file.close();
+std::map <int, attraction> vectorToMapById(std::vector <attraction> attractions_list) {
+    std::map <int, attraction> attractions_map;
 
-return attractions;
+    for (const attraction& attr : attractions_list) {
+        attractions_map[attr.ID] = attr;
+    };
+    
+    return attractions_map;
 }
 
-void attractionsDebug(std::vector<attraction> attractions_data) {
-    for (const auto& attr : attractions_data) {
+
+void attractionsDebug(const std::map<int, attraction>& attractions_data) {
+    for (const auto& pair : attractions_data) {
+        const attraction& attr = pair.second;
         std::cout << "Attraction ID: " << attr.ID << std::endl;
         std::cout << "Name: " << attr.name << std::endl;
         std::cout << "Location (lat, lon): " << attr.location.lat << ", " << attr.location.lon << std::endl;
         std::cout << "Is Open: " << std::boolalpha << attr.is_open << std::endl;
         std::cout << "Wait Time: " << attr.wait << std::endl;
-        std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl;
-        std::cout << std::endl;
+        std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
     }
 }
 
-
 int main() {
 	//std::string API_LINK = "https://queue-times.com/parks/4/queue_times.json";
-    //attractionsDebug(attractionOpenJson(API_LINK));
+
     std::string DATA_LINK = "data/data.json";
-    std::vector<attraction> attractions = attractionsOpenJson(DATA_LINK);
+    std::vector<attraction> attractions_vector = attractionsOpenJson(DATA_LINK);
+
+    std::map <int, attraction> sorted_attractions_data = vectorToMapById(attractions_vector);
 
     // Afficher les attractions pour vérifier
-    attractionsDebug(attractions);
+    attractionsDebug(sorted_attractions_data);
 
     return 0;
 }
