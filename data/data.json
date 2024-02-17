@@ -17,6 +17,105 @@
         "lon": 2.7732881
       },
       "visited": false
+    },
+    {
+      "id": 14,
+      "name": "Alice's Curious Labyrinth",
+      "location": {
+        "lat": 48.874462,
+        "lon": 2.771949
+      },
+      "visited": false
+    },
+    {
+      "id": 4,
+      "name": "Autopia, presented by Avis",
+      "location": {
+        "lat": 48.8734072,
+        "lon": 2.7762308
+      },
+      "visited": false
+    },
+    {
+      "id": 25,
+      "name": "Big Thunder Mountain",
+      "location": {
+        "lat": 48.8717243,
+        "lon": 2.7726013
+      },
+      "visited": false
+    },
+    {
+      "id": 15,
+      "name": "Blanche-Neige et les Sept Nains®",
+      "location": {
+        "lat": 48.8734557,
+        "lon": 2.772754
+      },
+      "visited": false
+    },
+    {
+      "id": 5,
+      "name": "Buzz Lightyear Laser Blast",
+      "location": {
+        "lat": 48.8734355,
+        "lon": 2.7753511
+      },
+      "visited": false
+    },
+    {
+      "id":17,
+      "name": "Casey Jr. – le Petit Train du Cirque",
+      "location": {
+        "lat": 48.8760729,
+        "lon": 2.7721081
+      },
+      "visited": false
+    },
+    {
+      "id": 18,
+      "name": "Dumbo the Flying Elephant",
+      "location": {
+        "lat": 48.8739369,
+        "lon": 2.7724786
+      },
+      "visited": false
+    },
+    {
+      "id": 7306,
+      "name": "Single Rider Indiana Jones™ and the Temple of Peril",
+      "location": {
+        "lat": 48.8724369,
+        "lon": 2.7709415
+      },
+      "visited": false
+    },
+    {
+      "id": 2,
+      "name": "Indiana Jones™ and the Temple of Peril",
+      "location": {
+        "lat": 48.8724369,
+        "lon": 2.7709415
+      },
+      "visited": false
+    },
+    {
+      "id": 1,
+      "name": "La Cabane des Robinson",
+      "location": {
+        "lat": 48.8724429,
+        "lon": 2.7713589
+      },
+      "visited": false
+    },
+    {
+      "id": 16,
+      "name": "Le Carrousel de Lancelot",
+      "location": {
+        "lat": 48.8737469,
+        "lon": 2.7727584
+      },
+      "visited": false
     }
   ]
 }
