@@ -132,6 +132,7 @@
   <ItemGroup>
     <None Include="data\data.json" />
     <None Include="data\Data_src.json" />
+    <None Include="data\waiting_time.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

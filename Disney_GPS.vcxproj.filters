@@ -26,5 +26,8 @@
     <None Include="data\Data_src.json">
       <Filter>Fichiers de ressources</Filter>
     </None>
+    <None Include="data\waiting_time.csv">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
   </ItemGroup>
 </Project>

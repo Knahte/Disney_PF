@@ -33,6 +33,7 @@ struct attraction {
 	coordiante location;
 	bool is_open = false;
     std::vector<int> wait_time = {};
+    int single_rider = 0;
 	bool visited = true;
 };
 
@@ -63,6 +64,7 @@ std::vector<attraction> attractionsOpenJson(const std::string& data_URL) {
             new_attraction.location.lon = attraction_data["location"]["lon"];
             new_attraction.location.lat = attraction_data["location"]["lat"];
             new_attraction.visited = attraction_data["visited"];
+            new_attraction.single_rider = attraction_data["single_rider"];
 
             attractions.push_back(new_attraction);
         }
@@ -122,7 +124,7 @@ std::map<int, std::vector<int>> attractionsOpenCSV(const std::string& data_URL) 
             if (colonne == 1) {
                 id = std::stoi(cellule);
             }
-            else if (colonne > 3) {
+            else if (colonne > 2) {
                 if (cellule.empty())
                     ligne_csv.push_back(9999);
                 else
@@ -156,7 +158,18 @@ attraction inputWaitTime(std::map<int, attraction>& attractions, std::map<int, s
 
 }
 
+//searching function 
 
+attraction searchAttraction(int& ID, const std::map<int, attraction>& attractions) {
+    auto it = attractions.find(ID);
+    if (it != attractions.end()) {
+        return it->second;
+    }
+    else {
+        std::cerr << "Attraction non trouvée pour l'ID : " << ID << std::endl;
+        return attraction();
+    }
+}
 
 //debug function
 
@@ -171,22 +184,27 @@ void vectorDebug(const std::vector<int>& vector_data) {
     std::cout << '}';
 }
 
+void attractionDebug(const attraction& attr) {
+    std::cout << "Attraction ID: " << attr.ID << std::endl;
+    std::cout << "Name: " << attr.name << std::endl;
+    std::cout << "Location (lat, lon): " << attr.location.lat << ", " << attr.location.lon << std::endl;
+    std::cout << "Is Open: " << std::boolalpha << attr.is_open << std::endl;
+    std::cout << "Wait Time: ";
+    vectorDebug(attr.wait_time);
+    std::cout << std::endl;
+    std::cout << "Single Rider ID : " << attr.single_rider << std::endl;
+    std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
+}
+
 void attractionsDebug(const std::map<int, attraction>& attractions_data) {
     for (const auto& pair : attractions_data) {
         const attraction& attr = pair.second;
-        std::cout << "Attraction ID: " << attr.ID << std::endl;
-        std::cout << "Name: " << attr.name << std::endl;
-        std::cout << "Location (lat, lon): " << attr.location.lat << ", " << attr.location.lon << std::endl;
-        std::cout << "Is Open: " << std::boolalpha << attr.is_open << std::endl;
-        std::cout << "Wait Time: ";
-        vectorDebug(attr.wait_time);
-        std::cout << std::endl;
-        std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
+        attractionDebug(attr);
     }
 }
 
 int main() {
-	//std::string API_LINK = "https://queue-times.com/parks/4/queue_times.json";
+    //std::string API_LINK = "https://queue-times.com/parks/4/queue_times.json";
 
     std::string DATA_LINK = "data/data.json";
     std::vector<attraction> attractions_vector = attractionsOpenJson(DATA_LINK);

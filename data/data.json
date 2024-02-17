@@ -7,7 +7,8 @@
         "lat": 48.8744488,
         "lon": 2.775635
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 2702,
@@ -16,7 +17,8 @@
         "lat": 48.8725848,
         "lon": 2.7732881
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 14,
@@ -25,7 +27,8 @@
         "lat": 48.874462,
         "lon": 2.771949
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 4,
@@ -34,7 +37,8 @@
         "lat": 48.8734072,
         "lon": 2.7762308
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 25,
@@ -43,7 +47,8 @@
         "lat": 48.8717243,
         "lon": 2.7726013
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 15,
@@ -52,7 +57,8 @@
         "lat": 48.8734557,
         "lon": 2.772754
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 5,
@@ -61,16 +67,18 @@
         "lat": 48.8734355,
         "lon": 2.7753511
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
-      "id":17,
+      "id": 17,
       "name": "Casey Jr. – le Petit Train du Cirque",
       "location": {
         "lat": 48.8760729,
         "lon": 2.7721081
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 18,
@@ -79,7 +87,8 @@
         "lat": 48.8739369,
         "lon": 2.7724786
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 7306,
@@ -88,7 +97,8 @@
         "lat": 48.8724369,
         "lon": 2.7709415
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 2,
@@ -97,7 +107,8 @@
         "lat": 48.8724369,
         "lon": 2.7709415
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 7306
     },
     {
       "id": 1,
@@ -106,7 +117,8 @@
         "lat": 48.8724429,
         "lon": 2.7713589
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
     },
     {
       "id": 16,
@@ -115,7 +127,368 @@
         "lat": 48.8737469,
         "lon": 2.7727584
       },
-      "visited": false
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 21,
+      "name": "Le Pays des Contes de Fées",
+      "location": {
+        "lat": 48.8752961,
+        "lon": 2.7721123
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 6,
+      "name": "Les Mystères du Nautilus",
+      "location": {
+        "lat": 48.8735581,
+        "lon": 2.7780902
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 23,
+      "name": "Les Voyages de Pinocchio",
+      "location": {
+        "lat": 48.8735581,
+        "lon": 2.7780902
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 20,
+      "name": "Mad Hatter's Tea Cups",
+      "location": {
+        "lat": 48.8744202,
+        "lon": 2.7725796
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 12,
+      "name": "Main Streer Vehicles",
+      "location": {
+        "lat": 48.8713194,
+        "lon": 2.7771131
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 13,
+      "name": "Meet Mickey Mouse",
+      "location": {
+        "lat": 48.8743999,
+        "lon": 2.7712701
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 2707,
+      "name": "Mickey’s PhilharMagic",
+      "location": {
+        "lat": 48.8744171,
+        "lon": 2.7635453
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 7,
+      "name": "Orbitron®",
+      "location": {
+        "lat": 48.8735695,
+        "lon": 2.7758232
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 22,
+      "name": "Peter Pan's Flight",
+      "location": {
+        "lat": 48.8738566,
+        "lon": 2.7714847
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 26,
+      "name": "Phantom Manor",
+      "location": {
+        "lat": 48.8709856,
+        "lon": 2.771945
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 3,
+      "name": "Pirates of the Caribbean",
+      "location": {
+        "lat": 48.8735023,
+        "lon": 2.7708104
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 24,
+      "name": "Princess Pavilion",
+      "location": {
+        "lat": 48.8747581,
+        "lon": 2.772984
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 9,
+      "name": "Star Tours: The Adventures Continue*",
+      "location": {
+        "lat": 48.8746368,
+        "lon": 2.7761906
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 8,
+      "name": "Star Wars Hyperspace Mountain",
+      "location": {
+        "lat": 48.8736405,
+        "lon": 2.776231
+      },
+      "visited": false,
+      "single_rider": 7278
+    },
+    {
+      "id": 7278,
+      "name": "Single Rider Star Wars Hyperspace Mountain",
+      "location": {
+        "lat": 48.8736405,
+        "lon": 2.776231
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 28,
+      "name": "Thunder Mesa Riverboat Landing",
+      "location": {
+        "lat": 48.8711953,
+        "lon": 2.7762129
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 4573,
+      "name": "Welcome to Starport: A Star Wars Encounter",
+      "location": {
+        "lat": 48.8741877,
+        "lon": 2.7763769
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 11469,
+      "name": "Balloon",
+      "location": {
+        "lat": 48.8689687,
+        "lon": 2.7856306
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 30,
+      "name": "Art of Disney Animation",
+      "location": {
+        "lat": 48.8668077,
+        "lon": 2.7753978
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 10848,
+      "name": "Avengers Assemble: Flight Force",
+      "location": {
+        "lat": 48.865131,
+        "lon": 2.7786443
+      },
+      "visited": false,
+      "single_rider": 10849
+    },
+    {
+      "id": 10849,
+      "name": "Single Rider Avengers Assemble: Flight Force",
+      "location": {
+        "lat": 48.865131,
+        "lon": 2.7786443
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 31,
+      "name": "Cars Quatre Roues Rallye",
+      "location": {
+        "lat": 48.8676917,
+        "lon": 2.7753313
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 29,
+      "name": "Cars ROAD TRIP",
+      "location": {
+        "lat": 48.8663543,
+        "lon": 2.7723004
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 32,
+      "name": "Crush's Coaster",
+      "location": {
+        "lat": 48.8680852,
+        "lon": 2.7756129
+      },
+      "visited": false,
+      "single_rider": 7277
+    },
+    {
+      "id": 7277,
+      "name": "Single Rider Crush's Coaster",
+      "location": {
+        "lat": 48.8680852,
+        "lon": 2.7756129
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 33,
+      "name": "Les Tapis Volants - Flying Carpets Over Agrabah®",
+      "location": {
+        "lat": 48.8682551,
+        "lon": 2.7783527
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 37,
+      "name": "Ratatouille: The Adventure",
+      "location": {
+        "lat": 48.8675718,
+        "lon": 2.7736696
+      },
+      "visited": false,
+      "single_rider": 7279
+    },
+    {
+      "id": 7279,
+      "name": "Single Rider Ratatouille: The Adventure",
+      "location": {
+        "lat": 48.8675718,
+        "lon": 2.7736696
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 34,
+      "name": "RC Racer",
+      "location": {
+        "lat": 48.866843,
+        "lon": 2.7738748
+      },
+      "visited": false,
+      "single_rider": 7280
+    },
+    {
+      "id": 7280,
+      "name": "Single Rider RC Racer",
+      "location": {
+        "lat": 48.866843,
+        "lon": 2.7738748
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 36,
+      "name": "Slinky® Dog Zigzag Spin",
+      "location": {
+        "lat": 48.8670654,
+        "lon": 2.7741538
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 10845,
+      "name": "Spider-Man W.E.B. Adventure",
+      "location": {
+        "lat": 48.8660209,
+        "lon": 2.7766804
+      },
+      "visited": false,
+      "single_rider": 10846
+    },
+    {
+      "id": 10846,
+      "name": "Single Rider Spider-Man W.E.B. Adventure",
+      "location": {
+        "lat": 48.8660209,
+        "lon": 2.7766804
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 40,
+      "name": "The Twilight Zone Tower of Terror",
+      "location": {
+        "lat": 48.8667187,
+        "lon": 2.7761721
+      },
+      "visited": false,
+      "single_rider": 0
+    },
+    {
+      "id": 35,
+      "name": "Toy Soldiers Parachute Drop",
+      "location": {
+        "lat": 48.8671254,
+        "lon": 2.7748512
+      },
+      "visited": false,
+      "single_rider": 7281
+    },
+    {
+      "id": 7281,
+      "name": "Single Rider Toy Soldiers Parachute Drop",
+      "location": {
+        "lat": 48.8671254,
+        "lon": 2.7748512
+      },
+      "visited": false,
+      "single_rider": 0
     }
   ]
 }

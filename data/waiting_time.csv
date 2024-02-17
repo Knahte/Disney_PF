@@ -1,13 +1,49 @@
-ID;name;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22
-19;"""it's a small world""";5;6;8;15;17;16;17;17;16;12;11;9;7;6;6
-14;Alice's Curious Labyrinth;5;5;5;5;5;6;6;6;6;6;5;5;5;5;5
-4;Autopia, presented by Avis;5;20;32;36;34;31;33;35;35;32;36;33;30;30;31
-25;Big Thunder Mountain;;30;46;55;56;56;58;59;59;55;57;50;44;41;36
-15;Blanche-Neige et les Sept Nains®;5;8;14;20;22;19;18;19;19;16;17;15;12;11;9
-5;Buzz Lightyear Laser Blast;5;17;29;41;42;42;45;47;47;42;45;37;31;29;22
-17;Casey Jr. – le Petit Train du Cirque;5;5;7;16;20;20;22;24;23;19;17;18;15;13;19
-18;Dumbo the Flying Elephant;5;12;23;33;36;35;33;31;30;26;26;25;22;20;19
-7306;Single Rider Indiana Jones™ and the Temple of Peril;;5;6;11;14;15;17;16;15;11;8;7;6;5;5
-2;Indiana Jones™ and the Temple of Peril;;6;13;26;30;30;30;31;29;23;29;26;11;9;8
-1;La Cabane des Robinson;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5
-16;Le Carrousel de Lancelot;5;5;7;11;13;13;13;12;12;12;12;12;11;10;10
+ID;name;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23
+19;"""it's a small world""";5;6;8;15;17;16;17;17;16;12;11;9;7;6;6;
+14;Alice's Curious Labyrinth;5;5;5;5;5;6;6;6;6;6;5;5;5;5;5;
+4;Autopia, presented by Avis;5;20;32;36;34;31;33;35;35;32;36;33;30;30;31;
+25;Big Thunder Mountain;;30;46;55;56;56;58;59;59;55;57;50;44;41;36;
+15;Blanche-Neige et les Sept Nains®;5;8;14;20;22;19;18;19;19;16;17;15;12;11;9;
+5;Buzz Lightyear Laser Blast;5;17;29;41;42;42;45;47;47;42;45;37;31;29;22;
+17;Casey Jr. – le Petit Train du Cirque;5;5;7;16;20;20;22;24;23;19;17;18;15;13;19;
+18;Dumbo the Flying Elephant;5;12;23;33;36;35;33;31;30;26;26;25;22;20;19;
+7306;Single Rider Indiana Jones™ and the Temple of Peril;;5;6;11;14;15;17;16;15;11;8;7;6;5;5;
+2;Indiana Jones™ and the Temple of Peril;;6;13;26;30;30;30;31;29;23;29;26;11;9;8;
+1;La Cabane des Robinson;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;
+16;Le Carrousel de Lancelot;5;5;7;11;13;13;13;12;12;12;12;12;11;10;10;
+21;Le Pays des Contes de Fées;;5;5;7;8;9;9;10;10;8;7;8;7;6;7;
+6;Les Mystères du Nautilus;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;
+23;Les Voyages de Pinocchio;5;11;16;23;25;24;24;25;23;22;22;21;18;16;13;
+20;Mad Hatter's Tea Cups;5;5;6;12;13;12;12;13;12;10;9;9;7;7;7;
+12;Main Street Vehicles;;6;7;7;8;7;7;7;7;6;7;7;7;8;10;
+13;Meet Mickey Mouse;;60;70;58;58;58;59;60;5;45;45;43;38;50;49;
+2707;Mickey’s PhilharMagic;;;8;9;10;10;10;10;10;10;8;10;10;10;10;
+7;Orbitron®;5;16;22;33;34;31;31;32;32;29;31;29;27;25;24;
+22;Peter Pan's Flight;10;35;37;48;51;51;53;54;53;49;52;46;42;39;31;
+26;Phantom Manor;5;5;9;19;21;20;22;24;22;18;15;12;8;7;6;
+3;Pirates of the Caribbean;;7;14;24;26;26;28;29;27;21;18;16;12;10;8;
+24;Princess Pavilion;;58;96;83;74;69;70;71;68;56;50;48;24;24;60;
+9;Star Tours: The Adventures Continue*;5;9;27;38;38;35;36;37;36;30;33;28;21;20;16;
+8;Star Wars Hyperspace Mountain;5;20;27;37;39;37;38;39;39;36;38;32;27;26;22;
+7278;Single Rider Star Wars Hyperspace Mountain;;6;14;24;27;27;28;30;29;26;26;20;16;13;9;
+28;Thunder Mesa Riverboat Landing;5;14;19;18;19;19;19;19;19;19;19;19;16;24;25;
+4573;Welcome to Starport: A Star Wars Encounter;;7;31;30;33;32;33;32;28;21;25;21;15;15;17;
+11469;Balloon;;10;10;10;10;10;9;9;9;9;10;10;11;11;12;
+30;Art of Disney Animation;;8;9;9;9;9;9;9;9;9;9;9;10;10;;
+10848;Avengers Assemble: Flight Force;;14;30;38;35;28;26;25;24;20;17;14;10;6;10;10
+10849;Single Rider Avengers Assemble: Flight Force;;8;17;26;25;19;17;17;16;13;11;9;6;5;5;5
+31;Cars Quatre Roues Rallye;;7;17;23;22;18;14;14;13;11;11;11;9;6;8;9
+29;Cars ROAD TRIP;;8;14;20;22;20;15;14;13;12;11;11;10;10;11;11
+32;Crush's Coaster;;88;80;80;78;74;69;69;67;64;66;62;57;50;54;46
+7277;Single Rider Crush's Coaster;;61;66;59;69;67;64;63;61;57;55;51;45;39;35;38
+33;Les Tapis Volants - Flying Carpets Over Agrabah®;;6;16;23;23;29;16;15;14;12;11;11;8;6;7;9
+37;Ratatouille: The Adventure;;33;59;67;65;59;52;53;52;45;44;39;29;14;20;18
+7279;Single Rider Ratatouille: The Adventure;;6;11;17;17;14;12;11;11;8;6;6;5;5;6;6
+34;RC Racer;;22;43;43;55;49;43;43;42;37;36;33;26;19;23;26
+7280;Single Rider RC Racer;;13;37;47;47;42;37;36;34;29;26;24;19;13;12;19
+36;Slinky® Dog Zigzag Spin;;7;15;21;20;16;12;11;11;9;8;8;7;5;7;5
+10845;Spider-Man W.E.B. Adventure;;59;71;74;73;68;65;64;60;54;48;46;39;31;45;40
+10846;Single Rider Spider-Man W.E.B. Adventure;;16;29;36;36;33;32;32;30;25;21;19;15;8;18;15
+40;The Twilight Zone Tower of Terror;;33;44;50;50;44;38;38;36;32;30;27;21;18;20;15
+35;Toy Soldiers Parachute Drop;;28;45;50;51;47;42;41;39;36;35;35;30;24;21;22
+7281;Single Rider Toy Soldiers Parachute Drop;;7;16;22;22;19;17;16;16;13;12;11;9;7;8;7
