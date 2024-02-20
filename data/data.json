@@ -490,5 +490,55 @@
       "visited": false,
       "single_rider": 0
     }
+  ],
+  "Hotels": [
+    {
+      "id": 0,
+      "name": "No Hotel (SNCF Train Station / Parking Lot)",
+      "location": {
+        "lat": 48.8692479,
+        "lon": 2.7813703
+      }
+    },
+    {
+      "id": 1,
+      "name": "Disneyland Hotel *****",
+      "location": {
+        "lat": 48.8697775,
+        "lon": 2.7776829
+      }
+    },
+    {
+      "id": 2,
+      "name": "Diney Hotel New York - The art of Marvel ****",
+      "location": {
+        "lat": 48.8707637,
+        "lon": 2.7851427
+      }
+    },
+    {
+      "id": 3,
+      "name": "Disney Newport Bay Club ****",
+      "location": {
+        "lat": 48.865592,
+        "lon": 2.7867865
+      }
+    },
+    {
+      "id": 4,
+      "name": "Disney Sequoia Lodge ***",
+      "location": {
+        "lat": 48.8692479,
+        "lon": 2.7813703
+      }
+    },
+    {
+      "id": 5,
+      "name": "Disney hotel Santa Fe **",
+      "location": {
+        "lat": 48.8686691,
+        "lon": 2.7876556
+      }
+    }
   ]
 }

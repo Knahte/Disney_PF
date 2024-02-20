@@ -1,2 +1,2 @@
 ﻿  Main.cpp
-  Disney_GPS.vcxproj -> C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\x64\Debug\Disney_GPS.exe
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp : fatal  error C1090: Échec de l'appel de l'API PDB, code d'erreur '3' : C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\x64\Debug\vc143.pdb
