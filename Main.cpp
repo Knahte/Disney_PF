@@ -1,5 +1,5 @@
 ////////////////////////
-//--include-//-using--//
+//-include-//--using--//
 ////////////////////////
 
 
@@ -14,15 +14,13 @@
 
 using json = nlohmann::json;
 
-
-
 ////////////////////////
 //-------struct-------//
 ////////////////////////
 
 
 
-struct coordiante {
+struct coordinate {
 	float lon = 0.0;
 	float lat = 0.0;
 };
@@ -30,16 +28,27 @@ struct coordiante {
 struct attraction {
 	int ID = -1;
 	std::string name = "NONE";
-	coordiante location;
+    coordinate location;
     std::map<int, int> wait_time = {};
     int single_rider = -1;
+    std::vector<int> intersection_linked = {};
 	bool visited = true;
 };
 
 struct hotel {
     int ID = -1;
     std::string name = "NONE";
-    coordiante location;
+    coordinate location;
+    std::vector<int> intersection_linked = {};
+};
+
+struct intersection {
+    int ID = -1;
+    std::string name = "NONE";
+    coordinate location;
+    std::vector<int> attraction_linked = {};
+    std::vector<int> hotel_linked = {};
+    std::vector<int> intersection_linked = {};
 };
 
 struct setting {
@@ -55,7 +64,8 @@ struct setting {
 //---data-functions---//
 ////////////////////////
 
-//Input for Json function
+
+
 
 std::vector<attraction> attractionsOpenJson(const std::string& data_URL) {
     std::vector<attraction> attractions;
@@ -125,6 +135,46 @@ std::vector<hotel> hotelOpenJson(const std::string& data_URL) {
     return hotels;
 }
 
+std::vector<intersection> intersectionOpenJson(const std::string& data_URL) {
+    std::vector<intersection> intersections;
+
+    std::ifstream file(data_URL);
+    if (!file.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier JSON." << std::endl;
+        return intersections;
+    }
+
+    json data;
+    try {
+        file >> data;
+
+        for (const json& inter_data : data["Intersections"]) {
+            intersection new_inter;
+            new_inter.ID = inter_data["id"];
+            new_inter.name = inter_data["name"];
+            new_inter.location.lon = inter_data["location"]["lon"];
+            new_inter.location.lat = inter_data["location"]["lat"];
+            for (const auto& inter : inter_data["connected_to_intersections"]) {
+                new_inter.intersection_linked.push_back(inter);
+            }
+            for (const auto& attraction : inter_data["connected_to_attractions"]) {
+                new_inter.attraction_linked.push_back(attraction);
+            }
+            for (const auto& hotel : inter_data["connected_to_hotels"]) {
+                new_inter.hotel_linked.push_back(hotel);
+            }
+            intersections.push_back(new_inter);
+        }
+    }
+    catch (const std::exception& error) {
+        std::cerr << "Erreur lors de l'analyse du fichier JSON : " << error.what() << std::endl;
+    }
+
+    file.close();
+
+    return intersections;
+}
+
 
 
 std::map <int, attraction> attractionVectorToMapById(std::vector <attraction>& attractions_list) {
@@ -147,8 +197,40 @@ std::map <int, hotel> hotelVectorToMapById(std::vector <hotel>& hotels_list) {
     return hotels_map;
 }
 
+std::map <int, intersection> intersectionVectorToMapById(std::vector <intersection>& intersections_list) {
+    std::map <int, intersection> intersections_map;
 
-//input from css file function
+    for (const intersection& inter : intersections_list) {
+        intersections_map[inter.ID] = inter;
+    };
+
+    return intersections_map;
+}
+
+void addIntersectionData(const std::vector<intersection>& intersections_list, std::map<int, attraction>& attraction_data, std::map<int, hotel>& hotel_data) {
+    for (const auto& intersection : intersections_list) {
+        for (int attraction_id : intersection.attraction_linked) {
+            auto it = attraction_data.find(attraction_id);
+            if (it != attraction_data.end()) {
+                it->second.intersection_linked.push_back(intersection.ID);
+                if (it->second.single_rider != -1 && it->second.single_rider != attraction_id) {
+                    auto it_single_rider = attraction_data.find(it->second.single_rider);
+                    if (it_single_rider != attraction_data.end()) {
+                        it_single_rider->second.intersection_linked.push_back(intersection.ID);
+                    }
+                }
+            }
+        }
+        for (int hotel_id : intersection.hotel_linked) {
+            auto it = hotel_data.find(hotel_id);
+            if (it != hotel_data.end()) {
+                it->second.intersection_linked.push_back(intersection.ID);
+            }
+        }
+    }
+}
+
+
 
 std::map<int, std::map<int, int>> attractionsOpenCSV(const std::string& data_URL) {
     std::map<int, std::map<int, int>> data_map;
@@ -211,18 +293,7 @@ attraction inputWaitTime(std::map<int, attraction>& attractions, std::map<int, s
 
 }
 
-//searching function 
 
-attraction searchAttraction(int& ID, const std::map<int, attraction>& attractions) {
-    auto it = attractions.find(ID);
-    if (it != attractions.end()) {
-        return it->second;
-    }
-    else {
-        std::cerr << "Attraction non trouvée pour l'ID : " << ID << std::endl;
-        return attraction();
-    }
-}
 
 ////////////////////////
 //--debug--functions--//
@@ -236,7 +307,7 @@ void vectorDebug(const std::vector<int>& vector_data) {
         }
         std::cout << vector_data.back();
     }
-    std::cout << '}';
+    std::cout << '}' << std::endl;
 }
 
 void timeDataDebug(const std::map<int, int>& data_map) {
@@ -244,7 +315,7 @@ void timeDataDebug(const std::map<int, int>& data_map) {
     for (const auto& entry : data_map) {
         std::cout << entry.first << ":" << entry.second << " | ";
     }
-    std::cout << "\b\b\b   \b\b\b" << "}" << std::endl;
+    std::cout << "}" << std::endl;
 }
 
 void attractionDebug(const attraction& attr) {
@@ -254,13 +325,31 @@ void attractionDebug(const attraction& attr) {
     std::cout << "Wait Time: ";
     timeDataDebug(attr.wait_time);
     std::cout << "Single Rider ID : " << attr.single_rider << std::endl;
+    std::cout << "Connected with : ";
+    vectorDebug(attr.intersection_linked);
     std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
 }
 
 void hotelDebug(const hotel& hotel_to_print) {
     std::cout << "Hotel ID: " << hotel_to_print.ID << std::endl;
     std::cout << "Name: " << hotel_to_print.name << std::endl;
-    std::cout << "Location (lat, lon): " << hotel_to_print.location.lat << ", " << hotel_to_print.location.lon << std::endl << std::endl;
+    std::cout << "Location (lat, lon): " << hotel_to_print.location.lat << ", " << hotel_to_print.location.lon << std::endl;
+    std::cout << "Connected with : ";
+    vectorDebug(hotel_to_print.intersection_linked);
+    std::cout << std::endl;
+}
+
+void intersectionDebug(const intersection& inter) {
+    std::cout << "Intersction ID: " << inter.ID << std::endl;
+    std::cout << "Name: " << inter.name << std::endl;
+    std::cout << "Location (lat, lon): " << inter.location.lat << ", " << inter.location.lon << std::endl;
+    std::cout << "Linked to attraction: ";
+    vectorDebug(inter.attraction_linked);
+    std::cout << "Linked to hotel: ";
+    vectorDebug(inter.hotel_linked);
+    std::cout << "Linked to intersection: ";
+    vectorDebug(inter.intersection_linked);
+    std::cout << std::endl;
 }
 
 void attractionsDebug(const std::map<int, attraction>& attractions_data) {
@@ -277,6 +366,13 @@ void hotelsDebug(const std::map<int, hotel>& hotels_data) {
     }
 }
 
+void intersectionsDebug(const std::map<int, intersection>& intersections_data) {
+    for (const auto& pair : intersections_data) {
+        const intersection& inter_to_print = pair.second;
+        intersectionDebug(inter_to_print);
+    }
+}
+
 void pathDebug(std::map<int, std::map<std::string, int>>& path_data) {
     for (const auto& pair : path_data) {
         const std::map<std::string, int>& step = pair.second;
@@ -287,20 +383,49 @@ void pathDebug(std::map<int, std::map<std::string, int>>& path_data) {
     }
 }
 
+
+
 ////////////////////////
 //-distance-functions-//
 ////////////////////////
 
+std::map<std::string, std::map<int, std::vector<double>>> getGraph(const std::map<int, intersection>& intersection_data) {    //{std::string,std::map<int, std::vector<double>>,"hotel"}
+    std::map<std::string, std::map<int, std::vector<double>>> data = {
+        {"attraction", {}},
+        {"hotel", {}},
+        {"intersection", {}}
+    };
 
-int getDistance(const int& IDa, const int& IDb) {
+    //The complicated code should go here... help.
 
+
+    return data;
 }
+
+template<typename T1, typename T2>
+int getDistance(const int& a_ID, const int& b_ID, const std::map<int, T1>& a_data, const std::map<int, T2>& b_data) {
+    auto a_item = a_data.find(a_ID);
+    auto b_item = b_data.find(b_ID);
+
+    if (a_item == a_data.end() || b_item == b_data.end()) {
+        return -1;
+    }
+
+    const double a_lon = (a_item->second.location.lon) * 0.0174533; // angle[deg] * 0,0174533 = angle[rad] 
+    const double b_lon = (b_item->second.location.lon) * 0.0174533;
+    const double a_lat = (a_item->second.location.lat) * 0.0174533;
+    const double b_lat = (b_item->second.location.lat) * 0.0174533;
+
+
+    double distance = acos(sin(a_lat) * sin(b_lat) + cos(a_lat) * cos(b_lat) * cos(b_lon - a_lon)) * 6371000; //6371000 = Radius of the Earth (conventional)
+    return distance;
+}
+
 
 
 ////////////////////////
 //simulation-functions//
 ////////////////////////
-
 
 std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
     srand(time(0));
@@ -321,7 +446,6 @@ int simulation(std::vector<int>& path){
     return 0;
 }
 
-
 std::map<int, std::map<std::string, int>> generatePath(const std::map <int, attraction>& attractions_map, const setting& setting_data, const std::map <int, hotel>& sorted_hotels_data){
     std::vector<int> path = {};
     std::vector<int> id_list;
@@ -338,9 +462,9 @@ std::map<int, std::map<std::string, int>> generatePath(const std::map <int, attr
         }
     }
 
-    vectorDebug(id_list);
+    //vectorDebug(id_list);
     std::vector<int> randomised_path = generateRandomVectorWithList(id_list);
-    vectorDebug(randomised_path);
+    //vectorDebug(randomised_path);
     int score = simulation(randomised_path);    
 
 
@@ -357,13 +481,20 @@ std::map<int, std::map<std::string, int>> generatePath(const std::map <int, attr
 int main() {
     //std::string API_LINK = "https://queue-times.com/parks/4/queue_times.json";
 
-    std::string DATA_LINK = "data/data.json";
+    const std::string DATA_LINK = "data/data.json";
 
     std::vector<attraction> attractions_vector = attractionsOpenJson(DATA_LINK);
     std::vector<hotel> hotels_vector = hotelOpenJson(DATA_LINK);
+    
 
     std::map <int, attraction> sorted_attractions_data = attractionVectorToMapById(attractions_vector);
     std::map <int, hotel> sorted_hotels_data = hotelVectorToMapById(hotels_vector);
+    
+
+    std::vector<intersection> intersections_vector = intersectionOpenJson(DATA_LINK);
+    std::map <int, intersection> sorted_intersections_data = intersectionVectorToMapById(intersections_vector);
+
+    addIntersectionData(intersections_vector, sorted_attractions_data, sorted_hotels_data);
 
     std::map<int, std::map<int, int>> wait_time_data = attractionsOpenCSV("data/waiting_time.csv");
 
@@ -371,14 +502,14 @@ int main() {
 
     //attractionsDebug(sorted_attractions_data);
     //hotelsDebug(sorted_hotels_data);
+    //intersectionsDebug(sorted_intersections_data);
 
     setting current_setting;
 
 
     std::map<int, std::map<std::string, int>> path_generated = generatePath(sorted_attractions_data, current_setting, sorted_hotels_data);
 
-    pathDebug(path_generated);
-
+    //pathDebug(path_generated);
 
     return 0;
 }

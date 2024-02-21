@@ -466,40 +466,40 @@
       "id": 0,
       "name": "No Hotel / SNCF Train+Bus Station / Parking Lot",
       "location": {
-        "lat": 48.8692479,
-        "lon": 2.7813703
+        "lat": 48.86919,
+        "lon": 2.7819
       }
     },
     {
       "id": 1,
       "name": "Disneyland Hotel *****",
       "location": {
-        "lat": 48.8697775,
-        "lon": 2.7776829
+        "lat": 48.87043,
+        "lon": 2.77971
       }
     },
     {
       "id": 2,
       "name": "Diney Hotel New York - The art of Marvel ****",
       "location": {
-        "lat": 48.8707637,
-        "lon": 2.7851427
+        "lat": 48.8704,
+        "lon": 2.78779
       }
     },
     {
       "id": 3,
       "name": "Disney Newport Bay Club ****",
       "location": {
-        "lat": 48.865592,
-        "lon": 2.7867865
+        "lat": 48.86568,
+        "lon": 2.78921
       }
     },
     {
       "id": 4,
       "name": "Disney Sequoia Lodge ***",
       "location": {
-        "lat": 48.8692479,
-        "lon": 2.7813703
+        "lat": 48.86863,
+        "lon": 2.79014
       }
     }
   ],
@@ -508,8 +508,8 @@
       "id": 1,
       "name": "Central Plaza",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.8726,
+        "lon": 2.77676
       },
       "connected_to_intersections": [
         2,
@@ -532,8 +532,8 @@
       "id": 2,
       "name": "Frontierland_NE",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87152,
+        "lon": 2.77602
       },
       "connected_to_intersections": [
         1,
@@ -552,8 +552,8 @@
       "id": 3,
       "name": "Frontierland_NO",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87151,
+        "lon": 2.77427
       },
       "connected_to_intersections": [
         4
@@ -569,8 +569,8 @@
       "id": 4,
       "name": "AdventureLand_S",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87186,
+        "lon": 2.77412
       },
       "connected_to_intersections": [
         3,
@@ -589,8 +589,8 @@
       "id": 5,
       "name": "AdventureLand_E",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87238,
+        "lon": 2.77487
       },
       "connected_to_intersections": [
         1,
@@ -608,8 +608,8 @@
       "id": 6,
       "name": "AdventureLand_N",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.8733,
+        "lon": 2.77345
       },
       "connected_to_intersections": [
         4,
@@ -629,8 +629,8 @@
       "id": 7,
       "name": "Fantasyland_C",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87388,
+        "lon": 2.77518
       },
       "connected_to_intersections": [
         1,
@@ -651,8 +651,8 @@
       "id": 8,
       "name": "FantasyLand_O",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87379,
+        "lon": 2.7742
       },
       "connected_to_intersections": [
         7,
@@ -670,8 +670,8 @@
       "id": 9,
       "name": "FantasyLand_NO",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87418,
+        "lon": 2.77419
       },
       "connected_to_intersections": [
         8,
@@ -689,8 +689,8 @@
       "id": 10,
       "name": "FantasyLand_N",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87473,
+        "lon": 2.77502
       },
       "connected_to_intersections": [
         11,
@@ -709,8 +709,8 @@
       "id": 11,
       "name": "FantasyLand_NC",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87428,
+        "lon": 2.77464
       },
       "connected_to_intersections": [
         9,
@@ -730,8 +730,8 @@
       "id": 12,
       "name": "FantasyLand_NE",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.8745,
+        "lon": 2.77587
       },
       "connected_to_intersections": [
         10,
@@ -750,8 +750,8 @@
       "id": 13,
       "name": "FantasyLand_E",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87446,
+        "lon": 2.7765
       },
       "connected_to_intersections": [
         12,
@@ -769,8 +769,8 @@
       "id": 14,
       "name": "DiscoveryLand_NO",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87444,
+        "lon": 2.77881
       },
       "connected_to_intersections": [
         16
@@ -788,8 +788,8 @@
       "id": 15,
       "name": "DiscoveryLand_SO",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87295,
+        "lon": 2.77734
       },
       "connected_to_intersections": [
         16,
@@ -807,8 +807,8 @@
       "id": 16,
       "name": "DiscoveryLand_C",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.87334,
+        "lon": 2.77826
       },
       "connected_to_intersections": [
         14,
@@ -828,8 +828,8 @@
       "id": 17,
       "name": "HUB",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86951,
+        "lon": 2.78082
       },
       "connected_to_intersections": [
         1,
@@ -848,8 +848,8 @@
       "id": 18,
       "name": "Place_des_Frères_Lumières",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86807,
+        "lon": 2.78039
       },
       "connected_to_intersections": [
         17,
@@ -866,8 +866,8 @@
       "id": 19,
       "name": "Studio_1",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86734,
+        "lon": 2.77915
       },
       "connected_to_intersections": [
         20,
@@ -886,8 +886,8 @@
       "id": 20,
       "name": "Worlds_of_Pixar",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86794,
+        "lon": 2.77829
       },
       "connected_to_intersections": [
         19,21
@@ -904,8 +904,8 @@
       "id": 21,
       "name": "Buzz_statue",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86741,
+        "lon": 2.77755
       },
       "connected_to_intersections": [
         20,32,24,22
@@ -921,8 +921,8 @@
       "id": 22,
       "name": "Place_de_Rémy",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86736,
+        "lon": 2.77638
       },
       "connected_to_intersections": [
         21,23
@@ -938,8 +938,8 @@
       "id": 23,
       "name": "Toy_Story_Playland_O",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86706,
+        "lon": 2.77629
       },
       "connected_to_intersections": [
         22,
@@ -956,8 +956,8 @@
       "id": 24,
       "name": "Toy_Story_Playland_C",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86696,
+        "lon": 2.77693
       },
       "connected_to_intersections": [
         21,23
@@ -973,8 +973,8 @@
       "id": 25,
       "name": "A_logo",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86639,
+        "lon": 2.77963
       },
       "connected_to_intersections": [
         32,
@@ -993,8 +993,8 @@
       "id": 26,
       "name": "Big_A_logo",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86555,
+        "lon": 2.77943
       },
       "connected_to_intersections": [
         25
@@ -1010,8 +1010,8 @@
       "id": 27,
       "name": "Dinsey_Village_E",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86909,
+        "lon": 2.78635
       },
       "connected_to_intersections": [
         31,28,17
@@ -1027,8 +1027,8 @@
       "id": 28,
       "name": "Lac_Buna_Vista_N",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86973,
+        "lon": 2.788
       },
       "connected_to_intersections": [
         27,29
@@ -1044,8 +1044,8 @@
       "id": 29,
       "name": "Lac_Buna_Vista_E",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86848,
+        "lon": 2.78918
       },
       "connected_to_intersections": [
         28,30
@@ -1061,8 +1061,8 @@
       "id": 30,
       "name": "Lac_Buna_Vista_S",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86601,
+        "lon": 2.78911
       },
       "connected_to_intersections": [
         29,31
@@ -1078,8 +1078,8 @@
       "id": 31,
       "name": "Disney_Village_SE",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86836,
+        "lon": 2.78629
       },
       "connected_to_intersections": [
         30,27,17
@@ -1095,8 +1095,8 @@
       "id": 32,
       "name": "Hollywood_Blvd_SO",
       "location": {
-        "lat": 48.8686691,
-        "lon": 2.7876556
+        "lat": 48.86692,
+        "lon": 2.77836
       },
       "connected_to_intersections": [
         21,19,25
