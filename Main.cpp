@@ -52,7 +52,7 @@ struct setting {
 
 
 ////////////////////////
-//------function------//
+//---data-functions---//
 ////////////////////////
 
 //Input for Json function
@@ -224,7 +224,9 @@ attraction searchAttraction(int& ID, const std::map<int, attraction>& attraction
     }
 }
 
-//debug function
+////////////////////////
+//--debug--functions--//
+////////////////////////
 
 void vectorDebug(const std::vector<int>& vector_data) {
     std::cout << '{';
@@ -284,6 +286,16 @@ void pathDebug(std::map<int, std::map<std::string, int>>& path_data) {
         std::cout << std::endl;
     }
 }
+
+////////////////////////
+//-distance-functions-//
+////////////////////////
+
+
+int getDistance(const int& IDa, const int& IDb) {
+
+}
+
 
 ////////////////////////
 //simulation-functions//
