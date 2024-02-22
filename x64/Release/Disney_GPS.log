@@ -1,9 +1,12 @@
 ﻿  Main.cpp
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(431,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(433,11): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(408,12): warning C4244: 'return' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(418,11): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(470,19): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(582,31): warning C4244: '+=' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(597,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
   Génération de code en cours
-  3 of 2208 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2500 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
   Disney_GPS.vcxproj -> C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\x64\Release\Disney_GPS.exe

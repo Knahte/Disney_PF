@@ -503,6 +503,22 @@
       }
     }
   ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "Intersections": [
     {
       "id": 1,
@@ -579,6 +595,7 @@
       ],
       "connected_to_attractions": [
         2,
+        7306,
         1
       ],
       "connected_to_hotels": [
@@ -818,7 +835,9 @@
         5,
         7,
         4,
-        6
+        6,
+        8,
+        7278
       ],
       "connected_to_hotels": [
 
@@ -894,7 +913,7 @@
 
       ],
       "connected_to_attractions": [
-        33,32,31
+        33,32,7277,31
       ],
       "connected_to_hotels": [
 
@@ -928,7 +947,7 @@
         21,23
       ],
       "connected_to_attractions": [
-        37
+        37,7279
       ],
       "connected_to_hotels": [
 
@@ -946,7 +965,7 @@
         24
       ],
       "connected_to_attractions": [
-        29,34
+        29,34,7280
       ],
       "connected_to_hotels": [
 
@@ -963,7 +982,7 @@
         21,23
       ],
       "connected_to_attractions": [
-        34,36,35
+        34,7280,36,35,7281
       ],
       "connected_to_hotels": [
 
@@ -983,6 +1002,7 @@
       ],
       "connected_to_attractions": [
         10845,
+        10846,
         40
       ],
       "connected_to_hotels": [
@@ -1001,7 +1021,9 @@
       ],
       "connected_to_attractions": [
         10845,
-        10848
+        10846,
+        10848,
+        10849
       ],
       "connected_to_hotels": [
       ]
