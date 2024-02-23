@@ -21,9 +21,9 @@ using json = nlohmann::json;
 ////////////////////////
 
 
-int nb_gene = 30;
+int nb_gene = 100;
 double selectivity = 0.1;
-int nb_generation = 30;
+int nb_generation = 100;
 
 
 ////////////////////////
@@ -63,10 +63,10 @@ struct intersection {
 
 struct setting {
     bool single_rider = true;
-    std::vector<int> available_time = { 8,23 }; //(min: 8 | max:23)
+    std::pair<int, int> available_time = { 8,23 }; //(min: 8 | max:23)
     int available_days = 3;
     int hotel_ID = 0; //see Json file "data.json"
-    int walking_speed = 5; //in km/h - (min: 2 | max: 8)
+    int walking_speed = 8; //in km/h - (min: 2 | max: 8)
 };
 
 
@@ -259,11 +259,17 @@ std::map<int, std::map<int, int>> attractionsOpenCSV(const std::string& data_URL
 
             if (colonne == 1) {
                 id = std::stoi(cellule);
-                data_map[id] = std::map<int, int>();
+                data_map[id] = std::map<int, int> {};
             }
             else if (colonne >= 3) {
                 int heure = colonne + 5;
-                int valeur = cellule.empty() ? -1 : std::stoi(cellule);
+                int valeur;
+                if (!cellule.empty()) {
+                    valeur = std::stoi(cellule);
+                }
+                else {
+                    valeur = 99999;
+                }
                 data_map[id][heure] = valeur;
             }
         }
@@ -372,26 +378,32 @@ double findShortestPath(const intersection& start_intersection, const intersecti
     }
 }
 
-double getLongDistance(const int& start_ID, const int& end_ID, const std::map<int, intersection>& intersection_data, const std::map<int, attraction>& attraction_data) {
-    double min_distance = std::numeric_limits<double>::infinity();;
+double getLongDistance(const int& start_ID, const int& end_ID, const std::map<int, intersection>& intersection_data, std::map<int, attraction>& attraction_data, const setting& setting_data, int& current_time) {
+    double min_distance = std::numeric_limits<double>::infinity();
+    int min_time = std::numeric_limits<int>::max();
+    double max_time = setting_data.available_time.first * 60;
 
     auto start_attraction = attraction_data.find(start_ID);
     auto end_attraction = attraction_data.find(end_ID);
+
+    int time_taken = 0;
 
     if(!(start_attraction->second.intersection_linked.empty() || end_attraction->second.intersection_linked.empty()))
     {
         for (int start_intersection_id : start_attraction->second.intersection_linked) {
 
             for (int end_intersection_id : end_attraction->second.intersection_linked) {
-                //std::cout << start_intersection_id << " -> " << end_intersection_id << std::endl;
                 double distance = findShortestPath(intersection_data.at(start_intersection_id), intersection_data.at(end_intersection_id), intersection_data) + getColseDistance(start_ID, start_intersection_id, attraction_data, intersection_data) + getColseDistance(end_ID, end_intersection_id, attraction_data, intersection_data);
+                time_taken = distance / setting_data.walking_speed * 1000/60  + (attraction_data[end_intersection_id].wait_time[current_time * 60]);
                 if (distance <= -1) {
+                    std::cerr << "(var)'distance' in getLongDistance return -1";
                     return -1;
                 }
-                else
-                    if (distance < min_distance) {
-                        min_distance = distance;
-                    }
+                else if (time_taken < min_time) {
+                    min_distance = distance;
+                    min_time = time_taken;
+                }
+
             }
         }
     }
@@ -399,6 +411,7 @@ double getLongDistance(const int& start_ID, const int& end_ID, const std::map<in
         std::cerr << "no attraction accessible in " << start_ID << " or " << end_ID << " attraction" << std::endl;
         return -1;
     }
+    current_time += min_time;
 
     return min_distance;
 }
@@ -421,26 +434,27 @@ std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
     return list;
 }
 
-double simulation(std::vector<int>& path, const std::map <int, attraction>& attraction_data, const std::map <int, intersection>& intersection_data, const setting& setting_data, const std::map <int, hotel>& hotel_data){
-    double total_distance = 0;
+double simulation(std::vector<int>& path, std::map <int, attraction>& attraction_data, const std::map <int, intersection>& intersection_data, const setting& setting_data, const std::map <int, hotel>& hotel_data){
+    int current_time = setting_data.available_time.first * 60;
+    int max_time = setting_data.available_time.second * 60;
 
-    for (size_t i = 0; i < path.size() - 1; ++i) {
+    for (int i = 0; i < path.size() - 1; ++i) {
         int current_intersection_ID = path[i];
         int next_intersection_ID = path[i + 1];
 
-        double distance = getLongDistance(current_intersection_ID, next_intersection_ID, intersection_data, attraction_data) ;
-        if (distance == -1) {
+        int time_taken = getLongDistance(current_intersection_ID, next_intersection_ID, intersection_data, attraction_data, setting_data, current_time) ;
+        if (time_taken == -1) {
             std::cerr << "Calcule du chemin interompu de " << current_intersection_ID << " à " << next_intersection_ID << std::endl;
-            total_distance = -1;
+            current_time = -1;
             break;
         }
         //std::cout << "dist = " << distance << std::endl;
-        total_distance += distance;
+        current_time += time_taken;
         //std::cout << "dist total = " << total_distance << std::endl;
     }
-    total_distance += getColseDistance(setting_data.hotel_ID, path.front(), hotel_data, attraction_data);
-    total_distance += getColseDistance(setting_data.hotel_ID, path.back(), hotel_data, attraction_data);
-    return total_distance;
+    current_time += getColseDistance(setting_data.hotel_ID, path.front(), hotel_data, attraction_data) / setting_data.walking_speed * 1000 / 60;
+    current_time += getColseDistance(setting_data.hotel_ID, path.back(), hotel_data, attraction_data) / setting_data.walking_speed * 1000 / 60;
+    return current_time;
 }
 
 std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
@@ -462,7 +476,7 @@ std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
     return mixed_gene;
 }
 
-std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::pair<int, std::vector<int>>> path_data, const std::map <int, attraction>& attraction_data, const std::map <int, intersection>& intersection_data, const std::map <int, hotel>& hotel_data, const setting setting_data) {
+std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::pair<int, std::vector<int>>> path_data, std::map <int, attraction>& attraction_data, const std::map <int, intersection>& intersection_data, const std::map <int, hotel>& hotel_data, const setting setting_data) {
     
     for (size_t i = 0; i < path_data.size() - 1; ++i) {
         for (size_t j = 0; j < path_data.size() - i - 1; ++j) {
@@ -493,7 +507,7 @@ std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::
 
 }
 
-std::vector<int> generatePath(const std::map <int, attraction>& attraction_data, const setting& setting_data, const std::map <int, intersection>& intersection_data, const std::map <int, hotel>& hotel_data){
+std::vector<int> generatePath(std::map <int, attraction>& attraction_data, const setting& setting_data, const std::map <int, intersection>& intersection_data, const std::map <int, hotel>& hotel_data){
     std::vector<int> path = {};
     std::vector<int> id_list = {};
     if (setting_data.single_rider) {
@@ -560,8 +574,8 @@ std::vector<int> generatePath(const std::map <int, attraction>& attraction_data,
         }
     }
 
-    std::cout << "min distance for this path before genetic :" << min_score << std::endl;
-    std::cout << "min distance for this path after  genetic :" << new_min_score << std::endl;
+    std::cout << "min time for this path before genetic :" << min_score /60 << "h" << std::endl;
+    std::cout << "min time for this path after  genetic :" << new_min_score / 60 << "h" << std::endl;
     return new_shortest_path;
 }
 
@@ -645,8 +659,10 @@ void intersectionsDebug(const std::map<int, intersection>& intersections_data) {
     }
 }
 
-void pathDebug(const std::vector<int>& path, const std::map<int, attraction>& attraction_data, const std::map<int, intersection>& intersection_data) {
-    double total_distance = 0;
+void pathDebug(const std::vector<int>& path, std::map<int, attraction>& attraction_data, const std::map<int, intersection>& intersection_data, setting& setting_data) {
+    int current_time = setting_data.available_time.first * 60;
+    int distance = 0;
+    int distance_traveled = 0;
     std::cout << "Attractions in the path:" << std::endl;
     for (size_t i = 1; i < path.size(); ++i) {
         int current_id = path[i - 1];
@@ -655,13 +671,15 @@ void pathDebug(const std::vector<int>& path, const std::map<int, attraction>& at
         auto current_attraction = attraction_data.find(current_id);
         auto next_attraction = attraction_data.find(next_id);
 
+
         if (current_attraction != attraction_data.end() && next_attraction != attraction_data.end()) {
-            double distance = getLongDistance(current_id, next_id, intersection_data, attraction_data); 
-            total_distance += distance; 
-            std::cout << "Attraction ID: " << current_attraction->first << ", Name: " << current_attraction->second.name << ", Distance to next: " << distance << ", Distance tot: " << total_distance << std::endl;
+            
+            distance_traveled = getLongDistance(current_id, next_id, intersection_data, attraction_data, setting_data, current_time);
+            distance += distance_traveled;
+            std::cout << "Attraction ID: " << current_attraction->first << ", Name: " << current_attraction->second.name << ", Time of the day: " << current_time / 60 << "h, Distance made: "<< distance_traveled << "m, Distance tot : " << distance << "m" << std::endl;
         }
     }
-    std::cout << "Total distance traveled: " << total_distance/1000 << "km" << std::endl;
+    std::cout << "time of the end of the day: " << current_time / 60 << "h" << std::endl;
 }
 
 
@@ -694,18 +712,17 @@ int main() {
 
     inputWaitTime(sorted_attractions_data, wait_time_data);
 
-    attractionDebug(sorted_attractions_data[8]);
-
     //attractionsDebug(sorted_attractions_data);
     //hotelsDebug(sorted_hotels_data);
     //intersectionsDebug(sorted_intersections_data);
 
     setting current_setting;
 
+    std::cout << (int)0.6 << std::endl;
 
     std::vector<int> path_generated = generatePath(sorted_attractions_data, current_setting, sorted_intersections_data, sorted_hotels_data);
 
-    pathDebug(path_generated, sorted_attractions_data, sorted_intersections_data);
+    pathDebug(path_generated, sorted_attractions_data, sorted_intersections_data, current_setting);
 
     return 0;
 }
