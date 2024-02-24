@@ -1,11 +1,11 @@
 ﻿  Main.cpp
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(397,79): warning C4244: '=' : conversion de 'double' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(426,11): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(445,24): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(455,140): warning C4244: '+=' : conversion de 'double' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(456,139): warning C4244: '+=' : conversion de 'double' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(677,48): warning C4244: '=' : conversion de 'double' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(692,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(284,84): warning C4244: '=' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(318,83): warning C4244: '=' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(332,11): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(363,144): warning C4244: '+=' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(364,143): warning C4244: '+=' : conversion de 'double' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(369,14): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(517,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16): warning C4244: 'initialisation' : conversion de 'double' en '_Ty1', perte possible de données
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16): warning C4244:         with
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16): warning C4244:         [
@@ -14,18 +14,18 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   (compiler le fichier source 'Main.cpp')
   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(250,16):
   le contexte d’instanciation du modèle (le plus ancien) est
-  	C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(503,31):
+  	C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(431,31):
   	voir la référence à l'instanciation de la fonction modèle 'std::pair<int,std::vector<int,std::allocator<int>>>::pair<double&,std::vector<int,std::allocator<int>>&,0>(_Other1,_Other2) noexcept(false)' en cours de compilation
           with
           [
               _Other1=double &,
               _Other2=std::vector<int,std::allocator<int>> &
           ]
-  		C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(503,30):
+  		C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(431,30):
   		voir la première référence à « std::pair<int,std::vector<int,std::allocator<int>>>::pair » dans « regenerationPath »
   
   Génération de code en cours
-  2 of 2462 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 2694 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code

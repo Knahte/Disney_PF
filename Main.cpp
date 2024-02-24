@@ -4,62 +4,20 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <vector>
 #include <map>
-#include <cstdlib>
-#include <algorithm>
-#include "Include/nlohmann/json.hpp"
+#include <iomanip>
+#include <unordered_map>
+#include <fstream>
+#include "Include/custom/import_data.h"
 
-using json = nlohmann::json;
+using matrix_3d = std::map<int, std::map<int, std::map<int, int>>>;
 
-
-
-////////////////////////
-//----code-setting----//
-////////////////////////
-
-
-int nb_gene = 100;
-double selectivity = 0.1;
-int nb_generation = 100;
 
 
 ////////////////////////
 //-------struct-------//
 ////////////////////////
-
-struct coordinate {
-	float lon = 0.0;
-	float lat = 0.0;
-};
-
-struct attraction {
-	int ID = -1;
-	std::string name = "NONE";
-    coordinate location;
-    std::map<int, int> wait_time = {};
-    int single_rider = -1;
-    std::vector<int> intersection_linked = {};
-	bool visited = true;
-};
-
-struct hotel {
-    int ID = -1;
-    std::string name = "NONE";
-    coordinate location;
-    std::vector<int> intersection_linked = {};
-};
-
-struct intersection {
-    int ID = -1;
-    std::string name = "NONE";
-    coordinate location;
-    std::vector<int> attraction_linked = {};
-    std::vector<int> hotel_linked = {};
-    std::vector<int> intersection_linked = {};
-};
 
 struct setting {
     bool single_rider = true;
@@ -72,229 +30,160 @@ struct setting {
 
 
 ////////////////////////
-//---data-functions---//
+//--global--variable--//
 ////////////////////////
 
-std::vector<attraction> attractionsOpenJson(const std::string& data_URL) {
-    std::vector<attraction> attractions;
+int nb_gene = 300;
+double selectivity = 0.1;
+int nb_generation = 300;
 
-    std::ifstream file(data_URL);
-    if (!file.is_open()) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier JSON." << std::endl;
-        return attractions;
-    }
+std::map<int, attraction> attraction_data = getAttractionData();
+std::map<int, hotel> hotel_data = getHotelData();
+std::map<int, intersection> intersection_data = getIntersectionData();
 
-    json data;
-    try {
-        file >> data;
+setting current_setting; //temporary
 
-        for (const json& attraction_data : data["Attractions"]) {
-            attraction new_attraction;
-            new_attraction.ID = attraction_data["id"];
-            new_attraction.name = attraction_data["name"];
-            new_attraction.location.lon = attraction_data["location"]["lon"];
-            new_attraction.location.lat = attraction_data["location"]["lat"];
-            new_attraction.visited = attraction_data["visited"];
-            if (attraction_data["single_rider"]==0)
-                new_attraction.single_rider = attraction_data["id"];
-            else
-                new_attraction.single_rider = attraction_data["single_rider"];
-            attractions.push_back(new_attraction);
+
+
+////////////////////////
+//--debug--functions--//
+////////////////////////
+
+void vectorDebug(std::vector<int>& vector_data) {
+    std::cout << '{';
+    if (not vector_data.empty()) {
+        for (size_t i = 0; i < vector_data.size() - 1; ++i) {
+            std::cout << vector_data[i] << " ; ";
         }
+        std::cout << vector_data.back();
     }
-    catch (const std::exception& error) {
-        std::cerr << "Erreur lors de l'analyse du fichier JSON : " << error.what() << std::endl;
-    }
-
-    file.close();
-
-    return attractions;
+    std::cout << '}' << std::endl;
 }
 
-std::vector<hotel> hotelOpenJson(const std::string& data_URL) {
-    std::vector<hotel> hotels;
-
-    std::ifstream file(data_URL);
-    if (!file.is_open()) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier JSON." << std::endl;
-        return hotels;
+void timeDataDebug(std::map<int, int>& data_map) {
+    std::cout << "{";
+    for (auto& entry : data_map) {
+        std::cout << entry.first << ":" << entry.second << " | ";
     }
-
-    json data;
-    try {
-        file >> data;
-
-        for (const json& hotel_data : data["Hotels"]) {
-            hotel new_hotel;
-            new_hotel.ID = hotel_data["id"];
-            new_hotel.name = hotel_data["name"];
-            new_hotel.location.lon = hotel_data["location"]["lon"];
-            new_hotel.location.lat = hotel_data["location"]["lat"];
-
-            hotels.push_back(new_hotel);
-        }
-    }
-    catch (const std::exception& error) {
-        std::cerr << "Erreur lors de l'analyse du fichier JSON : " << error.what() << std::endl;
-    }
-
-    file.close();
-
-    return hotels;
+    std::cout << "}" << std::endl;
 }
 
-std::vector<intersection> intersectionOpenJson(const std::string& data_URL) {
-    std::vector<intersection> intersections;
-
-    std::ifstream file(data_URL);
-    if (!file.is_open()) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier JSON." << std::endl;
-        return intersections;
-    }
-
-    json data;
-    try {
-        file >> data;
-
-        for (const json& inter_data : data["Intersections"]) {
-            intersection new_inter;
-            new_inter.ID = inter_data["id"];
-            new_inter.name = inter_data["name"];
-            new_inter.location.lon = inter_data["location"]["lon"];
-            new_inter.location.lat = inter_data["location"]["lat"];
-            for (const auto& inter : inter_data["connected_to_intersections"]) {
-                new_inter.intersection_linked.push_back(inter);
-            }
-            for (const auto& attraction : inter_data["connected_to_attractions"]) {
-                new_inter.attraction_linked.push_back(attraction);
-            }
-            for (const auto& hotel : inter_data["connected_to_hotels"]) {
-                new_inter.hotel_linked.push_back(hotel);
-            }
-            intersections.push_back(new_inter);
-        }
-    }
-    catch (const std::exception& error) {
-        std::cerr << "Erreur lors de l'analyse du fichier JSON : " << error.what() << std::endl;
-    }
-
-    file.close();
-
-    return intersections;
+void attractionDebug(attraction& attr) {
+    std::cout << "Attraction ID: " << attr.ID << std::endl;
+    std::cout << "Name: " << attr.name << std::endl;
+    std::cout << "Location (lat, lon): " << attr.location.lat << ", " << attr.location.lon << std::endl;
+    std::cout << "Wait Time: ";
+    timeDataDebug(attr.wait_time);
+    std::cout << "Single Rider ID : " << attr.single_rider << std::endl;
+    std::cout << "Connected with : ";
+    vectorDebug(attr.intersection_linked);
+    std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
 }
 
-std::map <int, attraction> attractionVectorToMapById(std::vector <attraction>& attractions_list) {
-    std::map <int, attraction> attractions_map;
-
-    for (const attraction& attr : attractions_list) {
-        attractions_map[attr.ID] = attr;
-    };
-    
-    return attractions_map;
+void hotelDebug(hotel& hotel_to_print) {
+    std::cout << "Hotel ID: " << hotel_to_print.ID << std::endl;
+    std::cout << "Name: " << hotel_to_print.name << std::endl;
+    std::cout << "Location (lat, lon): " << hotel_to_print.location.lat << ", " << hotel_to_print.location.lon << std::endl;
+    std::cout << "Connected with : ";
+    vectorDebug(hotel_to_print.intersection_linked);
+    std::cout << std::endl;
 }
 
-std::map <int, hotel> hotelVectorToMapById(std::vector <hotel>& hotels_list) {
-    std::map <int, hotel> hotels_map;
-
-    for (const hotel& hotel_to_add : hotels_list) {
-        hotels_map[hotel_to_add.ID] = hotel_to_add;
-    };
-
-    return hotels_map;
+void intersectionDebug(intersection& inter) {
+    std::cout << "Intersction ID: " << inter.ID << std::endl;
+    std::cout << "Name: " << inter.name << std::endl;
+    std::cout << "Location (lat, lon): " << inter.location.lat << ", " << inter.location.lon << std::endl;
+    std::cout << "Linked to attraction: ";
+    vectorDebug(inter.attraction_linked);
+    std::cout << "Linked to hotel: ";
+    vectorDebug(inter.hotel_linked);
+    std::cout << "Linked to intersection: ";
+    vectorDebug(inter.intersection_linked);
+    std::cout << std::endl;
 }
 
-std::map <int, intersection> intersectionVectorToMapById(std::vector <intersection>& intersections_list) {
-    std::map <int, intersection> intersections_map;
-
-    for (const intersection& inter : intersections_list) {
-        intersections_map[inter.ID] = inter;
-    };
-
-    return intersections_map;
-}
-
-void addIntersectionData(const std::vector<intersection>& intersections_list, std::map<int, attraction>& attraction_data, std::map<int, hotel>& hotel_data) {
-    for (const auto& intersection : intersections_list) {
-        for (int attraction_id : intersection.attraction_linked) {
-            auto it = attraction_data.find(attraction_id);
-            if (it != attraction_data.end()) {
-                it->second.intersection_linked.push_back(intersection.ID);
-            }
-        }
-        for (int hotel_id : intersection.hotel_linked) {
-            auto it = hotel_data.find(hotel_id);
-            if (it != hotel_data.end()) {
-                it->second.intersection_linked.push_back(intersection.ID);
-            }
-        }
+void attractionsDebug(std::map<int, attraction>& attractions_data) {
+    for (auto& pair : attractions_data) {
+        attraction& attr = pair.second;
+        attractionDebug(attr);
     }
 }
 
-std::map<int, std::map<int, int>> attractionsOpenCSV(const std::string& data_URL) {
-    std::map<int, std::map<int, int>> data_map;
-
-    std::ifstream fichier(data_URL); 
-
-    if (!fichier) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier." << std::endl;
-        return data_map;
+void hotelsDebug(std::map<int, hotel>& hotels_data) {
+    for (auto& pair : hotels_data) {
+        hotel& hotel_to_print = pair.second;
+        hotelDebug(hotel_to_print);
     }
-
-    std::string ligne;
-    bool premiere_ligne = true;
-
-    while (std::getline(fichier, ligne)) {
-        if (premiere_ligne) {
-            premiere_ligne = false;
-            continue;
-        }
-
-        std::istringstream stream(ligne);
-        std::string cellule;
-        int id;
-        int colonne = 0;
-
-        while (std::getline(stream, cellule, ';')) {
-            colonne++;
-
-            if (colonne == 1) {
-                id = std::stoi(cellule);
-                data_map[id] = std::map<int, int> {};
-            }
-            else if (colonne >= 3) {
-                int heure = colonne + 5;
-                int valeur;
-                if (!cellule.empty()) {
-                    valeur = std::stoi(cellule);
-                }
-                else {
-                    valeur = 99999;
-                }
-                data_map[id][heure] = valeur;
-            }
-        }
-    }
-
-    fichier.close();
-
-    return data_map;
 }
 
-attraction inputWaitTime(std::map<int, attraction>& attractions, std::map<int, std::map<int, int>>& wait_time_data) {
-    for (const auto& entry : wait_time_data) {
-        int attraction_id = entry.first;
-        auto it = attractions.find(attraction_id);
+void intersectionsDebug(std::map<int, intersection>& intersections_data) {
+    for (auto& pair : intersections_data) {
+        intersection& inter_to_print = pair.second;
+        intersectionDebug(inter_to_print);
+    }
+}
 
-        if (it != attractions.end()) {
-            it->second.wait_time = entry.second;
+void pathDebug(std::vector<int>& path) {
+    int current_time = current_setting.available_time.first * 60;
+    int distance = 0;
+    int distance_traveled = 0;
+    std::cout << "Attractions in the path:" << std::endl;
+    for (size_t i = 1; i < path.size(); ++i) {
+        int current_id = path[i - 1];
+        auto current_attraction = attraction_data.find(current_id);
+
+        std::cout << "Attraction ID: " << current_attraction->first << ", Name: " << current_attraction->second.name << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+void debugMatrix(const std::map<int, std::map<int, double>>& matrix) {
+    for (const auto& row : matrix) {
+        std::cout << "Attraction ID: " << row.first << std::endl;
+        for (const auto& col : row.second) {
+            std::cout << std::setw(10) << col.second << " ";
         }
-        else {
-            std::cerr << "Erreur : Aucune attraction correspondante trouvée pour l'ID : " << attraction_id << std::endl;
+        std::cout << std::endl;
+    }
+}
+
+
+
+////////////////////////
+//-------output-------//
+////////////////////////
+
+void pathToGPX(const std::vector<int>& path) {
+    std::ofstream outputFile("Output/path.gpx");
+
+    if (!outputFile.is_open()) {
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier GPX." << std::endl;
+        return;
+    }
+
+    outputFile << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" << std::endl;
+    outputFile << "<gpx version=\"1.1\" xmlns=\"http://www.topografix.com/GPX/1/1\">" << std::endl;
+    outputFile << "<trk>" << std::endl;
+    outputFile << "<trkseg>" << std::endl;
+
+    for (size_t i = 1; i < path.size(); ++i) {
+        int current_id = path[i - 1];
+        auto current_attraction = attraction_data.find(current_id);
+
+        if (current_attraction != attraction_data.end()) {
+            outputFile << "<trkpt lat=\"" << current_attraction->second.location.lat << "\" lon=\"" << current_attraction->second.location.lon << "\">" << std::endl;
+            outputFile << "<name>" << current_attraction->second.name << "</name>" << std::endl;
+            outputFile << "</trkpt>" << std::endl;
         }
     }
 
-    return attractions.begin()->second;
+    outputFile << "</trkseg>" << std::endl;
+    outputFile << "</trk>" << std::endl;
+    outputFile << "</gpx>" << std::endl;
 
+    outputFile.close();
+
+    std::cout << "Fichier GPX généré avec succès : output/path.gpx" << std::endl;
 }
 
 
@@ -304,7 +193,7 @@ attraction inputWaitTime(std::map<int, attraction>& attractions, std::map<int, s
 ////////////////////////
 
 template<typename T1, typename T2>
-double getColseDistance(const int& a_ID, const int& b_ID, const std::map<int, T1>& a_data, const std::map<int, T2>& b_data) {
+double getColseDistance(int& a_ID, int& b_ID, std::map<int, T1>& a_data, std::map<int, T2>& b_data) {
     auto a_item = a_data.find(a_ID);
     auto b_item = b_data.find(b_ID);
 
@@ -312,21 +201,21 @@ double getColseDistance(const int& a_ID, const int& b_ID, const std::map<int, T1
         return -1; 
         
     }
-    const double a_lon = (a_item->second.location.lon) * 0.0174533; // angle[deg] * 0,0174533 = angle[rad] 
-    const double b_lon = (b_item->second.location.lon) * 0.0174533;
-    const double a_lat = (a_item->second.location.lat) * 0.0174533;
-    const double b_lat = (b_item->second.location.lat) * 0.0174533;
+    double a_lon = (a_item->second.location.lon) * 0.0174533; // angle[deg] * 0,0174533 = angle[rad] 
+    double b_lon = (b_item->second.location.lon) * 0.0174533;
+    double a_lat = (a_item->second.location.lat) * 0.0174533;
+    double b_lat = (b_item->second.location.lat) * 0.0174533;
 
 
     double distance = acos(sin(a_lat) * sin(b_lat) + cos(a_lat) * cos(b_lat) * cos(b_lon - a_lon)) * 6371000; //6371000 = Radius of the Earth (conventional)
     return distance;
 }
 
-double findShortestPath(const intersection& start_intersection, const intersection& end_intersection, const std::map<int, intersection>& intersection_data) {
+double findShortestPath(intersection& start_intersection, intersection& end_intersection) {
     std::map<int, bool> visited;
     std::map<int, double> distance;
 
-    for (const auto& item_inter : intersection_data) {
+    for (auto& item_inter : intersection_data) {
         int id = item_inter.first;
         distance[id] = std::numeric_limits<double>::infinity();
         visited[id] = false;
@@ -337,7 +226,7 @@ double findShortestPath(const intersection& start_intersection, const intersecti
         int position_index = -1;
         double min_distance = std::numeric_limits<double>::infinity();
 
-        for (const auto& item_distance : distance) {
+        for (auto& item_distance : distance) {
             int id = item_distance.first;
             double dist = item_distance.second;
             
@@ -378,10 +267,10 @@ double findShortestPath(const intersection& start_intersection, const intersecti
     }
 }
 
-double getLongDistance(const int& start_ID, const int& end_ID, const std::map<int, intersection>& intersection_data, std::map<int, attraction>& attraction_data, const setting& setting_data, int& current_time) {
+double getLongDistance(int& start_ID, int& end_ID, int& current_time){
     double min_distance = std::numeric_limits<double>::infinity();
     int min_time = std::numeric_limits<int>::max();
-    double max_time = setting_data.available_time.first * 60;
+    double max_time = current_setting.available_time.first * 60;
 
     auto start_attraction = attraction_data.find(start_ID);
     auto end_attraction = attraction_data.find(end_ID);
@@ -393,8 +282,8 @@ double getLongDistance(const int& start_ID, const int& end_ID, const std::map<in
         for (int start_intersection_id : start_attraction->second.intersection_linked) {
 
             for (int end_intersection_id : end_attraction->second.intersection_linked) {
-                double distance = findShortestPath(intersection_data.at(start_intersection_id), intersection_data.at(end_intersection_id), intersection_data) + getColseDistance(start_ID, start_intersection_id, attraction_data, intersection_data) + getColseDistance(end_ID, end_intersection_id, attraction_data, intersection_data);
-                time_taken = distance / setting_data.walking_speed * 1000/60  + (attraction_data[end_intersection_id].wait_time[current_time * 60]);
+                double distance = findShortestPath(intersection_data.at(start_intersection_id), intersection_data.at(end_intersection_id)) + getColseDistance(start_ID, start_intersection_id, attraction_data, intersection_data) + getColseDistance(end_ID, end_intersection_id, attraction_data, intersection_data);
+                time_taken = distance / current_setting.walking_speed * 60 / 1000  + (attraction_data[end_intersection_id].wait_time[(current_time * 60) % 24]);
                 if (distance <= -1) {
                     std::cerr << "(var)'distance' in getLongDistance return -1";
                     return -1;
@@ -409,11 +298,32 @@ double getLongDistance(const int& start_ID, const int& end_ID, const std::map<in
     }
     else {
         std::cerr << "no attraction accessible in " << start_ID << " or " << end_ID << " attraction" << std::endl;
+        attractionDebug(attraction_data[start_ID]);
+        attractionDebug(attraction_data[end_ID]);
         return -1;
     }
     current_time += min_time;
 
     return min_distance;
+}
+
+matrix_3d getMatrix(std::vector<int>& id_list) {
+    matrix_3d distance_matrix;
+    for (int current_time = 8; current_time <= 23; ++current_time) {
+        std::map<int, std::map<int, int>> distance_matrix_at_current_time = {};
+        for (int attraction_id1 : id_list) {
+            attraction& attraction1 = attraction_data[attraction_id1];
+            distance_matrix_at_current_time[attraction_id1] = std::map<int, int>();
+            for (int attraction_id2 : id_list) {
+                attraction& attraction2 = attraction_data[attraction_id2];
+                double distance = getLongDistance(attraction_id1, attraction_id2, current_time);
+                distance_matrix_at_current_time[attraction_id1][attraction_id2] = distance;
+            }
+        }
+        distance_matrix[current_time] = distance_matrix_at_current_time;
+
+    }
+    return distance_matrix;
 }
 
 
@@ -434,16 +344,18 @@ std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
     return list;
 }
 
-double simulation(std::vector<int>& path, std::map <int, attraction>& attraction_data, const std::map <int, intersection>& intersection_data, const setting& setting_data, const std::map <int, hotel>& hotel_data){
-    int current_time = setting_data.available_time.first * 60;
-    int max_time = setting_data.available_time.second * 60;
-
+double simulation(std::vector<int>& path, matrix_3d& graph_matrix){
+    int current_time = current_setting.available_time.first * 60;
+    int max_time = current_setting.available_time.second * 60;
+    
+    
     for (int i = 0; i < path.size() - 1; ++i) {
         int current_intersection_ID = path[i];
         int next_intersection_ID = path[i + 1];
 
-        int time_taken = getLongDistance(current_intersection_ID, next_intersection_ID, intersection_data, attraction_data, setting_data, current_time) ;
-        if (time_taken == -1) {
+        int distance = graph_matrix[current_time][current_intersection_ID][next_intersection_ID];
+        int time_taken = distance / current_setting.walking_speed * 60 / 1000 + (attraction_data[next_intersection_ID].wait_time[(current_time * 60) % 24]);
+        if (distance == -1) {
             std::cerr << "Calcule du chemin interompu de " << current_intersection_ID << " à " << next_intersection_ID << std::endl;
             current_time = -1;
             break;
@@ -452,31 +364,52 @@ double simulation(std::vector<int>& path, std::map <int, attraction>& attraction
         current_time += time_taken;
         //std::cout << "dist total = " << total_distance << std::endl;
     }
-    current_time += getColseDistance(setting_data.hotel_ID, path.front(), hotel_data, attraction_data) / setting_data.walking_speed * 1000 / 60;
-    current_time += getColseDistance(setting_data.hotel_ID, path.back(), hotel_data, attraction_data) / setting_data.walking_speed * 1000 / 60;
+    current_time += getColseDistance(current_setting.hotel_ID, path.front(), hotel_data, attraction_data) / current_setting.walking_speed * 60 / 1000;
+    current_time += getColseDistance(current_setting.hotel_ID, path.back(), hotel_data, attraction_data) / current_setting.walking_speed * 60 / 1000;
     return current_time;
 }
 
 std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
-    std::vector<int> mixed_gene;
-    while (!gene1.empty() && !gene2.empty()) {
-        bool choose_gene1 = rand() % 2 == 0;
-
-        if (choose_gene1) {
-            mixed_gene.push_back(gene1.front());
-            gene2.erase(std::find(gene2.begin(), gene2.end(), gene1.front()));
-            gene1.erase(gene1.begin());
-        }
-        else {
-            mixed_gene.push_back(gene2.front());
-            gene1.erase(std::find(gene1.begin(), gene1.end(), gene2.front()));
-            gene2.erase(gene2.begin());
-        }      
+    int size = gene1.size();
+    std::vector<int> child(size, -1);
+    int point1 = rand() % size;
+    int point2 = rand() % size;
+    if (point1 > point2) {
+        std::swap(point1, point2);
     }
-    return mixed_gene;
+    for (int i = point1; i <= point2; ++i) {
+        child[i] = gene1[i];
+    }
+    std::unordered_map<int, int> gene1Map;
+    for (int i = point1; i <= point2; ++i) {
+        gene1Map[gene1[i]] = i;
+    }
+
+    for (int i = 0; i < size; ++i) {
+        if (i >= point1 && i <= point2) {
+            continue; // La section coupée est déjà remplie
+        }
+        int currentGene = gene2[i];
+        while (true) {
+            if (gene1Map.find(currentGene) == gene1Map.end()) {
+                if (child[i] == -1) {
+                    child[i] = currentGene;
+                    break;
+                }
+                else {
+                    currentGene = gene2[gene1Map[child[i]]];
+                }
+            }
+            else {
+                currentGene = gene2[gene1Map[currentGene]];
+            }
+        }
+    }
+
+    return child;
 }
 
-std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::pair<int, std::vector<int>>> path_data, std::map <int, attraction>& attraction_data, const std::map <int, intersection>& intersection_data, const std::map <int, hotel>& hotel_data, const setting setting_data) {
+std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::pair<int, std::vector<int>>> path_data, matrix_3d& graph_matrix) {
     
     for (size_t i = 0; i < path_data.size() - 1; ++i) {
         for (size_t j = 0; j < path_data.size() - i - 1; ++j) {
@@ -497,9 +430,8 @@ std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::
         std::vector<int> mixed_gene = {};
         int index_parent1 = rand() % parents_gene.size();
         int index_parent2 = rand() % parents_gene.size();
-        //std::cout << "parent size : " << parents_gene.size() << " | index given : " << index_parent1 << "  " << index_parent2 << std::endl;
         mixed_gene = mixingGene(parents_gene[index_parent1].second, parents_gene[index_parent2].second);
-        double score = simulation(mixed_gene, attraction_data, intersection_data, setting_data, hotel_data);
+        double score = simulation(mixed_gene, graph_matrix);
         childs_gene.push_back({ score, mixed_gene });
     }
 
@@ -507,37 +439,39 @@ std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::
 
 }
 
-std::vector<int> generatePath(std::map <int, attraction>& attraction_data, const setting& setting_data, const std::map <int, intersection>& intersection_data, const std::map <int, hotel>& hotel_data){
+std::vector<int> generatePath(){
     std::vector<int> path = {};
     std::vector<int> id_list = {};
-    if (setting_data.single_rider) {
-        for (const auto& pair : attraction_data) {
-            const attraction& attr = pair.second;
+    if (current_setting.single_rider) {
+        for (auto& pair : attraction_data) {
+            attraction& attr = pair.second;
             if (attr.single_rider == attr.ID) {
                 id_list.push_back(attr.single_rider);
             }
         }
     }
     else {
-        for (const auto& pair : attraction_data) {
-            const attraction& attr = pair.second;
+        for (auto& pair : attraction_data) {
+            attraction& attr = pair.second;
             id_list.push_back(attr.ID);
         }
     }
 
     std::vector<std::pair<int, std::vector<int>>> path_data = {};
+    matrix_3d graph_matrix = getMatrix(id_list);
+
     for (int i = 0; i < nb_gene; i++) {
         std::vector<int> randomised_path = generateRandomVectorWithList(id_list);
-        double score = simulation(randomised_path, attraction_data, intersection_data, setting_data, hotel_data);
+        double score = simulation(randomised_path, graph_matrix);
         path_data.push_back({score, randomised_path});
     }
 
     int min_score = std::numeric_limits<int>::max();
     std::vector<int> shortest_path;
 
-    for (const auto& entry : path_data) {
+    for (auto& entry : path_data) {
         int score = entry.first;
-        const std::vector<int>& path = entry.second;
+        std::vector<int>& path = entry.second;
 
         if (score < min_score) {
             min_score = score;
@@ -547,26 +481,24 @@ std::vector<int> generatePath(std::map <int, attraction>& attraction_data, const
 
     std::vector<bool> completion_rate = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
 
-    std::vector<std::pair<int, std::vector<int>>> new_path_data = regenerationPath(path_data, attraction_data, intersection_data, hotel_data, setting_data);
+    std::vector<std::pair<int, std::vector<int>>> new_path_data = regenerationPath(path_data, graph_matrix);
     for (int i = 0; i < (nb_generation - 1); i++) {
-        new_path_data = regenerationPath(path_data, attraction_data, intersection_data, hotel_data, setting_data);
+        new_path_data = regenerationPath(path_data, graph_matrix);
         for (int j = 0; j < 20; j++) {
             if (i  > (nb_generation - 1) * 0.05 * j && !completion_rate[j]) {
                 std::cout << 5 * j << "%" << std::endl;
                 completion_rate[j] = true;
             }
-
         }
     }
     std::cout << "100%" << std::endl;
-    
 
     int new_min_score = std::numeric_limits<int>::max();
     std::vector<int> new_shortest_path;
 
-    for (const auto& entry : new_path_data) {
+    for (auto& entry : new_path_data) {
         int new_score = entry.first;
-        const std::vector<int>& path = entry.second;
+        std::vector<int>& path = entry.second;
 
         if (new_score < new_min_score) {
             new_min_score = new_score;
@@ -574,112 +506,9 @@ std::vector<int> generatePath(std::map <int, attraction>& attraction_data, const
         }
     }
 
-    std::cout << "min time for this path before genetic :" << min_score /60 << "h" << std::endl;
-    std::cout << "min time for this path after  genetic :" << new_min_score / 60 << "h" << std::endl;
+    std::cout << "min time for this path before genetic :" << min_score / 60.0 << "h" << std::endl;
+    std::cout << "min time for this path after  genetic :" << new_min_score / 60.0 << "h" << std::endl;
     return new_shortest_path;
-}
-
-
-
-////////////////////////
-//--debug--functions--//
-////////////////////////
-
-void vectorDebug(const std::vector<int>& vector_data) {
-    std::cout << '{';
-    if (not vector_data.empty()) {
-        for (size_t i = 0; i < vector_data.size() - 1; ++i) {
-            std::cout << vector_data[i] << " ; ";
-        }
-        std::cout << vector_data.back();
-    }
-    std::cout << '}' << std::endl;
-}
-
-void timeDataDebug(const std::map<int, int>& data_map) {
-    std::cout << "{";
-    for (const auto& entry : data_map) {
-        std::cout << entry.first << ":" << entry.second << " | ";
-    }
-    std::cout << "}" << std::endl;
-}
-
-void attractionDebug(const attraction& attr) {
-    std::cout << "Attraction ID: " << attr.ID << std::endl;
-    std::cout << "Name: " << attr.name << std::endl;
-    std::cout << "Location (lat, lon): " << attr.location.lat << ", " << attr.location.lon << std::endl;
-    std::cout << "Wait Time: ";
-    timeDataDebug(attr.wait_time);
-    std::cout << "Single Rider ID : " << attr.single_rider << std::endl;
-    std::cout << "Connected with : ";
-    vectorDebug(attr.intersection_linked);
-    std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
-}
-
-void hotelDebug(const hotel& hotel_to_print) {
-    std::cout << "Hotel ID: " << hotel_to_print.ID << std::endl;
-    std::cout << "Name: " << hotel_to_print.name << std::endl;
-    std::cout << "Location (lat, lon): " << hotel_to_print.location.lat << ", " << hotel_to_print.location.lon << std::endl;
-    std::cout << "Connected with : ";
-    vectorDebug(hotel_to_print.intersection_linked);
-    std::cout << std::endl;
-}
-
-void intersectionDebug(const intersection& inter) {
-    std::cout << "Intersction ID: " << inter.ID << std::endl;
-    std::cout << "Name: " << inter.name << std::endl;
-    std::cout << "Location (lat, lon): " << inter.location.lat << ", " << inter.location.lon << std::endl;
-    std::cout << "Linked to attraction: ";
-    vectorDebug(inter.attraction_linked);
-    std::cout << "Linked to hotel: ";
-    vectorDebug(inter.hotel_linked);
-    std::cout << "Linked to intersection: ";
-    vectorDebug(inter.intersection_linked);
-    std::cout << std::endl;
-}
-
-void attractionsDebug(const std::map<int, attraction>& attractions_data) {
-    for (const auto& pair : attractions_data) {
-        const attraction& attr = pair.second;
-        attractionDebug(attr);
-    }
-}
-
-void hotelsDebug(const std::map<int, hotel>& hotels_data) {
-    for (const auto& pair : hotels_data) {
-        const hotel& hotel_to_print = pair.second;
-        hotelDebug(hotel_to_print);
-    }
-}
-
-void intersectionsDebug(const std::map<int, intersection>& intersections_data) {
-    for (const auto& pair : intersections_data) {
-        const intersection& inter_to_print = pair.second;
-        intersectionDebug(inter_to_print);
-    }
-}
-
-void pathDebug(const std::vector<int>& path, std::map<int, attraction>& attraction_data, const std::map<int, intersection>& intersection_data, setting& setting_data) {
-    int current_time = setting_data.available_time.first * 60;
-    int distance = 0;
-    int distance_traveled = 0;
-    std::cout << "Attractions in the path:" << std::endl;
-    for (size_t i = 1; i < path.size(); ++i) {
-        int current_id = path[i - 1];
-        int next_id = path[i]; 
-
-        auto current_attraction = attraction_data.find(current_id);
-        auto next_attraction = attraction_data.find(next_id);
-
-
-        if (current_attraction != attraction_data.end() && next_attraction != attraction_data.end()) {
-            
-            distance_traveled = getLongDistance(current_id, next_id, intersection_data, attraction_data, setting_data, current_time);
-            distance += distance_traveled;
-            std::cout << "Attraction ID: " << current_attraction->first << ", Name: " << current_attraction->second.name << ", Time of the day: " << current_time / 60 << "h, Distance made: "<< distance_traveled << "m, Distance tot : " << distance << "m" << std::endl;
-        }
-    }
-    std::cout << "time of the end of the day: " << current_time / 60 << "h" << std::endl;
 }
 
 
@@ -691,38 +520,11 @@ void pathDebug(const std::vector<int>& path, std::map<int, attraction>& attracti
 int main() {
     srand(time(NULL));
 
-    //std::string API_LINK = "https://queue-times.com/parks/4/queue_times.json";
+    std::vector<int> path_generated = generatePath();
 
-    const std::string DATA_LINK = "data/data.json";
+    pathDebug(path_generated);
 
-    std::vector<attraction> attractions_vector = attractionsOpenJson(DATA_LINK);
-    std::vector<hotel> hotels_vector = hotelOpenJson(DATA_LINK);
-    
-
-    std::map <int, attraction> sorted_attractions_data = attractionVectorToMapById(attractions_vector);
-    std::map <int, hotel> sorted_hotels_data = hotelVectorToMapById(hotels_vector);
-    
-
-    std::vector<intersection> intersections_vector = intersectionOpenJson(DATA_LINK);
-    std::map <int, intersection> sorted_intersections_data = intersectionVectorToMapById(intersections_vector);
-
-    addIntersectionData(intersections_vector, sorted_attractions_data, sorted_hotels_data);
-
-    std::map<int, std::map<int, int>> wait_time_data = attractionsOpenCSV("data/waiting_time.csv");
-
-    inputWaitTime(sorted_attractions_data, wait_time_data);
-
-    //attractionsDebug(sorted_attractions_data);
-    //hotelsDebug(sorted_hotels_data);
-    //intersectionsDebug(sorted_intersections_data);
-
-    setting current_setting;
-
-    std::cout << (int)0.6 << std::endl;
-
-    std::vector<int> path_generated = generatePath(sorted_attractions_data, current_setting, sorted_intersections_data, sorted_hotels_data);
-
-    pathDebug(path_generated, sorted_attractions_data, sorted_intersections_data, current_setting);
+    pathToGPX(path_generated);
 
     return 0;
 }
