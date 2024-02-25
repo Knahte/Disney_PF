@@ -11,7 +11,8 @@
 #include <fstream>
 #include "Include/custom/import_data.h"
 
-using matrix_3d = std::map<int, std::map<int, std::map<int, int>>>;
+using matrix_2d = std::map<int, std::map<int, int>>;
+using matrix_3d = std::map<int, matrix_2d>;
 
 
 
@@ -35,13 +36,13 @@ struct setting {
 
 int nb_gene = 300;
 double selectivity = 0.1;
-int nb_generation = 300;
+int nb_generation = 0;
 
 std::map<int, attraction> attraction_data = getAttractionData();
 std::map<int, hotel> hotel_data = getHotelData();
 std::map<int, intersection> intersection_data = getIntersectionData();
 
-setting current_setting; //temporary
+setting current_setting; //temporary 
 
 
 
@@ -49,6 +50,12 @@ setting current_setting; //temporary
 //--debug--functions--//
 ////////////////////////
 
+/**
+ * Display the used vector on the console
+ *
+ * @param A vector with int in it
+ *
+ */
 void vectorDebug(std::vector<int>& vector_data) {
     std::cout << '{';
     if (not vector_data.empty()) {
@@ -60,14 +67,27 @@ void vectorDebug(std::vector<int>& vector_data) {
     std::cout << '}' << std::endl;
 }
 
-void timeDataDebug(std::map<int, int>& data_map) {
+/**
+ * Display the used waiting time data for a specific attraction on the console
+ *
+ * @param A map with time data 
+ * @param (Note: works with all std::map<int, int> types)
+ *
+ */
+void timeDataDebug(std::map<int, int>& time_data) {
     std::cout << "{";
-    for (auto& entry : data_map) {
+    for (auto& entry : time_data) {
         std::cout << entry.first << ":" << entry.second << " | ";
     }
     std::cout << "}" << std::endl;
 }
 
+/**
+ * Display an attraction and its properties on the console
+ *
+ * @param An attraction
+ *
+ */
 void attractionDebug(attraction& attr) {
     std::cout << "Attraction ID: " << attr.ID << std::endl;
     std::cout << "Name: " << attr.name << std::endl;
@@ -80,6 +100,12 @@ void attractionDebug(attraction& attr) {
     std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
 }
 
+/**
+ * Display a hotel and its properties on the console
+ *
+ * @param A hotel
+ *
+ */
 void hotelDebug(hotel& hotel_to_print) {
     std::cout << "Hotel ID: " << hotel_to_print.ID << std::endl;
     std::cout << "Name: " << hotel_to_print.name << std::endl;
@@ -89,6 +115,12 @@ void hotelDebug(hotel& hotel_to_print) {
     std::cout << std::endl;
 }
 
+/**
+ * Display an intersection and its properties on the console
+ *
+ * @param An intersection
+ *
+ */
 void intersectionDebug(intersection& inter) {
     std::cout << "Intersction ID: " << inter.ID << std::endl;
     std::cout << "Name: " << inter.name << std::endl;
@@ -102,6 +134,12 @@ void intersectionDebug(intersection& inter) {
     std::cout << std::endl;
 }
 
+/**
+ * Display all attractions and their properties on the console
+ *
+ * @param The map of attractions
+ *
+ */
 void attractionsDebug(std::map<int, attraction>& attractions_data) {
     for (auto& pair : attractions_data) {
         attraction& attr = pair.second;
@@ -109,6 +147,12 @@ void attractionsDebug(std::map<int, attraction>& attractions_data) {
     }
 }
 
+/**
+ * Display all hotels and their properties on the console
+ *
+ * @param The map of hotels
+ *
+ */
 void hotelsDebug(std::map<int, hotel>& hotels_data) {
     for (auto& pair : hotels_data) {
         hotel& hotel_to_print = pair.second;
@@ -116,6 +160,12 @@ void hotelsDebug(std::map<int, hotel>& hotels_data) {
     }
 }
 
+/**
+ * Display all intersections and their properties on the console
+ *
+ * @param The map of intersections
+ *
+ */
 void intersectionsDebug(std::map<int, intersection>& intersections_data) {
     for (auto& pair : intersections_data) {
         intersection& inter_to_print = pair.second;
@@ -123,6 +173,12 @@ void intersectionsDebug(std::map<int, intersection>& intersections_data) {
     }
 }
 
+/**
+ * Display all the steps in the path used in the console
+ *
+ * @param A path
+ *
+ */
 void pathDebug(std::vector<int>& path) {
     int current_time = current_setting.available_time.first * 60;
     int distance = 0;
@@ -137,7 +193,13 @@ void pathDebug(std::vector<int>& path) {
     std::cout << std::endl;
 }
 
-void debugMatrix(const std::map<int, std::map<int, double>>& matrix) {
+/**
+ * Display the used 2D matrix on the console
+ *
+ * @param A 2D matrix with int in it
+ *
+ */
+void debug2dMatrix(const matrix_2d & matrix) {
     for (const auto& row : matrix) {
         std::cout << "Attraction ID: " << row.first << std::endl;
         for (const auto& col : row.second) {
@@ -147,12 +209,39 @@ void debugMatrix(const std::map<int, std::map<int, double>>& matrix) {
     }
 }
 
+/**
+ * Display the used 3D matrix on the console
+ *
+ * @param A 3D matrix with int in it
+ *
+ */
+void debug3dMatrix(const matrix_3d& matrix) {
+    for (const auto& layer : matrix) {
+        std::cout << std::endl << std::endl << "Layer ID: " << layer.first << std::endl;
+        for (const auto& row : layer.second) {
+            std::cout << "Attraction ID: " << row.first << std::endl;
+            for (const auto& col : row.second) {
+                std::cout << "Time ID: " << col.first << " - Distance: " << std::setw(10) << col.second << std::endl;
+            }
+        }
+    }
+}
+
 
 
 ////////////////////////
 //-------output-------//
 ////////////////////////
 
+/**
+ * Export the path to a GPX file
+ *
+ * @param A VALID path
+ *
+ * @return A gpx file named "path.gpx" in the "output" folder
+ * @return WARNING: OVERWRITES THE FILE EACH TIME IT GENERATES A NEW FILE
+ * 
+ */
 void pathToGPX(const std::vector<int>& path) {
     std::ofstream outputFile("Output/path.gpx");
 
@@ -182,8 +271,6 @@ void pathToGPX(const std::vector<int>& path) {
     outputFile << "</gpx>" << std::endl;
 
     outputFile.close();
-
-    std::cout << "Fichier GPX généré avec succès : output/path.gpx" << std::endl;
 }
 
 
@@ -192,6 +279,21 @@ void pathToGPX(const std::vector<int>& path) {
 //-distance-functions-//
 ////////////////////////
 
+/**
+ * Calculate the closest distance between two locations given their IDs.
+ *
+ * @param a_ID The ID of the first location
+ * @param b_ID The ID of the second location
+ * @param a_data A map containing location data for the first type of location
+ * @param b_data A map containing location data for the second type of location
+ * 
+ * @tparam T1 The type of data stored in the map a_data
+ * @tparam T2 The type of data stored in the map b_data
+ * 
+ * @return The closest distance between the two locations, in meters
+ * @return -1 if either of the locations cannot be found in their respective maps
+ * 
+ */
 template<typename T1, typename T2>
 double getColseDistance(int& a_ID, int& b_ID, std::map<int, T1>& a_data, std::map<int, T2>& b_data) {
     auto a_item = a_data.find(a_ID);
@@ -211,6 +313,17 @@ double getColseDistance(int& a_ID, int& b_ID, std::map<int, T1>& a_data, std::ma
     return distance;
 }
 
+/**
+ * Finds the shortest path between two intersections using Dijkstra's algorithm.
+ *
+ * @param start_intersection The starting intersection.
+ * @param end_intersection The destination intersection.
+ * @param intersection_data The intersection data containing connectivity information.
+ *
+ * @return The shortest distance between the two intersections.
+ * @return -1 if no path is found between the two intersections.
+ * 
+ */
 double findShortestPath(intersection& start_intersection, intersection& end_intersection) {
     std::map<int, bool> visited;
     std::map<int, double> distance;
@@ -267,6 +380,16 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
     }
 }
 
+/**
+ * Calculates the distance between two attractions considering the walking distance and waiting times.
+ *
+ * @param start_ID The ID of the starting attraction.
+ * @param end_ID The ID of the destination attraction.
+ * @param current_time The current time.
+ *
+ * @return The total distance between the two attractions.
+ * @return -1 if either of the attractions is not accessible or if an error occurs during calculation.
+ */
 double getLongDistance(int& start_ID, int& end_ID, int& current_time){
     double min_distance = std::numeric_limits<double>::infinity();
     int min_time = std::numeric_limits<int>::max();
@@ -307,6 +430,13 @@ double getLongDistance(int& start_ID, int& end_ID, int& current_time){
     return min_distance;
 }
 
+/**
+ * Generates a 3D matrix containing distances between attractions for different times.
+ *
+ * @param id_list A list of attraction IDs for which distances need to be calculated.
+ *
+ * @return A 3D matrix containing distances between attractions at different times.
+ */
 matrix_3d getMatrix(std::vector<int>& id_list) {
     matrix_3d distance_matrix;
     for (int current_time = 8; current_time <= 23; ++current_time) {
@@ -332,6 +462,14 @@ matrix_3d getMatrix(std::vector<int>& id_list) {
 //simulation-functions//
 ////////////////////////
 
+/**
+ * Generates a random permutation of the elements in the input vector using the Fisher-Yates shuffle.
+ *
+ * @param list The input vector containing elements to be shuffled.
+ *
+ * @return A randomly shuffled vector.
+ * 
+ */
 std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
     int n = list.size();
     for (int i = 0; i < n - 1; ++i) {
@@ -344,12 +482,25 @@ std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
     return list;
 }
 
+/**
+ * Simulates the traversal of a path and calculates the total time taken.
+ *
+ * @param path The path to be traversed.
+ * @param graph_matrix The 3D matrix representing distances between intersections at different times.
+ *
+ * @return The total time taken to traverse the path, in minutes.
+ * @return -1 if the calculation of the path is interrupted.
+ * 
+ */
 double simulation(std::vector<int>& path, matrix_3d& graph_matrix){
     int current_time = current_setting.available_time.first * 60;
     int max_time = current_setting.available_time.second * 60;
     
     
     for (int i = 0; i < path.size() - 1; ++i) {
+        if (!(current_time < max_time)) {
+            std::cout << "elapsed time" << std::endl;
+        }
         int current_intersection_ID = path[i];
         int next_intersection_ID = path[i + 1];
 
@@ -369,6 +520,14 @@ double simulation(std::vector<int>& path, matrix_3d& graph_matrix){
     return current_time;
 }
 
+/**
+ * Performs crossover between two parent genes to generate a child gene.
+ *
+ * @param gene1 The first parent gene.
+ * @param gene2 The second parent gene.
+ *
+ * @return The child gene resulting from the crossover operation.
+ */
 std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
     int size = gene1.size();
     std::vector<int> child(size, -1);
@@ -387,7 +546,7 @@ std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
 
     for (int i = 0; i < size; ++i) {
         if (i >= point1 && i <= point2) {
-            continue; // La section coupée est déjà remplie
+            continue;
         }
         int currentGene = gene2[i];
         while (true) {
@@ -409,6 +568,15 @@ std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
     return child;
 }
 
+/**
+ * Regenerates a new set of paths based on the previous paths and their scores.
+ *
+ * @param path_data The previous paths and their corresponding scores.
+ * @param graph_matrix The matrix containing distance information.
+ *
+ * @return The regenerated set of paths with new scores.
+ * 
+ */
 std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::pair<int, std::vector<int>>> path_data, matrix_3d& graph_matrix) {
     
     for (size_t i = 0; i < path_data.size() - 1; ++i) {
@@ -439,6 +607,11 @@ std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::
 
 }
 
+/**
+ * Generate a path through attractions using a genetic algorithm.
+ *
+ * @return The shortest path found by the genetic algorithm.
+ */
 std::vector<int> generatePath(){
     std::vector<int> path = {};
     std::vector<int> id_list = {};
@@ -483,7 +656,7 @@ std::vector<int> generatePath(){
 
     std::vector<std::pair<int, std::vector<int>>> new_path_data = regenerationPath(path_data, graph_matrix);
     for (int i = 0; i < (nb_generation - 1); i++) {
-        new_path_data = regenerationPath(path_data, graph_matrix);
+        new_path_data = regenerationPath(new_path_data, graph_matrix);
         for (int j = 0; j < 20; j++) {
             if (i  > (nb_generation - 1) * 0.05 * j && !completion_rate[j]) {
                 std::cout << 5 * j << "%" << std::endl;
@@ -506,8 +679,8 @@ std::vector<int> generatePath(){
         }
     }
 
-    std::cout << "min time for this path before genetic :" << min_score / 60.0 << "h" << std::endl;
-    std::cout << "min time for this path after  genetic :" << new_min_score / 60.0 << "h" << std::endl;
+    std::cout << "min time for this path before genetic :" << min_score / 60.0 << "h and distance : " << min_score / 60 * current_setting.walking_speed << "km" << std::endl;
+    std::cout << "min time for this path after  genetic :" << new_min_score / 60.0 << "h and distance : " << new_min_score / 60 * current_setting.walking_speed << "km" << std::endl;
     return new_shortest_path;
 }
 
@@ -517,6 +690,12 @@ std::vector<int> generatePath(){
 //--------main--------//
 ////////////////////////
 
+
+/**
+ * Well... This is the main function...
+ *
+ * @return 0
+ */
 int main() {
     srand(time(NULL));
 

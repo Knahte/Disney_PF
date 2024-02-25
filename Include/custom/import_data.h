@@ -9,9 +9,9 @@
 //-------struct-------//
 ////////////////////////
 
-struct coordinate {
-    float lon = 0.0;
-    float lat = 0.0;
+struct coordinate { 
+    double lon = 0.0;
+    double lat = 0.0;
 };
 
 struct attraction {
@@ -40,10 +40,14 @@ struct intersection {
     std::vector<int> intersection_linked = {};
 };
 
-// Déclarez les signatures des fonctions ici
 
-std::map<int, attraction> getAttractionData(); // Par exemple
+
+////////////////////////
+//-returned-functions-//
+////////////////////////
+
+std::map<int, attraction> getAttractionData(); 
 std::map<int, hotel> getHotelData();
 std::map<int, intersection> getIntersectionData();
 
-#endif // IMPORT_DATA_H
+#endif

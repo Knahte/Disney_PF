@@ -15,7 +15,15 @@ using json = nlohmann::json;
 //---data-functions---//
 ////////////////////////
 
-std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
+/**
+ * Opens the Json file and extracts the attractions in order to store them in a variable type (type = [attraction]) that can be used by the program
+ *
+ * @param The access path to the database in json format
+ * 
+ * @return vector with [attraction] type attractions inside
+ * 
+ */
+static std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
     std::vector<attraction> attractions;
 
     std::ifstream file(data_URL);
@@ -51,7 +59,15 @@ std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
     return attractions;
 }
 
-std::vector<hotel> hotelOpenJson(std::string& data_URL) {
+/**
+ * Opens the Json file and extracts the hotels in order to store them in a variable type (type = [hotel]) that can be used by the program
+ *
+ * @param The access path to the database in json format
+ * 
+ * @return vector with [hotel] type hotels inside
+ * 
+ */
+static std::vector<hotel> hotelOpenJson(std::string& data_URL) {
     std::vector<hotel> hotels;
 
     std::ifstream file(data_URL);
@@ -83,7 +99,15 @@ std::vector<hotel> hotelOpenJson(std::string& data_URL) {
     return hotels;
 }
 
-std::vector<intersection> intersectionOpenJson(std::string& data_URL) {
+/**
+ * Opens the Json file and extracts the intersections in order to store them in a variable type (type = [intersection]) that can be used by the program
+ *
+ * @param The access path to the database in json format
+ * 
+ * @return A vector with [intersection] type intersections inside
+ * 
+ */
+static std::vector<intersection> intersectionOpenJson(std::string& data_URL) {
     std::vector<intersection> intersections;
 
     std::ifstream file(data_URL);
@@ -123,7 +147,15 @@ std::vector<intersection> intersectionOpenJson(std::string& data_URL) {
     return intersections;
 }
 
-std::map <int, attraction> attractionVectorToMapById(std::vector <attraction>& attractions_list) {
+/**
+ * Convert the sequential container [vector] into an association container [map] with the attraction ID as the key to the attraction
+ *
+ * @param A vector with [attraction] type attractions inside
+ * 
+ * @return A map with : key = ID | content = attraction associated with this ID
+ * 
+ */
+static std::map <int, attraction> attractionVectorToMapById(std::vector <attraction>& attractions_list) {
     std::map <int, attraction> attractions_map;
 
     for (attraction& attr : attractions_list) {
@@ -133,7 +165,15 @@ std::map <int, attraction> attractionVectorToMapById(std::vector <attraction>& a
     return attractions_map;
 }
 
-std::map <int, hotel> hotelVectorToMapById(std::vector <hotel>& hotels_list) {
+/**
+ * Convert the sequential container [vector] into an association container [map] with the hotel ID as the key to the hotel
+ *
+ * @param A vector with [hotel] type hotels inside
+ * 
+ * @return A map with : key = ID | content = hotel associated with this ID
+ * 
+ */
+static std::map <int, hotel> hotelVectorToMapById(std::vector <hotel>& hotels_list) {
     std::map <int, hotel> hotels_map;
 
     for (hotel& hotel_to_add : hotels_list) {
@@ -143,7 +183,15 @@ std::map <int, hotel> hotelVectorToMapById(std::vector <hotel>& hotels_list) {
     return hotels_map;
 }
 
-std::map <int, intersection> intersectionVectorToMapById(std::vector <intersection>& intersections_list) {
+/**
+ * Convert the sequential container [vector] into an association container [map] with the attraction ID as the key to the intersection
+ *
+ * @param A vector with [intersection] type intersections inside
+ * 
+ * @return A map with : key = ID | content = intersection associated with this ID
+ * 
+ */
+static std::map <int, intersection> intersectionVectorToMapById(std::vector <intersection>& intersections_list) {
     std::map <int, intersection> intersections_map;
 
     for (intersection& inter : intersections_list) {
@@ -153,30 +201,51 @@ std::map <int, intersection> intersectionVectorToMapById(std::vector <intersecti
     return intersections_map;
 }
 
-void addIntersectionDatatoAttraction(std::vector<intersection>& intersections_list, std::map<int, attraction>& attraction_data) {
+/**
+ * Adds information on directly connected intersections to attractions dataset. 
+ *
+ * @param The vector with intersections
+ * @param The map with ALL the attractions in the dataset
+ * 
+ */
+static void addIntersectionDatatoAttraction(std::vector<intersection>& intersections_list, std::map<int, attraction>& attraction_data) {
     for (auto& intersection : intersections_list) {
         for (int attraction_id : intersection.attraction_linked) {
-            auto it = attraction_data.find(attraction_id);
-            if (it != attraction_data.end()) {
-                it->second.intersection_linked.push_back(intersection.ID);
+            auto attr = attraction_data.find(attraction_id);
+            if (attr != attraction_data.end()) {
+                attr->second.intersection_linked.push_back(intersection.ID);
             }
         }
     }
 }
 
-void addIntersectionDatatoHotel(std::vector<intersection>& intersections_list, std::map<int, hotel>& hotel_data) {
+/**
+ * Adds information on directly connected intersections to hotels dataset.
+ *
+ * @param The vector with intersections
+ * @param The map with ALL the hotels in the dataset
+ *
+ */
+static void addIntersectionDatatoHotel(std::vector<intersection>& intersections_list, std::map<int, hotel>& hotel_data) {
     for (auto& intersection : intersections_list) {
         for (int hotel_id : intersection.hotel_linked) {
-            auto it = hotel_data.find(hotel_id);
-            if (it != hotel_data.end()) {
-                it->second.intersection_linked.push_back(intersection.ID);
+            auto hotel_used = hotel_data.find(hotel_id);
+            if (hotel_used != hotel_data.end()) {
+                hotel_used->second.intersection_linked.push_back(intersection.ID);
             }
         }
     }
 }
 
-
-std::map<int, std::map<int, int>> attractionsOpenCSV(std::string& data_URL) {
+/**
+ * Extracts the waiting times for each attraction in the specified CSV file
+ *
+ * @param The access path to the database in CSV format
+ *
+ * @return A map with the time of day as the key and another map with the attraction ID as the key and the waiting time as the content
+ *
+ */
+static std::map<int, std::map<int, int>> attractionsOpenCSV(std::string& data_URL) {
     std::map<int, std::map<int, int>> data_map;
 
     std::ifstream fichier(data_URL);
@@ -226,20 +295,25 @@ std::map<int, std::map<int, int>> attractionsOpenCSV(std::string& data_URL) {
     return data_map;
 }
 
-attraction inputWaitTime(std::map<int, attraction>& attractions, std::map<int, std::map<int, int>>& wait_time_data) {
+/**
+ * Adds information on waiting times to the attraction in the dataset
+ *
+ * @param The attraction data map
+ * @param The wait time data map (from attractionsOpenCSV function)
+ *
+ */
+static void inputWaitTime(std::map<int, attraction>& attractions, std::map<int, std::map<int, int>>& wait_time_data) {
     for (auto& entry : wait_time_data) {
         int attraction_id = entry.first;
-        auto it = attractions.find(attraction_id);
+        auto attr = attractions.find(attraction_id);
 
-        if (it != attractions.end()) {
-            it->second.wait_time = entry.second;
+        if (attr != attractions.end()) {
+            attr->second.wait_time = entry.second;
         }
         else {
             std::cerr << "Erreur : Aucune attraction correspondante trouvée pour l'ID : " << attraction_id << std::endl;
         }
     }
-
-    return attractions.begin()->second;
 
 }
 
@@ -247,11 +321,16 @@ attraction inputWaitTime(std::map<int, attraction>& attractions, std::map<int, s
 //-returned-functions-//
 ////////////////////////
 
-std::string DATA_LINK = "data/data.json";
-std::string WAITING_TIME_LINK = "data/waiting_time.csv";
+static std::string DATA_LINK = "data/data.json";
+static std::string WAITING_TIME_LINK = "data/waiting_time.csv";
 
 
-
+/**
+ * The grouping of all the functions used to obtain the attractions map.
+ *
+ * @return the attractions map
+ *
+ */
 std::map <int, attraction>getAttractionData() {
     std::vector<attraction> attractions_vector = attractionsOpenJson(DATA_LINK);
     std::map <int, attraction> attraction_data = attractionVectorToMapById(attractions_vector);
@@ -267,6 +346,12 @@ std::map <int, attraction>getAttractionData() {
     return attraction_data;
 }
 
+/**
+ * The grouping of all the functions used to obtain the hotels map.
+ *
+ * @return the hotels map
+ *
+ */
 std::map <int, hotel>getHotelData() {
     std::vector<hotel> hotels_vector = hotelOpenJson(DATA_LINK);
     std::map <int, hotel> hotel_data = hotelVectorToMapById(hotels_vector);
@@ -278,6 +363,12 @@ std::map <int, hotel>getHotelData() {
     return hotel_data;
 }
 
+/**
+ * The grouping of all the functions used to obtain the intersections map.
+ *
+ * @return the intersections map
+ *
+ */
 std::map <int, intersection> getIntersectionData() {
     std::vector<intersection> intersections_vector = intersectionOpenJson(DATA_LINK);
     std::map <int, intersection> intersection_data = intersectionVectorToMapById(intersections_vector);
