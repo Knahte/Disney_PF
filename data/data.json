@@ -281,16 +281,6 @@
       "single_rider": 0
     },
     {
-      "id": 11469,
-      "name": "PanoraMagique",
-      "location": {
-        "lat": 48.86904,
-        "lon": 2.7865
-      },
-      "visited": false,
-      "single_rider": 0
-    },
-    {
       "id": 10848,
       "name": "Avengers Assemble: Flight Force",
       "location": {

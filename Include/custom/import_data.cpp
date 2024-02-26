@@ -277,13 +277,13 @@ static std::map<int, std::map<int, int>> attractionsOpenCSV(std::string& data_UR
                 data_map[id] = std::map<int, int>{};
             }
             else if (colonne >= 3) {
-                int heure = colonne + 5;
+                int heure = (colonne - 2) % 24;
                 int valeur;
                 if (!cellule.empty()) {
                     valeur = std::stoi(cellule);
                 }
                 else {
-                    valeur = 99999;
+                    valeur = 60;
                 }
                 data_map[id][heure] = valeur;
             }
