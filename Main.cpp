@@ -24,7 +24,7 @@ using matrix_3d = std::map<int, matrix_2d>;
 
 struct setting {
     bool single_rider = true;
-    std::pair<int, int> available_time = { 8,23 }; //(min: 8 | max:23)
+    std::pair<int, int> available_time = { 6,23 }; // WARNING min > max
     int available_days = 3;
     int hotel_ID = 2; //see Json file "data.json"
     int walking_speed = 5; //in km/h - (min: 2 | max: 8)
@@ -36,9 +36,9 @@ struct setting {
 //--global--variable--//
 ////////////////////////
 
-int nb_gene = 1000;
-double selectivity = 0.3;
-int nb_generation = 1000;
+int nb_gene = 300;
+double selectivity = 0.1;
+int nb_generation = 300;
 
 std::map<int, attraction> attraction_data = getAttractionData();
 std::map<int, hotel> hotel_data = getHotelData();
@@ -203,7 +203,7 @@ void debug3dMatrix(const matrix_3d& matrix) {
         for (const auto& row : layer.second) {
             std::cout << "---Attraction ID: " << row.first << std::endl;
             for (const auto& col : row.second) {
-                std::cout << "------Time ID: " << col.first << " - Distance: " << std::setw(10) << col.second << std::endl;
+                std::cout << "------Time : " << col.first << " - Distance: " << col.second;
             }
         }
     }
@@ -395,13 +395,19 @@ double getLongDistance(int& start_ID, int& end_ID, int& current_time){
 
     int time_taken = 0;
 
+    //if (current_time > 23 || current_time < 8) std::cout << "time OOB : " << current_time / 60.0 << std::endl;
+
     if(!(start_attraction->second.intersection_linked.empty() || end_attraction->second.intersection_linked.empty()))
     {
+        double distance = -1;
         for (int start_intersection_id : start_attraction->second.intersection_linked) {
 
             for (int end_intersection_id : end_attraction->second.intersection_linked) {
-                double distance = findShortestPath(intersection_data.at(start_intersection_id), intersection_data.at(end_intersection_id)) + getColseDistance(start_ID, start_intersection_id, attraction_data, intersection_data) + getColseDistance(end_ID, end_intersection_id, attraction_data, intersection_data);
-                time_taken = distance / current_setting.walking_speed * 60 / 1000  + (attraction_data[end_intersection_id].wait_time[(int)(current_time * 60 + distance / current_setting.walking_speed * 60 / 1000) % 24]);
+                distance = findShortestPath(intersection_data.at(start_intersection_id), intersection_data.at(end_intersection_id)) + getColseDistance(start_ID, start_intersection_id, attraction_data, intersection_data) + getColseDistance(end_ID, end_intersection_id, attraction_data, intersection_data);
+                time_taken = distance / current_setting.walking_speed * 60 / 1000 //walking time
+                    + (attraction_data[end_ID].wait_time[(int)(current_time * 60 + distance / current_setting.walking_speed * 60 / 1000) % 24]); //waiting time
+
+                
                 if (distance <= -1) {
                     std::cerr << "(var)'distance' in getLongDistance return -1";
                     return -1;
@@ -413,6 +419,7 @@ double getLongDistance(int& start_ID, int& end_ID, int& current_time){
 
             }
         }
+        std::cout << min_time / 60.0  << "  -  " << distance << std::endl;
     }
     else {
         std::cerr << "no attraction accessible in " << start_ID << " or " << end_ID << " attraction" << std::endl;
@@ -434,7 +441,7 @@ double getLongDistance(int& start_ID, int& end_ID, int& current_time){
  */
 matrix_3d getMatrix(std::vector<int>& id_list) {
     matrix_3d distance_matrix;
-    for (int current_time = 8; current_time <= 23; ++current_time) {
+    for (int current_time = 0; current_time < 24; ++current_time) {
         matrix_2d distance_matrix_at_current_time = {};
         for (int attraction_id1 : id_list) {
             attraction& attraction1 = attraction_data[attraction_id1];
@@ -475,8 +482,9 @@ void pathInfoDisplay(std::vector<int>& path) {
         auto current_attraction = attraction_data.find(current_id);
         int next_id = path[i];
         auto next_attraction = attraction_data.find(next_id);
-
+        std::cout << "DEBUG bef gLD " << current_time / 60 << std::endl;
         double distance_to_next = getLongDistance(current_id, next_id, current_time);
+        std::cout << "DEBUG aft gLD " << current_time / 60 << std::endl;
         if (distance_to_next == -1) {
             std::cerr << "Calculation interrupted between Attraction ID " << current_id << " and " << next_id << std::endl;
             return;
@@ -538,7 +546,7 @@ double simulation(std::vector<int>& path, matrix_3d& graph_matrix){
         int next_intersection_ID = path[i + 1];
 
         int distance = graph_matrix[(int)(current_time / 60) % 24][current_intersection_ID][next_intersection_ID];
-        int time_taken = distance / current_setting.walking_speed * 60 / 1000 + (attraction_data[next_intersection_ID].wait_time[(int)(current_time / 60) % 24]);
+        int time_taken = distance / current_setting.walking_speed * 60 / 1000 + (attraction_data[next_intersection_ID].wait_time[(int)(current_time * 60 + distance / current_setting.walking_speed * 60 / 1000) % 24]);
         if (distance == -1) {
             std::cerr << "Calcule du chemin interompu de " << current_intersection_ID << " à " << next_intersection_ID << std::endl;
             current_time = -1;
@@ -632,21 +640,23 @@ std::vector<std::pair<int, std::vector<int>>> regenerationPath(std::vector<std::
         std::vector<int> mixed_gene = {};
         bool gene_already_exists = true;
         int counter = 0;
-        while (gene_already_exists || counter > 300) {
+        while (gene_already_exists && counter < 100) {
             counter++;
+            
             int index_parent1 = rand() % parents_gene.size();
             int index_parent2 = rand() % parents_gene.size();
+            if (counter >= 100) std::cerr << "no more possibility can be generated with " << index_parent1 << " and " << index_parent2 << "parents" << std::endl;
             mixed_gene = mixingGene(parents_gene[index_parent1].second, parents_gene[index_parent2].second);
 
             // Vérifier si le gène généré est déjà présent dans parents_gene ou childs_gene
             gene_already_exists = false;
-            for (const auto& gene : parents_gene) {
+            /*for (const auto& gene : parents_gene) {
                 if (gene.second == mixed_gene) {
                     gene_already_exists = true;
                     //std::cout << "gene aldready exist : "; DebugPaths({ { simulation(mixed_gene, graph_matrix), mixed_gene } });
                     break;
                 }
-            }
+            }*/
         }
 
         double score = simulation(mixed_gene, graph_matrix);
@@ -739,8 +749,6 @@ std::vector<int> generatePath(){
     return new_shortest_path;
 }
 
-///
-
 ////////////////////////
 //--------main--------//
 ////////////////////////
@@ -755,7 +763,11 @@ std::vector<int> generatePath(){
 int main() {
     srand(time(NULL));
 
+    attractionDebug(attraction_data[7277]);
+
     std::vector<int> path_generated = generatePath();
+
+    attractionDebug(attraction_data[7277]);
 
     return 0;
 }
