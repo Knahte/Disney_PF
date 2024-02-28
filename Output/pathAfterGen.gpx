@@ -2,38 +2,17 @@
 <gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1">
 <trk>
 <trkseg>
-<trkpt lat="48.8669" lon="2.77655">
-<name>Single Rider RC Racer</name>
-</trkpt>
-<trkpt lat="48.8752" lon="2.77429">
-<name>Casey Jr. – le Petit Train du Cirque</name>
-</trkpt>
-<trkpt lat="48.8745" lon="2.77606">
-<name>it's a small world</name>
-</trkpt>
-<trkpt lat="48.8668" lon="2.77877">
-<name>The Twilight Zone Tower of Terror</name>
+<trkpt lat="48.8745" lon="2.77451">
+<name>Alice's Curious Labyrinth</name>
 </trkpt>
 <trkpt lat="48.8734" lon="2.77797">
 <name>Buzz Lightyear Laser Blast</name>
 </trkpt>
-<trkpt lat="48.8752" lon="2.77461">
-<name>Le Pays des Contes de Fées</name>
+<trkpt lat="48.8745" lon="2.77606">
+<name>it's a small world</name>
 </trkpt>
-<trkpt lat="48.8681" lon="2.77818">
-<name>Single Rider Crush's Coaster</name>
-</trkpt>
-<trkpt lat="48.8742" lon="2.77465">
-<name>Dumbo the Flying Elephant</name>
-</trkpt>
-<trkpt lat="48.8736" lon="2.7788">
-<name>Single Rider Star Wars Hyperspace Mountain</name>
-</trkpt>
-<trkpt lat="48.8746" lon="2.77898">
-<name>Welcome to Starport: A Star Wars Encounter</name>
-</trkpt>
-<trkpt lat="48.8682" lon="2.77853">
-<name>Les Tapis Volants - Flying Carpets Over Agrabah®</name>
+<trkpt lat="48.8736" lon="2.77516">
+<name>Les Voyages de Pinocchio</name>
 </trkpt>
 <trkpt lat="48.8734" lon="2.77878">
 <name>Autopia, presented by Avis</name>
@@ -41,74 +20,95 @@
 <trkpt lat="48.8677" lon="2.77789">
 <name>Cars Quatre Roues Rallye</name>
 </trkpt>
-<trkpt lat="48.8663" lon="2.77487">
-<name>Cars ROAD TRIP</name>
-</trkpt>
-<trkpt lat="48.8734" lon="2.77962">
-<name>Les Mystères du Nautilus</name>
-</trkpt>
-<trkpt lat="48.8747" lon="2.77555">
-<name>Princess Pavilion</name>
-</trkpt>
-<trkpt lat="48.871" lon="2.77681">
-<name>Phantom Manor</name>
-</trkpt>
-<trkpt lat="48.8724" lon="2.77206">
-<name>Single Rider Indiana Jones™ and the Temple of Peril</name>
-</trkpt>
-<trkpt lat="48.8676" lon="2.77624">
-<name>Single Rider Ratatouille: The Adventure</name>
-</trkpt>
-<trkpt lat="48.8671" lon="2.77688">
-<name>Slinky® Dog Zigzag Spin</name>
-</trkpt>
-<trkpt lat="48.8736" lon="2.77516">
-<name>Les Voyages de Pinocchio</name>
-</trkpt>
-<trkpt lat="48.8734" lon="2.77532">
-<name>Blanche-Neige et les Sept Nains®</name>
+<trkpt lat="48.8672" lon="2.77724">
+<name>Single Rider Toy Soldiers Parachute Drop</name>
 </trkpt>
 <trkpt lat="48.8724" lon="2.77393">
 <name>La Cabane des Robinson</name>
 </trkpt>
-<trkpt lat="48.8746" lon="2.77876">
-<name>Star Tours: The Adventures Continue*</name>
+<trkpt lat="48.8745" lon="2.77504">
+<name>Mad Hatter's Tea Cups</name>
+</trkpt>
+<trkpt lat="48.871" lon="2.77681">
+<name>Phantom Manor</name>
+</trkpt>
+<trkpt lat="48.8734" lon="2.77532">
+<name>Blanche-Neige et les Sept Nains®</name>
+</trkpt>
+<trkpt lat="48.8735" lon="2.77844">
+<name>Orbitron®</name>
 </trkpt>
 <trkpt lat="48.8744" lon="2.77384">
 <name>Meet Mickey Mouse</name>
 </trkpt>
-<trkpt lat="48.8745" lon="2.77451">
-<name>Alice's Curious Labyrinth</name>
+<trkpt lat="48.8736" lon="2.7788">
+<name>Single Rider Star Wars Hyperspace Mountain</name>
+</trkpt>
+<trkpt lat="48.8734" lon="2.77962">
+<name>Les Mystères du Nautilus</name>
+</trkpt>
+<trkpt lat="48.8663" lon="2.77487">
+<name>Cars ROAD TRIP</name>
+</trkpt>
+<trkpt lat="48.8682" lon="2.77853">
+<name>Les Tapis Volants - Flying Carpets Over Agrabah®</name>
+</trkpt>
+<trkpt lat="48.8752" lon="2.77429">
+<name>Casey Jr. – le Petit Train du Cirque</name>
+</trkpt>
+<trkpt lat="48.8747" lon="2.77555">
+<name>Princess Pavilion</name>
 </trkpt>
 <trkpt lat="48.8745" lon="2.77963">
 <name>Mickey’s PhilharMagic</name>
 </trkpt>
-<trkpt lat="48.8745" lon="2.77504">
-<name>Mad Hatter's Tea Cups</name>
+<trkpt lat="48.8737" lon="2.7752">
+<name>Le Carrousel de Lancelot</name>
 </trkpt>
-<trkpt lat="48.8715" lon="2.77481">
-<name>Big Thunder Mountain</name>
+<trkpt lat="48.8671" lon="2.77688">
+<name>Slinky® Dog Zigzag Spin</name>
 </trkpt>
-<trkpt lat="48.8712" lon="2.77653">
-<name>Thunder Mesa Riverboat Landing</name>
+<trkpt lat="48.8668" lon="2.77877">
+<name>The Twilight Zone Tower of Terror</name>
+</trkpt>
+<trkpt lat="48.8746" lon="2.77898">
+<name>Welcome to Starport: A Star Wars Encounter</name>
 </trkpt>
 <trkpt lat="48.8735" lon="2.77338">
 <name>Pirates of the Caribbean</name>
 </trkpt>
-<trkpt lat="48.8737" lon="2.7752">
-<name>Le Carrousel de Lancelot</name>
+<trkpt lat="48.8651" lon="2.77931">
+<name>Single Rider Avengers Assemble: Flight Force</name>
 </trkpt>
-<trkpt lat="48.8672" lon="2.77724">
-<name>Single Rider Toy Soldiers Parachute Drop</name>
+<trkpt lat="48.8715" lon="2.77481">
+<name>Big Thunder Mountain</name>
 </trkpt>
 <trkpt lat="48.866" lon="2.77952">
 <name>Single Rider Spider-Man W.E.B. Adventure</name>
 </trkpt>
-<trkpt lat="48.8651" lon="2.77931">
-<name>Single Rider Avengers Assemble: Flight Force</name>
+<trkpt lat="48.8681" lon="2.77818">
+<name>Single Rider Crush's Coaster</name>
+</trkpt>
+<trkpt lat="48.8669" lon="2.77655">
+<name>Single Rider RC Racer</name>
+</trkpt>
+<trkpt lat="48.8742" lon="2.77465">
+<name>Dumbo the Flying Elephant</name>
+</trkpt>
+<trkpt lat="48.8746" lon="2.77876">
+<name>Star Tours: The Adventures Continue*</name>
+</trkpt>
+<trkpt lat="48.8712" lon="2.77653">
+<name>Thunder Mesa Riverboat Landing</name>
 </trkpt>
 <trkpt lat="48.8738" lon="2.77407">
 <name>Peter Pan's Flight</name>
+</trkpt>
+<trkpt lat="48.8724" lon="2.77206">
+<name>Single Rider Indiana Jones™ and the Temple of Peril</name>
+</trkpt>
+<trkpt lat="48.8752" lon="2.77461">
+<name>Le Pays des Contes de Fées</name>
 </trkpt>
 </trkseg>
 </trk>
