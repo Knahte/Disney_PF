@@ -19,8 +19,8 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   		voir la première référence à « std::pair<int,std::vector<int,std::allocator<int>>>::pair » dans « regenerationPath »
   
   Génération de code en cours
-  2 of 2857 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  0 of 2857 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
   Disney_GPS.vcxproj -> C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\x64\Release\Disney_GPS.exe

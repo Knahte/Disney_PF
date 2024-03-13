@@ -446,7 +446,7 @@ double getLongDistance(int& start_ID, int& end_ID, double& current_time){
  *
  * @return A 3D matrix containing distances between attractions at different times.
  */
-matrix_3d getMatrix(std::vector<int>& id_list) {
+matrix_3d getAttractionMatrix(std::vector<int>& id_list) {
     matrix_3d distance_matrix;
     for (int current_time = 0; current_time < 24; ++current_time) {
         matrix_2d distance_matrix_at_current_time = {};
@@ -719,11 +719,11 @@ std::vector<int> generatePath(){
     }
 
     std::vector<std::pair<double, std::vector<int>>> path_data = {};
-    matrix_3d graph_matrix = getMatrix(id_list);
+    matrix_3d graph_attraction_matrix = getAttractionMatrix(id_list);
 
     for (int i = 0; i < nb_gene; i++) {
         std::vector<int> randomised_path = generateRandomVectorWithList(id_list);
-        double score = simulation(randomised_path, graph_matrix); // score_taken = time in h
+        double score = simulation(randomised_path, graph_attraction_matrix); // score_taken = time in h
         path_data.push_back({score, randomised_path});
         
     }
@@ -744,7 +744,7 @@ std::vector<int> generatePath(){
 
     std::vector<bool> completion_rate = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
 
-    std::pair<std::vector<std::pair<double, std::vector<int>>>,bool> new_result = regenerationPath(path_data, graph_matrix);
+    std::pair<std::vector<std::pair<double, std::vector<int>>>,bool> new_result = regenerationPath(path_data, graph_attraction_matrix);
     std::vector<std::pair<double, std::vector<int>>> new_path_data = new_result.first;
 
     for (int i = 0; i < (nb_generation - 1); i++) {
