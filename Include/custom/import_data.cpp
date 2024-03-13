@@ -9,7 +9,7 @@
 
 using json = nlohmann::json;
 
-
+static setting current_setting;
 
 ////////////////////////
 //---data-functions---//
@@ -37,17 +37,19 @@ static std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
         file >> data;
 
         for (json& attraction_data : data["Attractions"]) {
-            attraction new_attraction;
-            new_attraction.ID = attraction_data["id"];
-            new_attraction.name = attraction_data["name"];
-            new_attraction.location.lon = attraction_data["location"]["lon"];
-            new_attraction.location.lat = attraction_data["location"]["lat"];
-            new_attraction.visited = attraction_data["visited"];
-            if (attraction_data["single_rider"] == 0)
-                new_attraction.single_rider = attraction_data["id"];
-            else
-                new_attraction.single_rider = attraction_data["single_rider"];
-            attractions.push_back(new_attraction);
+            if (std::find(current_setting.ID_list.begin(), current_setting.ID_list.end(), attraction_data["id"]) != current_setting.ID_list.end()) {
+                attraction new_attraction;
+                new_attraction.ID = attraction_data["id"];
+                new_attraction.name = attraction_data["name"];
+                new_attraction.location.lon = attraction_data["location"]["lon"];
+                new_attraction.location.lat = attraction_data["location"]["lat"];
+                new_attraction.visited = attraction_data["visited"];
+                if (attraction_data["single_rider"] == 0)
+                    new_attraction.single_rider = attraction_data["id"];
+                else
+                    new_attraction.single_rider = attraction_data["single_rider"];
+                attractions.push_back(new_attraction);
+            }
         }
     }
     catch (std::exception& error) {
@@ -129,8 +131,10 @@ static std::vector<intersection> intersectionOpenJson(std::string& data_URL) {
             for (auto& inter : inter_data["connected_to_intersections"]) {
                 new_inter.intersection_linked.push_back(inter);
             }
-            for (auto& attraction : inter_data["connected_to_attractions"]) {
-                new_inter.attraction_linked.push_back(attraction);
+            for (auto& attraction_ID : inter_data["connected_to_attractions"]) {
+                if (std::find(current_setting.ID_list.begin(), current_setting.ID_list.end(), attraction_ID) != current_setting.ID_list.end())
+                    new_inter.attraction_linked.push_back(attraction_ID);
+           
             }
             for (auto& hotel : inter_data["connected_to_hotels"]) {
                 new_inter.hotel_linked.push_back(hotel);

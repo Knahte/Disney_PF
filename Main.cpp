@@ -7,38 +7,24 @@
 #include <vector>
 #include <unordered_set>
 #include <map>
-#include <unordered_map>
 #include <iomanip>
-
+#include <limits>
+#include <cmath>
 #include <fstream>
+#include <algorithm>
 #include "Include/custom/import_data.h"
 
 using matrix_2d = std::map<int, std::map<int, double>>;
 using matrix_3d = std::map<int, matrix_2d>;
 
 
-
-////////////////////////
-//-------struct-------//
-////////////////////////
-
-struct setting {
-    bool single_rider = true;
-    double entry_time = 6;
-    int available_days = 3;
-    int hotel_ID = 2; //see Json file "data.json"
-    int walking_speed = 3; //in km/h - (min: 2 | max: 8)
-};
-
-
-
 ////////////////////////
 //--global--variable--//
 ////////////////////////
 
-int nb_gene = 2000;
+int nb_gene = 500;
 double selectivity = 0.1;
-int nb_generation = 200;
+int nb_generation = 500;
 int mutation_rate = 10; // in %
 
 std::map<int, attraction> attraction_data = getAttractionData();
@@ -210,8 +196,18 @@ void Matrix3dDebug(const matrix_3d& matrix) {
     }
 }
 
-void pathsDebug(const  std::vector<std::pair<double, std::vector<int>>>& path_data) {
-    for (const auto& entry : path_data) {
+void pathsDebug(const std::vector<std::pair<double, std::vector<int>>>& path_data) {
+    // Copiez le vecteur path_data car nous voulons le trier sans modifier l'original
+    std::vector<std::pair<double, std::vector<int>>> sorted_paths = path_data;
+
+    // Triez les chemins en fonction de leur score
+    std::sort(sorted_paths.begin(), sorted_paths.end(),
+        [](const auto& lhs, const auto& rhs) {
+            return lhs.first < rhs.first;
+        });
+
+    // Affichez les chemins triés
+    for (const auto& entry : sorted_paths) {
         std::cout << "Score: " << entry.first << ", Path: ";
         const std::vector<int>& path = entry.second;
         for (size_t i = 0; i < path.size(); ++i) {
@@ -220,7 +216,7 @@ void pathsDebug(const  std::vector<std::pair<double, std::vector<int>>>& path_da
                 std::cout << "->";
             }
         }
-        std::cout << std::endl ;
+        std::cout << std::endl;
     }
     std::cout << std::endl;
 }
@@ -567,59 +563,27 @@ double simulation(std::vector<int>& path, matrix_3d& graph_matrix){
     return current_time;
 }
 
-
-void mutateGene(std::vector<int>& gene) {
+std::vector<int> changeGene(std::vector<int> gene, matrix_3d& attraction_matrix) {
     int index1 = rand() % gene.size();
-    int index2 = rand() % gene.size();
 
-    std::swap(gene[index1], gene[index2]);
-}
+    int best_index = index1;
 
-
-/**
- * Performs crossover between two parent genes to generate a child gene.
- *
- * @param gene1 The first parent gene.
- * @param gene2 The second parent gene.
- *
- * @return The child gene resulting from the crossover operation.
- */
-std::vector<int> mixingGene(std::vector<int> gene1, std::vector<int> gene2) {
-    std::vector<int> child(gene1.size(), -1); // Initialisation du chemin de l'enfant avec des valeurs par défaut (-1)
-    std::unordered_set<int> visited; // Pour garder une trace des villes déjà visitées
-
-    // Choix des points de coupure
-    int crossover_point1 = rand() % (gene1.size() - 1) + 1; // éviter de choisir le premier index
-    int crossover_point2 = rand() % (gene1.size() - crossover_point1) + crossover_point1;
-
-    // Étape 1: Copier le segment entre les points de coupure de gene1 dans l'enfant
-    for (int i = crossover_point1; i <= crossover_point2; ++i) {
-        child[i] = gene1[i];
-        visited.insert(gene1[i]); // Marquer les villes déjà visitées
-    }
-
-    // Étape 2: Copier les villes de gene2 dans l'enfant (sauf celles déjà présentes)
-    int child_index = 0;
-    for (int i = 0; i < gene2.size(); ++i) {
-        if (child_index == crossover_point1) {
-            child_index = crossover_point2 + 1;
+    double best_time = std::numeric_limits<double>::infinity();
+    std::vector<int> best_gene = gene;
+    for (int index2 = 0; index2 <= gene.size() - 1; index2 ++) {
+        std::vector<int> gene_tmp = gene;
+        std::swap(gene_tmp[index1], gene_tmp[index2]);
+        double time_taken = simulation(gene_tmp, attraction_matrix);
+        
+        if (time_taken < best_time) {
+            best_time = time_taken;
+            best_index = index2;
         }
-        if (visited.find(gene2[i]) == visited.end()) { // Vérifier si la ville n'est pas déjà dans l'enfant
-            child[child_index++] = gene2[i];
-            visited.insert(gene2[i]); // Marquer les villes déjà visitées
-        }
-    }
+    };
 
-    // Étape 3: Compléter les villes manquantes de l'enfant à partir de gene1
-    for (int i = 0; i < gene1.size(); ++i) {
-        if (child[i] == -1) { // Si la ville n'a pas encore été placée dans l'enfant
-            child[i] = gene1[i];
-        }
-    }
+    std::swap(best_gene[index1], best_gene[best_index]);
 
-    if (std::rand() % 100 > mutation_rate) mutateGene(child);
-
-    return child;
+    return best_gene;
 }
 
 /**
@@ -658,39 +622,18 @@ std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPa
 
     for (int i = 0; i < num_new_genes; ++i) {
         std::vector<int> mixed_gene = {};
-        bool gene_already_exists = true;
-        int counter = 0;
-        while (gene_already_exists && counter < 100) {
-            counter++;
+        
+        int index_parent = rand() % parents_gene.size();
 
-            int index_parent1 = rand() % parents_gene.size();
-            int index_parent2 = rand() % parents_gene.size();
-            if (counter >= 100) {
-                std::cerr << "no more possibility can be generated with " << index_parent1 << " and " << index_parent2 << "parents" << std::endl;
-                unique_gene--;
-            }
-            mixed_gene = mixingGene(parents_gene[index_parent1].second, parents_gene[index_parent2].second);
-
-            gene_already_exists = false;
-            for (const auto& gene : parents_gene) {
-                if (gene.second == mixed_gene) {
-                    gene_already_exists = true;
-                    break;
-                }
-            }
-            for (const auto& gene : childs_gene) {
-                if (gene.second == mixed_gene) {
-                    gene_already_exists = true;
-                    break;
-                }
-            }
-        }
+        mixed_gene = changeGene(parents_gene[index_parent].second, graph_matrix);
 
         double score = simulation(mixed_gene, graph_matrix);
         childs_gene.push_back({ score, mixed_gene });
     }
 
     if (unique_gene == 0) can_be_ended = true;
+
+    //pathsDebug(childs_gene);
     return { childs_gene, can_be_ended };
 }
 
@@ -717,6 +660,8 @@ std::vector<int> generatePath(){
             id_list.push_back(attr.ID);
         }
     }
+
+    vectorDebug(id_list);
 
     std::vector<std::pair<double, std::vector<int>>> path_data = {};
     matrix_3d graph_attraction_matrix = getAttractionMatrix(id_list);
@@ -748,7 +693,7 @@ std::vector<int> generatePath(){
     std::vector<std::pair<double, std::vector<int>>> new_path_data = new_result.first;
 
     for (int i = 0; i < (nb_generation - 1); i++) {
-        new_result = regenerationPath(path_data, graph_matrix);
+        new_result = regenerationPath(path_data, graph_attraction_matrix);
         new_path_data = new_result.first;
         if (new_result.second) {
             std::cout << "premature stop: all genes are unique" << std::endl;
@@ -762,7 +707,7 @@ std::vector<int> generatePath(){
         }
         //pathsDebug(new_path_data);
     }
-    std::cout << "100% !" << std::endl;
+    std::cout << "100% | IT'S DONE !" << std::endl;
     
 
     double new_min_score = std::numeric_limits<double>::infinity();
