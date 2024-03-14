@@ -22,9 +22,9 @@ using matrix_3d = std::map<int, matrix_2d>;
 //--global--variable--//
 ////////////////////////
 
-int nb_gene = 500;
+int nb_gene = 100;
 double selectivity = 0.1;
-int nb_generation = 500;
+int nb_generation = 400;
 int mutation_rate = 10; // in %
 
 std::map<int, attraction> attraction_data = getAttractionData();
@@ -620,7 +620,7 @@ std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPa
 
     bool can_be_ended = false;
 
-    for (int i = 0; i < num_new_genes; ++i) {
+    for (int i = 0; i < num_new_genes + 1; ++i) {
         std::vector<int> mixed_gene = {};
         
         int index_parent = rand() % parents_gene.size();
@@ -693,7 +693,7 @@ std::vector<int> generatePath(){
     std::vector<std::pair<double, std::vector<int>>> new_path_data = new_result.first;
 
     for (int i = 0; i < (nb_generation - 1); i++) {
-        new_result = regenerationPath(path_data, graph_attraction_matrix);
+        new_result = regenerationPath(new_path_data, graph_attraction_matrix);
         new_path_data = new_result.first;
         if (new_result.second) {
             std::cout << "premature stop: all genes are unique" << std::endl;

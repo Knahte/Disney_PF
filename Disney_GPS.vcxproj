@@ -134,6 +134,7 @@
     <None Include="data\data.json" />
     <None Include="data\Data_src.json" />
     <None Include="data\waiting_time.csv" />
+    <None Include="data\waiting_time_debug_0.csv" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\custom\import_data.h" />

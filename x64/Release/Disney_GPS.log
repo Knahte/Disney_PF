@@ -1,4 +1,5 @@
-﻿  Main.cpp
+﻿  import_data.cpp
+  Main.cpp
 C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(615,23): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
 C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(748,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244: 'initialisation' : conversion de 'const _Ty1' en '_Ty1', perte possible de données
@@ -19,8 +20,8 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.3313
   		voir la première référence à « std::pair<int,std::vector<int,std::allocator<int>>>::pair » dans « regenerationPath »
   
   Génération de code en cours
-  2 of 2734 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  15 of 2734 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
   Disney_GPS.vcxproj -> C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\x64\Release\Disney_GPS.exe

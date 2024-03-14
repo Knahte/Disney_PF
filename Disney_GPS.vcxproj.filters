@@ -32,6 +32,9 @@
     <None Include="data\waiting_time.csv">
       <Filter>Fichiers de ressources</Filter>
     </None>
+    <None Include="data\waiting_time_debug_0.csv">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\custom\import_data.h">
