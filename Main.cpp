@@ -22,10 +22,8 @@ using matrix_3d = std::map<int, matrix_2d>;
 //--global--variable--//
 ////////////////////////
 
-int nb_gene = 100;
-double selectivity = 0.1;
-int nb_generation = 400;
-int mutation_rate = 10; // in %
+int nb_gene = 300;
+int nb_generation = 300;
 
 std::map<int, attraction> attraction_data = getAttractionData();
 std::map<int, hotel> hotel_data = getHotelData();
@@ -237,6 +235,8 @@ void pathsDebug(const std::vector<std::pair<double, std::vector<int>>>& path_dat
 void pathToGPX(const std::vector<int>& path, const std::string& name) {
     std::ofstream outputFile("Output/" + name + ".gpx");
 
+    hotel current_hotel = hotel_data[current_setting.hotel_ID];
+
     if (!outputFile.is_open()) {
         std::cerr << "Erreur : Impossible d'ouvrir le fichier GPX." << std::endl;
         return;
@@ -247,7 +247,11 @@ void pathToGPX(const std::vector<int>& path, const std::string& name) {
     outputFile << "<trk>" << std::endl;
     outputFile << "<trkseg>" << std::endl;
 
-    for (size_t i = 1; i < path.size(); ++i) {
+    outputFile << "<trkpt lat=\"" << current_hotel.location.lat << "\" lon=\"" << current_hotel.location.lon << "\">" << std::endl;
+    outputFile << "<name>" << current_hotel.name << "</name>" << std::endl;
+    outputFile << "</trkpt>" << std::endl;
+
+    for (size_t i = 1; i <= path.size(); ++i) {
         int current_id = path[i - 1];
         auto current_attraction = attraction_data.find(current_id);
 
@@ -257,6 +261,10 @@ void pathToGPX(const std::vector<int>& path, const std::string& name) {
             outputFile << "</trkpt>" << std::endl;
         }
     }
+
+    outputFile << "<trkpt lat=\"" << current_hotel.location.lat << "\" lon=\"" << current_hotel.location.lon << "\">" << std::endl;
+    outputFile << "<name>" << current_hotel.name << "</name>" << std::endl;
+    outputFile << "</trkpt>" << std::endl;
 
     outputFile << "</trkseg>" << std::endl;
     outputFile << "</trk>" << std::endl;
@@ -376,6 +384,8 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
     }
     else {
         std::cerr << "Erreur : Aucun chemin trouvé de " << start_intersection.ID << " à " << end_intersection.ID << std::endl;
+        intersectionDebug(start_intersection);
+        intersectionDebug(end_intersection);
         return -1;
     }
 }
@@ -442,9 +452,27 @@ double getLongDistance(int& start_ID, int& end_ID, double& current_time){
  *
  * @return A 3D matrix containing distances between attractions at different times.
  */
-matrix_3d getAttractionMatrix(std::vector<int>& id_list) {
+matrix_3d getMatrix(std::vector<int>& id_list) {
+    attraction attr_hotel;
+    hotel source_hotel = hotel_data[current_setting.hotel_ID];
+    attr_hotel.ID = 0;
+    attr_hotel.name = source_hotel.name;
+    attr_hotel.intersection_linked = source_hotel.intersection_linked;
+    attr_hotel.location = source_hotel.location;
+
+    for (auto intersection_extracted : intersection_data) {
+        intersection inter = intersection_extracted.second;
+        for (int id_hotel_tested : inter.hotel_linked) {
+            if (id_hotel_tested == source_hotel.ID) {
+                inter.attraction_linked.push_back(0);
+            }
+        }
+    }
+
     matrix_3d distance_matrix;
+    std::cout << "création de la matrice" << std::endl;
     for (int current_time = 0; current_time < 24; ++current_time) {
+        std::cout << current_time * 4 + 4 << " %" << std::endl;
         matrix_2d distance_matrix_at_current_time = {};
         for (int attraction_id1 : id_list) {
             attraction& attraction1 = attraction_data[attraction_id1];
@@ -460,6 +488,7 @@ matrix_3d getAttractionMatrix(std::vector<int>& id_list) {
         distance_matrix[current_time] = distance_matrix_at_current_time;
 
     }
+    std::cout << "100 % " << std::endl << std::endl;
     return distance_matrix;
 }
 
@@ -474,7 +503,7 @@ matrix_3d getAttractionMatrix(std::vector<int>& id_list) {
  * Debug function to print attractions along a path.
  *
  * @param path The path containing attraction IDs.
- *
+ * 
  */
 void pathInfoDisplay(std::vector<int>& path) {
     double current_time = current_setting.entry_time;
@@ -496,7 +525,7 @@ void pathInfoDisplay(std::vector<int>& path) {
         }
         total_distance += distance_to_next;
         std::cout << "ID : " << current_attraction->first << ", Name : " << current_attraction->second.name << std::endl;
-        std::cout << "--- Time at exit : " << (int)current_time % 24 << " h " << ((current_time - (int)current_time) * 60) << " min" << std::endl;
+        if (current_setting.consider_waiting_times) std::cout << "--- Time at exit : " << (int)current_time % 24 << " h " << ((current_time - (int)current_time) * 60) << " min" << std::endl;
         std::cout << "--- Distance to next : " << distance_to_next << " m" << std::endl;
     }
     if (path.size() != 0) {
@@ -558,8 +587,8 @@ double simulation(std::vector<int>& path, matrix_3d& graph_matrix){
         current_time += time_taken;
         //std::cout << "dist total = " << total_distance << std::endl;
     }
-    current_time += getColseDistance(current_setting.hotel_ID, path.front(), hotel_data, attraction_data) / current_setting.walking_speed / 1000;
-    current_time += getColseDistance(current_setting.hotel_ID, path.back(), hotel_data, attraction_data) / current_setting.walking_speed / 1000;
+    current_time += graph_matrix[(int)(current_time) % 24][path.front()][0] / current_setting.walking_speed / 1000 * 60;
+    current_time += graph_matrix[(int)(current_time) % 24][path.back()][0] / current_setting.walking_speed / 1000 * 60;
     return current_time;
 }
 
@@ -597,39 +626,17 @@ std::vector<int> changeGene(std::vector<int> gene, matrix_3d& attraction_matrix)
  */
 std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPath(std::vector<std::pair<double, std::vector<int>>> path_data, matrix_3d& graph_matrix) {
 
-    for (size_t i = 0; i < path_data.size() - 1; ++i) {
-        for (size_t j = 0; j < path_data.size() - i - 1; ++j) {
-            if (path_data[j].first > path_data[j + 1].first) {
-                std::pair<double, std::vector<int>> tmp = path_data[j];
-                path_data[j] = path_data[j + 1];
-                path_data[j + 1] = tmp;
-            }
-        }
-    }
-
-    std::vector<std::pair<int, std::vector<int>>> parents_gene = {};
-    for (int i = 0; i < (path_data.size() * selectivity); ++i) {
-        parents_gene.push_back(path_data[i]);
-    }
-
-    int num_new_genes = nb_gene - parents_gene.size();
-
     std::vector<std::pair<double, std::vector<int>>> childs_gene = {};
 
     int unique_gene = nb_gene;
 
     bool can_be_ended = false;
-
-    for (int i = 0; i < num_new_genes + 1; ++i) {
-        std::vector<int> mixed_gene = {};
-        
-        int index_parent = rand() % parents_gene.size();
-
-        mixed_gene = changeGene(parents_gene[index_parent].second, graph_matrix);
-
-        double score = simulation(mixed_gene, graph_matrix);
-        childs_gene.push_back({ score, mixed_gene });
+    for (auto& path : path_data) {
+            std::vector<int> mixed_gene = changeGene(path.second, graph_matrix);
+            double score = simulation(mixed_gene, graph_matrix);
+            childs_gene.push_back({ score, mixed_gene });
     }
+
 
     if (unique_gene == 0) can_be_ended = true;
 
@@ -645,26 +652,14 @@ std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPa
  */
 std::vector<int> generatePath(){
     std::vector<int> path = {};
-    std::vector<int> id_list = {};
-    if (current_setting.single_rider) {
-        for (auto& pair : attraction_data) {
-            attraction& attr = pair.second;
-            if (attr.single_rider == attr.ID) {
-                id_list.push_back(attr.single_rider);
-            }
-        }
-    }
-    else {
-        for (auto& pair : attraction_data) {
-            attraction& attr = pair.second;
-            id_list.push_back(attr.ID);
-        }
-    }
+    std::vector<int> id_list = current_setting.ID_list;
 
+    std::cout << "attraction used : " << std::endl;
     vectorDebug(id_list);
+    std::cout << std::endl;
 
     std::vector<std::pair<double, std::vector<int>>> path_data = {};
-    matrix_3d graph_attraction_matrix = getAttractionMatrix(id_list);
+    matrix_3d graph_attraction_matrix = getMatrix(id_list);
 
     for (int i = 0; i < nb_gene; i++) {
         std::vector<int> randomised_path = generateRandomVectorWithList(id_list);
@@ -672,7 +667,7 @@ std::vector<int> generatePath(){
         path_data.push_back({score, randomised_path});
         
     }
-    //pathsDebug(path_data);
+
 
     double min_score = std::numeric_limits<double>::infinity();
     std::vector<int> shortest_path;
@@ -688,7 +683,6 @@ std::vector<int> generatePath(){
     }
 
     std::vector<bool> completion_rate = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
-
     std::pair<std::vector<std::pair<double, std::vector<int>>>,bool> new_result = regenerationPath(path_data, graph_attraction_matrix);
     std::vector<std::pair<double, std::vector<int>>> new_path_data = new_result.first;
 
@@ -705,7 +699,6 @@ std::vector<int> generatePath(){
                 completion_rate[j] = true;
             }
         }
-        //pathsDebug(new_path_data);
     }
     std::cout << "100% | IT'S DONE !" << std::endl;
     
@@ -723,7 +716,7 @@ std::vector<int> generatePath(){
         }
     }
 
-    vectorDebug(new_shortest_path);
+    //vectorDebug(new_shortest_path);
 
     //pathInfoDisplay(shortest_path);
     pathToGPX(shortest_path, "pathBeforeGen");
@@ -746,6 +739,8 @@ std::vector<int> generatePath(){
  */
 int main() {
     srand(time(NULL));
+    
+    //intersectionsDebug(intersection_data);
 
     std::vector<int> path_generated = generatePath();
 

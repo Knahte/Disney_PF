@@ -8,7 +8,8 @@
         "lon": 2.77606
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [24]
     },
     {
       "id": 14,
@@ -18,7 +19,8 @@
         "lon": 2.77451
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [20,13]
     },
     {
       "id": 4,
@@ -28,7 +30,8 @@
         "lon": 2.77878
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 8, 6, 7, 7278 ]
     },
     {
       "id": 25,
@@ -38,7 +41,8 @@
         "lon": 2.77481
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 15,
@@ -48,7 +52,8 @@
         "lon": 2.77532
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [23,16]
     },
     {
       "id": 5,
@@ -58,7 +63,8 @@
         "lon": 2.7779687
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 17,
@@ -68,7 +74,8 @@
         "lon": 2.77429
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [21]
     },
     {
       "id": 18,
@@ -78,7 +85,8 @@
         "lon": 2.77465
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 7306,
@@ -88,7 +96,8 @@
         "lon": 2.77206
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [1]
     },
     {
       "id": 2,
@@ -98,7 +107,8 @@
         "lon": 2.77206
       },
       "visited": false,
-      "single_rider": 7306
+      "single_rider": 7306,
+      "direct_way_to_attractions": [1]
     },
     {
       "id": 1,
@@ -108,7 +118,8 @@
         "lon": 2.77393
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [2, 7306]
     },
     {
       "id": 16,
@@ -118,7 +129,8 @@
         "lon": 2.7752
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [23,15]
     },
     {
       "id": 21,
@@ -128,7 +140,8 @@
         "lon": 2.77461
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [17]
     },
     {
       "id": 6,
@@ -138,7 +151,8 @@
         "lon": 2.77962
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 4, 7, 8, 7278 ]
     },
     {
       "id": 23,
@@ -148,7 +162,8 @@
         "lon": 2.77516
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [15,16]
     },
     {
       "id": 20,
@@ -158,7 +173,8 @@
         "lon": 2.77504
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 13,
@@ -168,7 +184,8 @@
         "lon": 2.77384
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 2707,
@@ -178,7 +195,8 @@
         "lon": 2.77963
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 9, 4573 ]
     },
     {
       "id": 7,
@@ -188,7 +206,9 @@
         "lon": 2.77844
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 6, 5, 4, 8, 7278 ]
+
     },
     {
       "id": 22,
@@ -198,7 +218,8 @@
         "lon": 2.77407
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 26,
@@ -208,7 +229,8 @@
         "lon": 2.77681
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [28]
     },
     {
       "id": 3,
@@ -218,7 +240,8 @@
         "lon": 2.77338
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 24,
@@ -228,7 +251,8 @@
         "lon": 2.77555
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [19]
     },
     {
       "id": 9,
@@ -238,7 +262,8 @@
         "lon": 2.77876
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 4573, 2707 ]
     },
     {
       "id": 8,
@@ -248,7 +273,8 @@
         "lon": 2.7788
       },
       "visited": false,
-      "single_rider": 7278
+      "single_rider": 7278,
+      "direct_way_to_attractions": [6, 4, 7, 5]
     },
     {
       "id": 7278,
@@ -258,7 +284,8 @@
         "lon": 2.7788
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 6, 4, 7, 5 ]
     },
     {
       "id": 28,
@@ -268,7 +295,8 @@
         "lon": 2.77653
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [26]
     },
     {
       "id": 4573,
@@ -278,7 +306,8 @@
         "lon": 2.77898
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 9, 2707 ]
     },
     {
       "id": 10848,
@@ -288,7 +317,8 @@
         "lon": 2.77931
       },
       "visited": false,
-      "single_rider": 10849
+      "single_rider": 10849,
+      "direct_way_to_attractions": []
     },
     {
       "id": 10849,
@@ -298,7 +328,8 @@
         "lon": 2.77931
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 31,
@@ -308,7 +339,8 @@
         "lon": 2.77789
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 29,
@@ -318,7 +350,8 @@
         "lon": 2.77487
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 32,
@@ -328,7 +361,8 @@
         "lon": 2.77818
       },
       "visited": false,
-      "single_rider": 7277
+      "single_rider": 7277,
+      "direct_way_to_attractions": [33]
     },
     {
       "id": 7277,
@@ -338,7 +372,8 @@
         "lon": 2.77818
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [33]
     },
     {
       "id": 33,
@@ -348,7 +383,8 @@
         "lon": 2.77853
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 32, 7277 ]
     },
     {
       "id": 37,
@@ -358,7 +394,8 @@
         "lon": 2.77624
       },
       "visited": false,
-      "single_rider": 7279
+      "single_rider": 7279,
+      "direct_way_to_attractions": []
     },
     {
       "id": 7279,
@@ -368,7 +405,8 @@
         "lon": 2.77624
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 34,
@@ -378,7 +416,8 @@
         "lon": 2.77655
       },
       "visited": false,
-      "single_rider": 7280
+      "single_rider": 7280,
+      "direct_way_to_attractions": []
     },
     {
       "id": 7280,
@@ -388,7 +427,8 @@
         "lon": 2.77655
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 36,
@@ -398,7 +438,8 @@
         "lon": 2.77688
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 35, 7281 ]
     },
     {
       "id": 10845,
@@ -408,7 +449,8 @@
         "lon": 2.77952
       },
       "visited": false,
-      "single_rider": 10846
+      "single_rider": 10846,
+      "direct_way_to_attractions": []
     },
     {
       "id": 10846,
@@ -418,7 +460,8 @@
         "lon": 2.77952
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 40,
@@ -428,7 +471,8 @@
         "lon": 2.77877
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     },
     {
       "id": 35,
@@ -438,7 +482,8 @@
         "lon": 2.77724
       },
       "visited": false,
-      "single_rider": 7281
+      "single_rider": 7281,
+      "direct_way_to_attractions": [ 36 ]
     },
     {
       "id": 7281,
@@ -448,25 +493,10 @@
         "lon": 2.77724
       },
       "visited": false,
-      "single_rider": 0
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 36 ]
     }
   ],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   "Hotels": [
     {
       "id": 0,
@@ -509,22 +539,6 @@
       }
     }
   ],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   "Intersections": [
     {
       "id": 1,

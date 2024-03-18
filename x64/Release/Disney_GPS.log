@@ -1,26 +1,8 @@
 ﻿  import_data.cpp
   Main.cpp
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(615,23): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
-C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(748,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244: 'initialisation' : conversion de 'const _Ty1' en '_Ty1', perte possible de données
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:         with
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:         [
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:             _Ty1=double
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:         ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:         and
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:         [
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:             _Ty1=int
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16): warning C4244:         ]
-  (compiler le fichier source 'Main.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\utility(271,16):
-  le contexte d’instanciation du modèle (le plus ancien) est
-  	C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(612,43):
-  	voir la référence à l'instanciation de la fonction modèle 'std::pair<int,std::vector<int,std::allocator<int>>>::pair<double,std::vector<int,std::allocator<int>>,0>(const std::pair<double,std::vector<int,std::allocator<int>>> &) noexcept(false)' en cours de compilation
-  		C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(612,31):
-  		voir la première référence à « std::pair<int,std::vector<int,std::allocator<int>>>::pair » dans « regenerationPath »
-  
+C:\Users\ethan\Documents\Projet\En cours\C C++\Disney GPS\Disney_GPS\Main.cpp(741,15): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
   Génération de code en cours
-  15 of 2734 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  15 of 2691 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
