@@ -2,3 +2,5 @@
 /Release
 /Debug
 /x64
+DEBUG_OUTPUT_c_main.txt
+DEBUG_OUTPUT_generation.txt
