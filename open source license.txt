@@ -1,3 +1,0 @@
-For the render of the GUI I have used Qt in Open Source License
-
-- The dev
