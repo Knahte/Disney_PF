@@ -11,7 +11,6 @@ public:
 
 	wxListBox* list1 = nullptr;
 	wxButton* btn1 = nullptr;
-	wxGauge* progressBar = nullptr;
 
 
 

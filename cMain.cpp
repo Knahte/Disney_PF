@@ -24,15 +24,14 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 
 	redirectOutputToFile((std::string)"DEBUG_OUTPUT_c_main.txt");
 
-	setting tmp_setting;
+	btn1 = new wxButton(this, 10001, "Start Generation", wxPoint(10, 10), wxSize(320, 50));
+	list1 = new wxListBox(this, 20001, wxPoint(10, 70), wxSize(320, 500));
 
+	setting tmp_setting;
 	std::vector<int> path = generatePath(tmp_setting, 10, 1);
 
-	btn1 = new wxButton(this, 10001, "Start Generation", wxPoint(10, 10), wxSize(320, 50));
-	list1 = new wxListBox(this, 20001, wxPoint(10, 70), wxSize(320, 470));
 
-	progressBar = new wxGauge(this, wxID_ANY, 100, wxPoint(10, 550), wxSize(320, 20));  //WIP
-	progressBar->SetValue(0);
+
 
 	btn2 = new wxButton(this, 10002, "Save Selection", wxPoint(340, 520), wxSize(320, 50));
 
@@ -43,11 +42,11 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	// Création d'une grille pour contenir les cases à cocher
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
-
-
 	int numCheckboxes = current_setting.full_ID_list.size(); // Nombre de cases à cocher
 	int checkboxHeight = 30; // Hauteur de chaque case à cocher
 	int initialYPos = 20; // Position initiale en y
+
+
 
 
 	for (int i = 0; i < numCheckboxes; ++i)
@@ -66,7 +65,9 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	panel->SetScrollRate(5, 5);
 
 
-	wxPanel* rightPanel = new wxPanel(this, wxID_ANY, wxPoint(680, 10), wxSize(320, 560));
+
+
+	wxPanel* rightPanel = new wxPanel(this, wxID_ANY, wxPoint(670, 10), wxSize(320, 560));
 
 	wxArrayString hour_choices;
 	for (int hour = 0; hour < 24; ++hour) {
@@ -91,8 +92,9 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 
 	checkbox1 = new wxCheckBox(rightPanel, 40004, "Fastest Path mode", wxPoint(10, 70), wxSize(300, 30));
 	checkbox1->SetValue(false);
-	checkbox2 = new wxCheckBox(rightPanel, 40005, "Single Rider", wxPoint(10, 100), wxSize(300, 30));
+	checkbox2 = new wxCheckBox(rightPanel, 40005, "Single Rider (WIP)", wxPoint(10, 100), wxSize(300, 30));
 	checkbox2->SetValue(false);
+	checkbox2->Enable(false);
 
 	wxArrayString speed_choices;
 	for (double speed = 1.0; speed < 6.0; speed += 0.5) {
@@ -123,12 +125,11 @@ cMain::~cMain()
 void cMain::StartGeneration(wxCommandEvent& evt) {
 	redirectOutputToFile((std::string)"DEBUG_OUTPUT_generation.txt");
 	list1->Clear();
-	progressBar->SetValue(0);
 	btn1->Enable(false);
 
 
 
-	std::vector<int> path = generatePath(current_setting, 100, 1000);
+	std::vector<int> path = generatePath(current_setting, 200, 1000);//////////////
 	list1->Clear(); //in case something appears during calculation
 
 
@@ -155,7 +156,6 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 	pathToGPX(path, "path_generated" + std::to_string(time(nullptr)), current_setting);
 
 	btn1->Enable(true);
-	progressBar->SetValue(100);
 	restoreOutput();
 	evt.Skip();
 }
@@ -188,13 +188,6 @@ void cMain::SaveAttractionSelected(wxCommandEvent& evt) {
 
 void cMain::SaveSetting(wxCommandEvent& evt) {
 	redirectOutputToFile((std::string)"DEBUG_OUTPUT_SaveSetting.txt");
-	/*
-	std::cout << checkbox2->GetValue() << std::endl;
-	std::cout << hour_comboBox->GetStringSelection() << std::endl;
-	std::cout << minute_comboBox->GetStringSelection() << std::endl;
-	std::cout << hotel_comboBox->GetStringSelection() << std::endl;
-	std::cout << speed_comboBox->GetStringSelection() << std::endl;
-	*/
 
 	current_setting.consider_waiting_times = !(checkbox1->GetValue());
 

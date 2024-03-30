@@ -10,7 +10,6 @@
 #include <algorithm>
 
 using matrix_2d = std::map<int, std::map<int, double>>;
-using matrix_3d = std::map<int, matrix_2d>;
 
 
 
@@ -191,23 +190,6 @@ void Matrix2dDebug(const matrix_2d& matrix) {
     }
 }
 
-/**
- * Debug function to print a 3D matrix containing distance information.
- *
- * @param matrix The 3D matrix to be debugged.
- *
- */
-void Matrix3dDebug(const matrix_3d& matrix) {
-    for (const auto& layer : matrix) {
-        std::cout << std::endl << std::endl << "Layer ID: " << layer.first << std::endl;
-        for (const auto& row : layer.second) {
-            std::cout << "--- Attraction ID: " << row.first << std::endl;
-            for (const auto& col : row.second) {
-                std::cout << "------ Time : " << col.first << " - Distance: " << col.second;
-            }
-        }
-    }
-}
 
 void pathsDebug(const std::vector<std::pair<double, std::vector<int>>>& path_data) {
     // Copiez le vecteur path_data car nous voulons le trier sans modifier l'original
@@ -414,7 +396,7 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
  *
  * @return A 3D matrix containing distances between attractions at different times.
  */
-matrix_3d getMatrix(std::vector<int>& id_list, setting& current_setting) {
+matrix_2d getMatrix(std::vector<int>& id_list, setting& current_setting) {
     attraction attr_hotel;
     hotel source_hotel = hotel_data[current_setting.hotel_ID];
     attr_hotel.ID = 0;
@@ -433,22 +415,17 @@ matrix_3d getMatrix(std::vector<int>& id_list, setting& current_setting) {
 
     attraction_data[0] = attr_hotel;
 
-    matrix_3d distance_matrix;
     std::cout << "création de la matrice" << std::endl;
-    for (int current_time = 0; current_time < 24; ++current_time) {
-        matrix_2d distance_matrix_at_current_time = {};
+    matrix_2d distance_matrix = {};
         for (int attraction_id1 : id_list) {
             attraction& attraction1 = attraction_data[attraction_id1];
-            distance_matrix_at_current_time[attraction_id1] = std::map<int, double>();
+            distance_matrix[attraction_id1] = std::map<int, double>();
             for (int attraction_id2 : id_list) {
                 attraction& attraction2 = attraction_data[attraction_id2];
                 double distance = findShortestPath(intersection_data[attraction_id1 * 1000], intersection_data[attraction_id2 * 1000]);
-                double time_taken = getTimeTaken(distance, current_time, attraction_id2, current_setting);
-                distance_matrix_at_current_time[attraction_id1][attraction_id2] = distance;
+                distance_matrix[attraction_id1][attraction_id2] = distance;
             }
         }
-        distance_matrix[current_time] = distance_matrix_at_current_time;
-    }
     return distance_matrix;
 }
 
@@ -525,7 +502,7 @@ std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
  * @return -1 if the calculation of the path is interrupted.
  *
  */
-double simulation(std::vector<int>& path, matrix_3d& graph_matrix, setting& current_setting) {
+double simulation(std::vector<int>& path, matrix_2d& graph_matrix, setting& current_setting) {
     double current_time = current_setting.entry_time;
 
     //vectorDebug(path);
@@ -535,7 +512,7 @@ double simulation(std::vector<int>& path, matrix_3d& graph_matrix, setting& curr
         int next_intersection_ID = path[i + 1];
 
 
-        double distance = graph_matrix[(int)(current_time) % 24][current_intersection_ID][next_intersection_ID];
+        double distance = graph_matrix[current_intersection_ID][next_intersection_ID];
         double time_taken = getTimeTaken(distance, current_time, next_intersection_ID, current_setting);
         if (distance == -1) {
             std::cerr << "Calcule du chemin interompu de " << current_intersection_ID << " à " << next_intersection_ID << std::endl;
@@ -546,12 +523,12 @@ double simulation(std::vector<int>& path, matrix_3d& graph_matrix, setting& curr
         current_time += time_taken;
         //std::cout << "dist total = " << total_distance << std::endl;
     }
-    current_time += graph_matrix[(int)(current_time) % 24][path.front()][0] / current_setting.walking_speed / 1000 * 60;
-    current_time += graph_matrix[(int)(current_time) % 24][path.back()][0] / current_setting.walking_speed / 1000 * 60;
+    current_time += graph_matrix[path.front()][0] / current_setting.walking_speed / 1000 * 60;
+    current_time += graph_matrix[path.back()][0] / current_setting.walking_speed / 1000 * 60;
     return current_time;
 }
 
-std::vector<int> changeGene(std::vector<int> gene, matrix_3d& attraction_matrix, setting& current_setting) {
+std::vector<int> changeGene(std::vector<int> gene, matrix_2d& attraction_matrix, setting& current_setting) {
     int index1 = rand() % gene.size();
 
     int best_index = index1;
@@ -584,7 +561,7 @@ std::vector<int> changeGene(std::vector<int> gene, matrix_3d& attraction_matrix,
  * @return The regenerated set of paths with new scores.
  *
  */
-std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPath(std::vector<std::pair<double, std::vector<int>>> path_data, matrix_3d& graph_matrix, setting& current_setting) {
+std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPath(std::vector<std::pair<double, std::vector<int>>> path_data, matrix_2d& graph_matrix, setting& current_setting) {
 
     std::vector<std::pair<double, std::vector<int>>> childs_gene = {};
 
@@ -619,17 +596,17 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
     attraction_data = getAttractionData(DATA_LINK_JSON);
     hotel_data = getHotelData(DATA_LINK_JSON);
     intersection_data = getIntersectionData(DATA_LINK_JSON);
-    attractionsDebug(attraction_data);
+    //attractionsDebug(attraction_data);
     srand(time(NULL));
     std::vector<int> path = {};
     std::vector<int> id_list = current_setting.ID_list;
 
-    std::cout << "attraction used : " << std::endl;
-    vectorDebug(id_list);
+    //std::cout << "attraction used : " << std::endl;
+    //vectorDebug(id_list);
     std::cout << std::endl;
 
     std::vector<std::pair<double, std::vector<int>>> path_data = {};
-    matrix_3d graph_attraction_matrix = getMatrix(id_list, current_setting);
+    matrix_2d graph_attraction_matrix = getMatrix(id_list, current_setting);
 
     for (int i = 0; i < nb_gene; i++) {
         std::vector<int> randomised_path = generateRandomVectorWithList(id_list);
@@ -658,10 +635,10 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
 
     for (int i = 0; i < (nb_generation - 1); i++) {
         new_result = regenerationPath(new_path_data, graph_attraction_matrix, current_setting);
-        std::cout << i << " gen | ";
-        pathsDebug(new_path_data);
-        std::cout << std::endl << std::endl;
+
         new_path_data = new_result.first;
+
+
         if (new_result.second) {
             std::cout << "premature stop: all genes are unique" << std::endl;
             break;
