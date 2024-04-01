@@ -11,8 +11,6 @@ I've tried to make path generation as customizable as possible with :
 - choosing the time and starting point (hotels or car park / train station)
 - define your walking speed for groups that are a bit slow (in my personal experience, you need to multiply your usual walking speed by 75% (I went from 6 km/h in the city to 4 or 5 in the park)
 - Finally, for those who prefer to go it alone, there's the "Single-Rider" mode.
-So yes, it looks like an ordinary TSP with ordinary Lin-Kernighan heuristics.
-
 
 How to use it ?
 
