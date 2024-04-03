@@ -14,7 +14,7 @@ setting current_setting;
 
 
 
-cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30), wxSize(1100, 620), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30), wxSize(1020, 620), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
 	wxIcon appIcon;
 	appIcon.LoadFile("disney_logo_icon.ico", wxBITMAP_TYPE_ICO);
@@ -48,15 +48,15 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 
 
 
-
-	for (int i = 0; i < numCheckboxes; ++i)
-	{
-		wxString attractionName = wxString::FromUTF8(attraction_data[current_setting.full_ID_list[i]].name);
-		wxCheckBox* checkbox = new wxCheckBox(panel, 30000 + current_setting.full_ID_list[i], attractionName);
+	int i = 0;
+	for (int& id : current_setting.full_ID_list){
+		
+		wxString attractionName = wxString::FromUTF8(attraction_data[id].name);
+		wxCheckBox* checkbox = new wxCheckBox(panel, 30000 + id, attractionName);
 		checkbox->SetValue(true);
 		sizer->Add(checkbox, 0, wxALL, 2); // Ajouter la case à cocher à la grille avec une marge de 5 pixels
-
 		int yPos = initialYPos + i * checkboxHeight;
+		++i;
 		checkbox->SetPosition(wxPoint(10, yPos));
 	}
 
@@ -94,7 +94,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	checkbox1->SetValue(false);
 	checkbox2 = new wxCheckBox(rightPanel, 40005, "Single Rider (WIP)", wxPoint(10, 100), wxSize(300, 30));
 	checkbox2->SetValue(false);
-	checkbox2->Enable(false);
+	//checkbox2->Enable(false);
 
 	wxArrayString speed_choices;
 	for (double speed = 1.0; speed < 6.0; speed += 0.5) {
@@ -129,8 +129,7 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 
 
 
-	std::vector<int> path = generatePath(current_setting, 200, 1000);//////////////
-	list1->Clear(); //in case something appears during calculation
+	std::vector<int> path = generatePath(current_setting, 100, 200);// That is the setting : you can change it if you want
 
 
 	double current_time = current_setting.entry_time;
@@ -162,25 +161,20 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 
 void cMain::SaveAttractionSelected(wxCommandEvent& evt) {
 	btn2->Enable(false);
-	int numCheckboxes = current_setting.full_ID_list.size();
+	int numCheckboxes = attraction_data.size();
 
 	current_setting.ID_list = {};
 
 	// Parcourir toutes les cases à cocher
-	for (int i = 0; i < numCheckboxes; ++i) {
+	for (auto it = attraction_data.begin(); it != attraction_data.end(); ++it) {
+		int id = it->first;
 		// Récupérer l'ID de la case à cocher
-		int checkboxID = 30000 + current_setting.full_ID_list[i];
+		int checkboxID = 30000 + attraction_data[id].ID;
 
 		// Vérifier si la case à cocher est cochée
 		wxCheckBox* checkbox = wxDynamicCast(FindWindow(checkboxID), wxCheckBox);
 		if (checkbox && checkbox->IsChecked()) {
-			if (current_setting.single_rider) {
-				current_setting.ID_list.push_back(attraction_data[current_setting.full_ID_list[i]].single_rider);
-			}
-			else {
-				current_setting.ID_list.push_back(current_setting.full_ID_list[i]);
-			}
-
+			current_setting.ID_list.push_back(id);
 		}
 	}
 	btn2->Enable(true);
@@ -208,30 +202,6 @@ void cMain::SaveSetting(wxCommandEvent& evt) {
 
 	wxString selectedSpeed = speed_comboBox->GetStringSelection();
 	current_setting.walking_speed = std::stod(selectedSpeed.ToStdString());
-
-
-
-	int numCheckboxes = current_setting.full_ID_list.size();
-
-	current_setting.ID_list = {};
-
-	// Parcourir toutes les cases à cocher
-	for (int i = 0; i < numCheckboxes; ++i) {
-		// Récupérer l'ID de la case à cocher
-		int checkboxID = 30000 + current_setting.full_ID_list[i];
-
-		// Vérifier si la case à cocher est cochée
-		wxCheckBox* checkbox = wxDynamicCast(FindWindow(checkboxID), wxCheckBox);
-		if (checkbox && checkbox->IsChecked()) {
-			if (current_setting.single_rider) {
-				current_setting.ID_list.push_back(attraction_data[current_setting.full_ID_list[i]].single_rider);
-			}
-			else {
-				current_setting.ID_list.push_back(current_setting.full_ID_list[i]);
-			}
-
-
-		}
-	}
+		
 	restoreOutput();
 }

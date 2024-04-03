@@ -42,7 +42,7 @@ static std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
             new_attraction.location.lon = attraction_data["location"]["lon"];
             new_attraction.location.lat = attraction_data["location"]["lat"];
             new_attraction.visited = attraction_data["visited"];
-            if (attraction_data["single_rider"] == 0)
+            if (attraction_data["single_rider"] == 0) 
                 new_attraction.single_rider = attraction_data["id"];
             else
                 new_attraction.single_rider = attraction_data["single_rider"];
@@ -334,7 +334,7 @@ static std::map<int, std::map<int, int>> attractionsOpenCSV(std::string& data_UR
  * @param The wait time data map (from attractionsOpenCSV function)
  *
  */
-static void inputWaitTime(std::map<int, attraction>& attractions, std::map<int, std::map<int, int>>& wait_time_data) {
+static void addWaitTime(std::map<int, attraction>& attractions, std::map<int, std::map<int, int>>& wait_time_data) {
     for (auto& entry : wait_time_data) {
         int attraction_id = entry.first;
         //if (std::find(current_setting.full_ID_list.begin(), current_setting.full_ID_list.end(), attraction_id) != current_setting.full_ID_list.end()) {
@@ -348,6 +348,22 @@ static void inputWaitTime(std::map<int, attraction>& attractions, std::map<int, 
         //}
     }
 
+}
+
+static std::map<int, attraction> addSingleRiderData(std::map<int, attraction>& attraction_data) {
+    std::map<int, attraction> new_attraction_data;
+    
+    for (auto it = attraction_data.begin(); it != attraction_data.end(); ++it) {
+        int id = it->first;
+        auto single_rider_it = std::find(current_setting.single_rider_list.begin(), current_setting.single_rider_list.end(), id);
+        if (single_rider_it == current_setting.single_rider_list.end()) {
+            attraction& attr = it->second;
+            attr.wait_time_sinlge_rider = attraction_data[attr.single_rider].wait_time;
+            new_attraction_data[attr.ID] = attr;
+        }
+    }
+
+    return new_attraction_data;
 }
 
 ////////////////////////
@@ -374,7 +390,9 @@ std::map <int, attraction>getAttractionData(std::string& link_to_data) {
     addIntersectionDatatoAttraction(intersection_data, attraction_data);
 
     std::map<int, std::map<int, int>> wait_time_data = attractionsOpenCSV(DATA_LINK_CSV);
-    inputWaitTime(attraction_data, wait_time_data);
+    addWaitTime(attraction_data, wait_time_data);
+    
+    attraction_data = addSingleRiderData(attraction_data);
 
     return attraction_data;
 }

@@ -37,7 +37,7 @@ void redirectOutputToFile(const std::string& filename) {
         std::cout.rdbuf(outputFile.rdbuf());
     }
     else {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier de sortie." << std::endl;
+        std::cout << "Erreur : Impossible d'ouvrir le fichier de sortie." << std::endl;
     }
 }
 
@@ -52,7 +52,6 @@ void restoreOutput() {
 ////////////////////////
 
 /**
- * Debug function to print integer elements stored in a vector.
  * Debug function to print integer elements stored in a vector.
  *
  * @param vector_data The vector containing integer elements to debug.
@@ -97,6 +96,8 @@ void attractionDebug(attraction& attr) {
     std::cout << "Wait Time: ";
     timeDataDebug(attr.wait_time);
     std::cout << "Single Rider ID : " << attr.single_rider << std::endl;
+    std::cout << "Single Rider Wait Time: ";
+    timeDataDebug(attr.wait_time_sinlge_rider);
     std::cout << "Connected with : ";
     vectorDebug(attr.intersection_linked);
     std::cout << "Visited: " << std::boolalpha << attr.visited << std::endl << std::endl;
@@ -236,7 +237,7 @@ void pathToGPX(const std::vector<int>& path, const std::string& name, setting& c
 
     hotel current_hotel = hotel_data[current_setting.hotel_ID];
     if (!outputFile.is_open()) {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier GPX." << std::endl;
+        std::cout << "Erreur : Impossible d'ouvrir le fichier GPX." << std::endl;
         return;
     }
 
@@ -280,9 +281,14 @@ void pathToGPX(const std::vector<int>& path, const std::string& name, setting& c
 double getTimeTaken(double distance, double current_time, int attr_ID, setting& current_setting) {
     double travel_time = distance / current_setting.walking_speed / 1000;
     double waiting_time = 0;
-    if (current_setting.consider_waiting_times)
-        waiting_time = attraction_data[attr_ID].wait_time[(int)(current_time + travel_time) % 24] / 60.0;
-    //std::cout <<"it's : " << current_time << "h and we are going to : " << attraction_data[attr_ID].name << "the opperation is (travel time + waiting time)" << travel_time * 60 << "  +  " << waiting_time * 60 << std::endl;
+    if (current_setting.single_rider) {
+        if (current_setting.consider_waiting_times)
+            waiting_time = attraction_data[attr_ID].wait_time_sinlge_rider[(int)(current_time + travel_time) % 24] / 60.0;
+    }
+    else {
+        if (current_setting.consider_waiting_times)
+            waiting_time = attraction_data[attr_ID].wait_time[(int)(current_time + travel_time) % 24] / 60.0;
+    }
     double time_taken = travel_time + waiting_time;
     return time_taken; //time taken in h
 }
@@ -382,7 +388,7 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
         return distance[end_intersection.ID];
     }
     else {
-        std::cerr << "Erreur : Aucun chemin trouvé de " << start_intersection.ID << " à " << end_intersection.ID << std::endl;
+        std::cout << "Erreur : Aucun chemin trouvé de " << start_intersection.ID << " à " << end_intersection.ID << std::endl;
         intersectionDebug(start_intersection);
         intersectionDebug(end_intersection);
         return -1;
@@ -435,7 +441,6 @@ matrix_2d getMatrix(std::vector<int>& id_list, setting& current_setting) {
 //simulation-functions//
 ////////////////////////
 
-
 /**
  * Debug function to print attractions along a path.
  *
@@ -456,7 +461,7 @@ void pathInfoDisplay(std::vector<int>& path, setting& current_setting) {
         current_time += getTimeTaken(distance_to_next, current_time, next_id, current_setting);
 
         if (distance_to_next == -1) {
-            std::cerr << "Calculation interrupted between Attraction ID " << current_id << " and " << next_id << std::endl;
+            std::cout << "Calculation interrupted between Attraction ID " << current_id << " and " << next_id << std::endl;
             return;
         }
         total_distance += distance_to_next;
@@ -492,6 +497,22 @@ std::vector<int> generateRandomVectorWithList(std::vector<int> list) {
     return list;
 }
 
+template<typename T>
+void moveElement(std::vector<T>& vec, size_t fromIndex, size_t toIndex) {
+    if (fromIndex >= vec.size() || toIndex >= vec.size()) {
+        return;
+    }
+
+    if (fromIndex == toIndex) {
+        return;
+    }
+
+    auto it = vec.begin() + fromIndex;
+    auto element = std::move(*it);
+    vec.erase(it);
+    vec.insert(vec.begin() + toIndex, std::move(element));
+}
+
 /**
  * Simulates the traversal of a path and calculates the total time taken.
  *
@@ -515,13 +536,11 @@ double simulation(std::vector<int>& path, matrix_2d& graph_matrix, setting& curr
         double distance = graph_matrix[current_intersection_ID][next_intersection_ID];
         double time_taken = getTimeTaken(distance, current_time, next_intersection_ID, current_setting);
         if (distance == -1) {
-            std::cerr << "Calcule du chemin interompu de " << current_intersection_ID << " à " << next_intersection_ID << std::endl;
+            std::cout << "Calcule du chemin interompu de " << current_intersection_ID << " à " << next_intersection_ID << std::endl;
             current_time = -1;
             break;
         }
-        //std::cout << "dist = " << distance << std::endl;
         current_time += time_taken;
-        //std::cout << "dist total = " << total_distance << std::endl;
     }
     current_time += graph_matrix[path.front()][0] / current_setting.walking_speed / 1000 * 60;
     current_time += graph_matrix[path.back()][0] / current_setting.walking_speed / 1000 * 60;
@@ -529,25 +548,28 @@ double simulation(std::vector<int>& path, matrix_2d& graph_matrix, setting& curr
 }
 
 std::vector<int> changeGene(std::vector<int> gene, matrix_2d& attraction_matrix, setting& current_setting) {
-    int index1 = rand() % gene.size();
-
-    int best_index = index1;
-
+    
+    int best_index_1 = 0;
+    int best_index_2 = 0;
     double best_time = std::numeric_limits<double>::infinity();
     std::vector<int> best_gene = gene;
     int number_of_attraction = gene.size();
-    for (int index2 = 0; index2 <= number_of_attraction - 1; index2++) {
-        std::vector<int> gene_tmp = gene;
-        std::swap(gene_tmp[index1], gene_tmp[index2]);
-        double time_taken = simulation(gene_tmp, attraction_matrix, current_setting);
+    for (int i = 0; i <= 5 ; i++) {
+        int index1 = rand() % gene.size();
+        for (int index2 = 0; index2 <= number_of_attraction - 1; index2++) {
+            std::vector<int> gene_tmp = gene;
+            std::swap(gene_tmp[index1], gene_tmp[index2]);
+            double time_taken = simulation(gene_tmp, attraction_matrix, current_setting);
 
-        if (time_taken < best_time) {
-            best_time = time_taken;
-            best_index = index2;
+            if (time_taken < best_time) {
+                best_time = time_taken;
+                best_index_1 = index1;
+                best_index_2 = index2;
+            }
         }
     };
 
-    std::swap(best_gene[index1], best_gene[best_index]);
+    std::swap(best_gene[best_index_1], best_gene[best_index_2]);
 
     return best_gene;
 }
@@ -577,8 +599,6 @@ std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> regenerationPa
 
 
     if (unique_gene == 0) can_be_ended = true;
-
-    //pathsDebug(childs_gene);
     return { childs_gene, can_be_ended };
 }
 
@@ -596,7 +616,7 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
     attraction_data = getAttractionData(DATA_LINK_JSON);
     hotel_data = getHotelData(DATA_LINK_JSON);
     intersection_data = getIntersectionData(DATA_LINK_JSON);
-    //attractionsDebug(attraction_data);
+    attractionsDebug(attraction_data);
     srand(time(NULL));
     std::vector<int> path = {};
     std::vector<int> id_list = current_setting.ID_list;
@@ -608,12 +628,25 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
     std::vector<std::pair<double, std::vector<int>>> path_data = {};
     matrix_2d graph_attraction_matrix = getMatrix(id_list, current_setting);
 
+    std::vector<int> initial_path = current_setting.ID_list;
+    double initial_score = simulation(initial_path, graph_attraction_matrix, current_setting); // score_taken = time in h
     for (int i = 0; i < nb_gene; i++) {
-        std::vector<int> randomised_path = generateRandomVectorWithList(id_list);
-        double score = simulation(randomised_path, graph_attraction_matrix, current_setting); // score_taken = time in h
-        path_data.push_back({ score, randomised_path });
+        int nb_permutation = 40; // = setting, you can modify it as you wish
 
+        std::vector<int> initial_path_modified = initial_path;
+        for(int j = 0; j < nb_permutation; j++)  {
+
+            int index_1, index_2;
+            index_1 = rand() % initial_path_modified.size();
+            index_2 = rand() % initial_path_modified.size();
+
+            std::swap(initial_path_modified[index_1], initial_path_modified[index_2]);
+
+        }
+        double initial_score_modified = simulation(initial_path_modified, graph_attraction_matrix, current_setting); // score_taken = time in h
+        path_data.push_back({ initial_score_modified, initial_path_modified });
     }
+    pathsDebug(path_data);
 
 
     double min_score = std::numeric_limits<double>::infinity();
@@ -629,21 +662,24 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
         }
     }
 
+    
+
     std::vector<bool> completion_rate = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
     std::pair<std::vector<std::pair<double, std::vector<int>>>, bool> new_result = regenerationPath(path_data, graph_attraction_matrix, current_setting);
     std::vector<std::pair<double, std::vector<int>>> new_path_data = new_result.first;
 
-    for (int i = 0; i < (nb_generation - 1); i++) {
+    for (int i = 0; i < nb_generation; i++) {
         new_result = regenerationPath(new_path_data, graph_attraction_matrix, current_setting);
 
         new_path_data = new_result.first;
-
 
         if (new_result.second) {
             std::cout << "premature stop: all genes are unique" << std::endl;
             break;
         }
     }
+
+    pathsDebug(new_path_data);
 
 
     double new_min_score = std::numeric_limits<double>::infinity();
@@ -659,7 +695,6 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
         }
     }
 
-    //vectorDebug(new_shortest_path);
 
     pathInfoDisplay(new_shortest_path, current_setting);
 
