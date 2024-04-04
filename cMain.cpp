@@ -13,49 +13,71 @@ wxEND_EVENT_TABLE();
 setting current_setting;
 
 
-
+// Constructor implementation
 cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30), wxSize(1020, 620), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
+	// Load application icon
 	wxIcon appIcon;
 	appIcon.LoadFile("disney_logo_icon.ico", wxBITMAP_TYPE_ICO);
-
-	// Définir l'icône pour la fenêtre principale
+	// Set the icon for the main window
 	SetIcon(appIcon);
+	
+	// Redirect debug output to a file if debug mode is enabled
+	if (current_setting.debug_mode) redirectOutputToFile((std::string)"DEBUG_OUTPUT_c_main.txt");
 
-	redirectOutputToFile((std::string)"DEBUG_OUTPUT_c_main.txt");
-
-	btn1 = new wxButton(this, 10001, "Start Generation", wxPoint(10, 10), wxSize(320, 50));
-	list1 = new wxListBox(this, 20001, wxPoint(10, 70), wxSize(320, 500));
-
-	setting tmp_setting;
+	setting tmp_setting; // Temporary setting for path generation
+	// generate a path just to get the attraction data working
 	std::vector<int> path = generatePath(tmp_setting, 10, 1);
 
 
 
+	// Button to start generation
+	btn1 = new wxButton(this, 10001, "Start Generation", wxPoint(10, 10), wxSize(320, 50));
 
+	// List box to display attractions (on the path)
+	list1 = new wxListBox(this, 20001, wxPoint(10, 70), wxSize(320, 500));
+	
+
+
+
+
+
+
+
+
+
+	// Button to save selection
 	btn2 = new wxButton(this, 10002, "Save Selection", wxPoint(340, 520), wxSize(320, 50));
 
+	// Panel to contain checkboxes
 	wxScrolledWindow* panel = new wxScrolledWindow(this, wxID_ANY);
-	panel->SetScrollbars(1, 1, 0, 0); // Activer les barres de défilement
+	panel->SetScrollbars(1, 1, 0, 0); // Enable scroll bars
 	panel->SetSize(wxRect(340, 10, 320, 500));
 
-	// Création d'une grille pour contenir les cases à cocher
+	// Create a sizer to arrange checkboxes vertically
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
-	int numCheckboxes = current_setting.full_ID_list.size(); // Nombre de cases à cocher
-	int checkboxHeight = 30; // Hauteur de chaque case à cocher
-	int initialYPos = 20; // Position initiale en y
+	// Number of checkboxes
+	int numCheckboxes = current_setting.full_ID_list.size(); 
+
+	// Height of each checkbox
+	int checkboxHeight = 30;
+	
+	// Initial position in y-axis
+	int initialYPos = 20;
 
 
-
+	// Iterate through attraction IDs
 	int i = 0;
 	for (int& id : current_setting.full_ID_list){
-		
+		// Get attraction name
 		wxString attractionName = wxString::FromUTF8(attraction_data[id].name);
+
+		// Create and initialize checkbox
 		wxCheckBox* checkbox = new wxCheckBox(panel, 30000 + id, attractionName);
 		checkbox->SetValue(true);
-		sizer->Add(checkbox, 0, wxALL, 2); // Ajouter la case à cocher à la grille avec une marge de 5 pixels
-		int yPos = initialYPos + i * checkboxHeight;
+		sizer->Add(checkbox, 0, wxALL, 2); // Add checkbox to sizer with a margin of 2 pixels
+		int yPos = initialYPos + i * checkboxHeight;  
 		++i;
 		checkbox->SetPosition(wxPoint(10, yPos));
 	}
@@ -67,8 +89,13 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 
 
 
+
+
+
+	// Panel to contain settings on the right side
 	wxPanel* rightPanel = new wxPanel(this, wxID_ANY, wxPoint(670, 10), wxSize(320, 560));
 
+	// Combo box to select hour
 	wxArrayString hour_choices;
 	for (int hour = 0; hour < 24; ++hour) {
 		hour_choices.Add(wxString::Format("%02d", hour));
@@ -76,6 +103,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	hour_comboBox = new wxComboBox(rightPanel, 40001, "", wxPoint(10, 10), wxDefaultSize, hour_choices);
 	hour_comboBox->SetSelection(6);
 
+	// Combo box to select minute
 	wxArrayString minute_choices;
 	for (int minute = 0; minute < 60; minute += 5) {
 		minute_choices.Add(wxString::Format("%02d", minute));
@@ -83,6 +111,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	minute_comboBox = new wxComboBox(rightPanel, 40002, "", wxPoint(70, 10), wxDefaultSize, minute_choices);
 	minute_comboBox->SetSelection(0);
 
+	// Combo box to select hotel
 	wxArrayString hotel_choices;
 	for (auto& hotel_to_add : hotel_data) {
 		hotel_choices.Add(wxString(hotel_to_add.second.name));
@@ -90,31 +119,41 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	hotel_comboBox = new wxComboBox(rightPanel, 40003, "", wxPoint(10, 40), wxDefaultSize, hotel_choices);
 	hotel_comboBox->SetSelection(0);
 
+	// Checkbox for fastest path mode
 	checkbox1 = new wxCheckBox(rightPanel, 40004, "Fastest Path mode", wxPoint(10, 70), wxSize(300, 30));
 	checkbox1->SetValue(false);
-	checkbox2 = new wxCheckBox(rightPanel, 40005, "Single Rider (WIP)", wxPoint(10, 100), wxSize(300, 30));
-	checkbox2->SetValue(false);
-	//checkbox2->Enable(false);
 
+	// Checkbox for single rider mode
+	checkbox2 = new wxCheckBox(rightPanel, 40005, "Single Rider", wxPoint(10, 100), wxSize(300, 30));
+	checkbox2->SetValue(false);
+
+	// Combo box to select walking speed
 	wxArrayString speed_choices;
 	for (double speed = 1.0; speed < 6.0; speed += 0.5) {
 		speed_choices.Add(wxString::Format("%.1f", speed));
 	}
 	speed_comboBox = new wxComboBox(rightPanel, 40006, "", wxPoint(10, 140), wxDefaultSize, speed_choices);
 	speed_comboBox->SetSelection(3);
+	wxStaticText* messageTextSpeed = new wxStaticText(rightPanel, wxID_ANY, "Walking Speed (in km/h)", wxPoint(60, 143), wxSize(320-60, 30));
 
+	wxStaticText* messageTextSilder = new wxStaticText(rightPanel, wxID_ANY, "appoximative/fast generation       slow/precise generation", wxPoint(10, 170), wxSize(320, 30));
+	complexity_slider = new wxSlider(rightPanel, wxID_ANY, 0, 10, 400, wxPoint(10, 190), wxSize(300, -1)); // Les valeurs 0, 100 sont les valeurs min et max respectivement
+	complexity_slider->SetValue(current_setting.number_of_path);
 
-	btn3 = new wxButton(rightPanel, 10003, "Save Setting", wxPoint(10, 180), wxSize(300, 50));
+	// Button to save settings
+	btn3 = new wxButton(rightPanel, 10003, "Save Setting", wxPoint(10, 220), wxSize(300, 50));
 
+	//
+	wxStaticText* messageTextInfo = new wxStaticText(rightPanel, wxID_ANY,
+		"Hi, it's the dev! And this is my app!\nIt generates the optimal route for a typical day at DisneyLand Paris.\nTo run a path simulation, press 'Start Generation' and it'll work (probably)....\n\nYou can customize your simulation: \n- deselect a checkbox and the path won't go there anymore!\n- switch to Single Rider mode, change your starting point, or change the path type from fastest to shortest.\n\nNow you know everything! \nThe Dev."
+		, wxPoint(10, 300), wxSize(300, 320));
 
-	wxStaticText* messageText = new wxStaticText(rightPanel, wxID_ANY,
-		"Hi, it's the dev!\nThis is my application!\nIt generates the most optimal route for a typical day at DisneyLand Paris.\nTo run a path simulation, press the 'Start Generation' button and it'll work (probably)....\n\nYou can customize your simulation: \n- you can deselect a checkbox and *poof* the path won't go there anymore!\n- you can also switch to Single Rider mode, change your starting point (hotels/station) or, if you really want to walk as little as possible, you can change the type of path from fastest to shortest.\n\nNow you know everything! \nThe Dev.\n\nThe github is here: https://github.com/Knahte/Disney_PF"
-		, wxPoint(10, 250), wxSize(300, 320));
-
-
+	// Restore debug output if debug mode is enabled
+	if (current_setting.debug_mode)
 	restoreOutput();
 }
 
+// Destructor implementation
 cMain::~cMain()
 {
 
@@ -123,75 +162,99 @@ cMain::~cMain()
 
 
 void cMain::StartGeneration(wxCommandEvent& evt) {
+	// Redirect output to a file if debug mode is enabled
+	if (current_setting.debug_mode)
 	redirectOutputToFile((std::string)"DEBUG_OUTPUT_generation.txt");
+
+	// Clear the list box and disable the button temporarily
 	list1->Clear();
 	btn1->Enable(false);
 
-
-
-	std::vector<int> path = generatePath(current_setting, 100, 200);// That is the setting : you can change it if you want
-
+	// Generate the path using the current settings you are free too use what ever you want
+	std::vector<int> path = generatePath(current_setting, 150, current_setting.number_of_path);
 
 	double current_time = current_setting.entry_time;
 	int distance_to_next = 0;
 
+	// Display the starting location in the list box
 	list1->AppendString(std::to_string((int)current_time % 24) + "h" + std::to_string((int)((current_time - (int)current_time) * 60)) + " - " + std::to_string((int)distance_to_next) + "m - " + attraction_data[0].name);
 
+	// Calculate the distance to the next location
 	distance_to_next = findShortestPath(intersection_data[0], intersection_data[path[0] * 1000]);
 
+	// Iterate over the path and display each attraction in the list box
 	for (int i = 0; i < path.size() - 1; i++) {
 
-		if (i != 0) distance_to_next = findShortestPath(intersection_data[path[i - 1] * 1000], intersection_data[path[i] * 1000]);
+		// Calculate the distance to the next location if not the first attraction
+		if (i != 0) 
+		distance_to_next = findShortestPath(intersection_data[path[i - 1] * 1000], intersection_data[path[i] * 1000]);
+
+		// Update the current time based on walking time to the next location
 		current_time += distance_to_next / current_setting.walking_speed / 1000;
 		std::cout << "walking_time = " << distance_to_next / current_setting.walking_speed / 1000 << std::endl;
+
+		// Display the attraction in the list box
 		list1->AppendString(std::to_string((int)current_time % 24) + "h" + std::to_string((int)((current_time - (int)current_time) * 60)) + " - " + std::to_string((int)distance_to_next) + "m - " + attraction_data[path[i]].name);
 
-
+		// Update the current time based on the wait time at the attraction
 		current_time += attraction_data[path[i]].wait_time[(int)(current_time) % 24] / 60.0;
 
 	}
+
+	// Display the last attraction in the list box
 	list1->AppendString(std::to_string((int)current_time % 24) + "h" + std::to_string((int)((current_time - (int)current_time) * 60)) + " - " + std::to_string((int)distance_to_next) + "m - " + attraction_data[path.back()].name);
 
+	// Export the generated path to a GPX file
 	pathToGPX(path, "path_generated" + std::to_string(time(nullptr)), current_setting);
 
+	// Re-enable the button and 
 	btn1->Enable(true);
+
+	// Restore output if debug mode is enabled
+	if (current_setting.debug_mode)
 	restoreOutput();
-	evt.Skip();
 }
 
 void cMain::SaveAttractionSelected(wxCommandEvent& evt) {
+	// Disable the button temporarily to prevent multiple clicks
 	btn2->Enable(false);
-	int numCheckboxes = attraction_data.size();
 
+	// Iterate through all attractions
 	current_setting.ID_list = {};
 
-	// Parcourir toutes les cases à cocher
+	// Iterate through all attractions
 	for (auto it = attraction_data.begin(); it != attraction_data.end(); ++it) {
 		int id = it->first;
-		// Récupérer l'ID de la case à cocher
+		// Get the ID of the checkbox associated with this attraction
 		int checkboxID = 30000 + attraction_data[id].ID;
 
-		// Vérifier si la case à cocher est cochée
+		// Find the checkbox and check if it's checked
 		wxCheckBox* checkbox = wxDynamicCast(FindWindow(checkboxID), wxCheckBox);
 		if (checkbox && checkbox->IsChecked()) {
+			// If checked, add the attraction ID to the list of selected IDs
 			current_setting.ID_list.push_back(id);
 		}
 	}
+
+	// Re-enable the button after processing
 	btn2->Enable(true);
 }
 
 void cMain::SaveSetting(wxCommandEvent& evt) {
+	// Redirect output to a file if debug mode is enabled
+	if (current_setting.debug_mode)
 	redirectOutputToFile((std::string)"DEBUG_OUTPUT_SaveSetting.txt");
 
+	// Update the setting based on user input
 	current_setting.consider_waiting_times = !(checkbox1->GetValue());
-
 	current_setting.single_rider = checkbox2->GetValue();
 
+	// Extract selected hour and minute from combo boxes and update entry time
 	wxString selectedHour = hour_comboBox->GetStringSelection();
 	wxString selectedMinute = minute_comboBox->GetStringSelection();
-
 	current_setting.entry_time = std::stoi(selectedHour.ToStdString()) + std::stoi(selectedMinute.ToStdString()) / 60.0;
 
+	// Extract selected hotel from combo box and update hotel ID in setting
 	wxString selectedHotel = hotel_comboBox->GetStringSelection();
 	for (const auto& hotel : hotel_data) {
 		if (hotel.second.name == selectedHotel) {
@@ -200,8 +263,14 @@ void cMain::SaveSetting(wxCommandEvent& evt) {
 		}
 	}
 
+	// Extract selected walking speed from combo box and update in setting
 	wxString selectedSpeed = speed_comboBox->GetStringSelection();
 	current_setting.walking_speed = std::stod(selectedSpeed.ToStdString());
+
+	current_setting.number_of_path = complexity_slider->GetValue();
+
 		
+	// Restore output and skip event processing if debug mode is enabled
+	if (current_setting.debug_mode)
 	restoreOutput();
 }
