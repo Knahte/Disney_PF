@@ -5,7 +5,7 @@ The Disney Path Finder project aims to provide a tool for generating the most op
 This tool will help you plan your itinerary, prioritize attractions, and customize your experience based on your preferences. With features like customizable simulation settings, single rider mode, and the ability to select starting points such as hotels or stations, users have full control over their Disneyland adventure.
 
 
-## Licence
+## License
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 ## Compatibility
