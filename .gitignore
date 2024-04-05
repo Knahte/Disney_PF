@@ -6,3 +6,4 @@ DEBUG_OUTPUT_c_main.txt
 DEBUG_OUTPUT_generation.txt
 DEBUG_OUTPUT_SaveSetting.txt
 *.gpx
+*.zip
