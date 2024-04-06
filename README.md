@@ -11,7 +11,7 @@ This tool will help you plan your itinerary, prioritize attractions, and customi
 ## Compatibility
 
 ![Windows 10/11](https://img.shields.io/badge/Windows%2010%2F11-tested-brightgreen)
-![Linux](https://img.shields.io/badge/Linux-not%20tested-red)
+![Linux(Wine)](https://img.shields.io/badge/Linux(Wine)-tested-brightgreen)
 ![MacOS](https://img.shields.io/badge/MacOS-not%20tested-red)
 ## Screenshots
 
