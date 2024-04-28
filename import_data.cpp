@@ -420,7 +420,7 @@ static void addWaitTime(std::map<int, attraction>& attractions, std::map<int, st
         }
         else {
             // If not found, display an error message
-            std::cerr << "Erreur : Aucune attraction correspondante trouvée pour l'ID : " << attraction_id << std::endl;
+            std::cerr << "Erreur : Aucune attraction correspondante trouvÃ©e pour l'ID : " << attraction_id << std::endl;
         }
     }
 
