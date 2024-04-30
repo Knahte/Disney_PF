@@ -26,8 +26,8 @@
       "id":2,
       "name": "Puppet Boat Ride",
       "location": {
-        "lat": 48.267,
-        "lon": 7.72305
+        "lat": 7.72305,
+        "lon": 48.267
       },
       "visited": false,
       "single_rider":0,
@@ -67,7 +67,7 @@
       "direct_way_to_attractions": [6, 7]
     },
     {
-      "id": 5,
+      "id":5,
       "name": "The British Carousel",
       "location": {
         "lat": 48.26469,
