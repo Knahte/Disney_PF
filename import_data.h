@@ -44,13 +44,13 @@ struct setting {
     double entry_time = 6.0; // Entry time in hours ( 0 <= X < 24)
     int hotel_ID = 0; // Used hotel ID
     double walking_speed = 3; // Walking speed in km/h
-    std::vector<int> full_ID_list = { 1, 5630, 2, 5631, 3, 4, 5, 6, 7, 5621, 5604, 5619, 5737, 5608, 5611, 8, 9, 10, 11, 12, 27, 5617, 13, 14, 15, 16, 5626, 17, 5623, 5622, 5603,5614, 5620, 18, 19, 5618, 5627, 20, 13349, 12, 5629, 22, 5606, 5609, 5624, 5610, 23, 5605, 24, 25, 5613, 26, 7301, 5628, 5612, 5625, 28 }; // list of all attraction IDs
-    std::vector<int> ID_list = { 8, 9, 5, 4, 2707, 7, 6, 19, 22, 15, 20, 23, 14, 16, 18, 17, 21, 3, 2, 1, 25, 26, 28, 24, 13, 4573, 29, 37, 32, 35, 34, 36, 31, 10848, 10845, 33, 40 }; //  List of attraction IDs used for the simulation
-    std::vector<int> single_rider_list = {}; // List of attraction IDs for single riders
-    // DISNEY LAND { 8, 9, 5, 4, 2707, 7, 6, 19, 22, 15, 20, 23, 14, 16, 18, 17, 21, 3, 2, 1, 25, 26, 28, 24, 13, 4573, 29, 37, 32, 35, 34, 36, 31, 10848, 10845, 33, 40 }{ 7277,7278,7279,7280,7281,7306,10846,10849 };
+    std::vector<int> full_ID_list;// list of all attraction IDs
+    std::vector<int> ID_list;//List of attraction IDs used for the simulation
+    std::vector<int> single_rider_list;// List of attraction IDs for single riders
     bool consider_waiting_times = true; // Consider waiting times ?
     int number_of_path = 100; // The number of different paths created when executing a path search.
-    bool debug_mode = false; // Enable the Debug output
+    std::string path_to_data = "data"; // The path to the data directory
+    bool debug_mode = true; // Enable the Debug output
 
 };
 
@@ -63,32 +63,32 @@ struct setting {
 /**
  * The grouping of all the functions used to obtain the attractions map.
  *
- * @param link_to_data The link to the data file in JSON format.
+ * @param data_folder The link to the data folder.
+ * @param current_setting current setting
  *
  * @return The attractions map.
  *
  */
-std::map<int, attraction> getAttractionData(std::string& link_to_data);
+std::map<int, attraction> getAttractionData(std::string data_folder, setting& current_setting);
 
 /**
  * The grouping of all the functions used to obtain the hotels map.
  *
- * @param link_to_data The link to the data file in JSON format.
- *
+ * @param data_folder The link to the data folder.
+ * @param current_setting current setting
+ * 
  * @return The hotels map.
  *
  */
-std::map<int, hotel> getHotelData(std::string& link_to_data);
+std::map<int, hotel> getHotelData(std::string data_folder, setting& current_setting);
 
 /**
  * The grouping of all the functions used to obtain the intersections map.
  *
- * @param link_to_data The link to the data file in JSON format.
+ * @param data_folder The link to the data folder.
  * @param current_setting_too_use The current settings to use.
  *
  * @return The intersections map.
  *
  */
-std::map<int, intersection> getIntersectionData(std::string& link_to_data, setting& current_setting);
-
-extern std::string  DATA_LINK_JSON;
+std::map<int, intersection> getIntersectionData(std::string data_folder, setting& current_setting);

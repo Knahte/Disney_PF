@@ -695,10 +695,11 @@ std::vector<std::pair<double, std::vector<int>>> regenerationPath(std::vector<st
  * @param current_setting The current settings.
  * @param number_of_generation The number of generations to run the genetic algorithm.
  * @param number_path The number of paths to generate initially.
+ * @param the path to the data folder used
  *
  * @return The shortest path found by the genetic algorithm.
  */
-std::vector<int> generatePath(setting& current_setting, int number_of_generation, int number_path) {
+std::vector<int> generatePath(setting& current_setting, int number_of_generation, int number_path, std::string path_to_data) {
     // Seed the random number generator
     srand(time(NULL));
     
@@ -706,10 +707,14 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
     int nb_generation = number_of_generation;
     int nb_gene = number_path;
 
+    std::string data_link = current_setting.path_to_data;
+
     // Load attraction, hotel, and intersection data
-    attraction_data = getAttractionData(DATA_LINK_JSON);
-    hotel_data = getHotelData(DATA_LINK_JSON);
-    intersection_data = getIntersectionData(DATA_LINK_JSON, current_setting);
+    attraction_data = getAttractionData(data_link, current_setting);
+    hotel_data = getHotelData(data_link, current_setting);
+    intersection_data = getIntersectionData(data_link, current_setting);
+
+    attractionsDebug(attraction_data);
 
     // Generate matrix containing distances between attractions
     std::vector<int> id_list = current_setting.ID_list;

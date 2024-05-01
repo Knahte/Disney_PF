@@ -16,11 +16,12 @@ static setting current_setting; // the used setting (not important) just to used
  * Opens the JSON file and extracts the attractions to store them in a vector of attractions.
  *
  * @param data_URL The file path to the JSON database.
+ * @param current_setting The current setting
  *
  * @return A vector containing attractions extracted from the JSON file.
  * 
  */
-static std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
+static std::vector<attraction> attractionsOpenJson(std::string& data_URL, setting& used_setting) {
     std::vector<attraction> attractions; // Vector to store attractions
 
     std::ifstream file(data_URL); // Open the JSON file
@@ -31,7 +32,9 @@ static std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
 
     json data; // JSON object to store data read from the file
 
-
+    used_setting.ID_list = {};
+    used_setting.full_ID_list = {};
+    used_setting.single_rider_list = {};
     try {
         file >> data; // Read JSON data from the file
 
@@ -44,14 +47,18 @@ static std::vector<attraction> attractionsOpenJson(std::string& data_URL) {
 
             // Extract attraction data
             new_attraction.ID = attraction_data["id"]; 
+            used_setting.ID_list.push_back(new_attraction.ID);
+            used_setting.full_ID_list.push_back(new_attraction.ID);
             new_attraction.name = attraction_data["name"];
             new_attraction.location.lon = attraction_data["location"]["lon"]; 
             new_attraction.location.lat = attraction_data["location"]["lat"];
 
             if (attraction_data["single_rider"] == 0)  // Check if the attraction has a single_rider variant
                 new_attraction.single_rider = attraction_data["id"]; // If it doesn't exist, use the attraction ID for its own single rider ID
-            else
+            else {
                 new_attraction.single_rider = attraction_data["single_rider"]; // Otherwise, extract single rider information
+                used_setting.single_rider_list.push_back(new_attraction.single_rider);
+            }
             
 
             // Add the new attraction to the vector
@@ -461,32 +468,34 @@ static std::map<int, attraction> addSingleRiderData(std::map<int, attraction>& a
 //-returned-functions-//
 ////////////////////////
 
-std::string DATA_LINK_JSON = "data/data.json";
-std::string DATA_LINK_CSV = "data/waiting_time.csv";
 
 /**
  * The grouping of all the functions used to obtain the attractions map.
  *
- * @param link_to_data The link to the data file in JSON format.
+ * @param data_folder The link to the data folder.
  * 
  * @return The attractions map.
  * 
  */
-std::map <int, attraction>getAttractionData(std::string& link_to_data) {
+std::map <int, attraction>getAttractionData(std::string data_folder, setting& used_setting) {
     
+
+    std::string data_link_json = data_folder + "/data.json";
     // Open JSON file and extract attractions
-    std::vector<attraction> attractions_vector = attractionsOpenJson(link_to_data);
+
+    std::vector<attraction> attractions_vector = attractionsOpenJson(data_link_json, used_setting);
 
     // Convert attractions vector to map indexed by ID
     std::map <int, attraction> attraction_data = attractionVectorToMapById(attractions_vector);
 
     // Open JSON file, extract intersections, and associate them with attractions
-    std::vector<intersection> intersections_vector = intersectionOpenJson(link_to_data, attraction_data);
+    std::vector<intersection> intersections_vector = intersectionOpenJson(data_link_json, attraction_data);
     std::map <int, intersection> intersection_data = intersectionVectorToMapById(intersections_vector);
     addIntersectionDatatoAttraction(intersection_data, attraction_data);
 
     // Open CSV file and extract waiting times for attractions
-    std::map<int, std::map<int, int>> wait_time_data = attractionsOpenCSV(DATA_LINK_CSV);
+    std::string data_link_csv = data_folder + "/waiting_time.csv";
+    std::map<int, std::map<int, int>> wait_time_data = attractionsOpenCSV(data_link_csv);
     addWaitTime(attraction_data, wait_time_data);
     
     // Add single rider data to the attraction data
@@ -498,24 +507,25 @@ std::map <int, attraction>getAttractionData(std::string& link_to_data) {
 /**
  * The grouping of all the functions used to obtain the hotels map.
  *
- * @param link_to_data The link to the data file in JSON format.
+ * @param link_to_data The link to the data folder.
  * 
  * @return The hotels map.
  * 
  */
-std::map <int, hotel> getHotelData(std::string& link_to_data) {
+std::map <int, hotel> getHotelData(std::string data_folder, setting& used_setting) {
 
+    std::string data_link_json = data_folder + "/data.json";
     // Open JSON file and extract hotels
-    std::vector<hotel> hotels_vector = hotelOpenJson(link_to_data);
+    std::vector<hotel> hotels_vector = hotelOpenJson(data_link_json);
 
     // Convert hotels vector to map indexed by ID
     std::map <int, hotel> hotel_data = hotelVectorToMapById(hotels_vector);
 
     // Obtain attraction data to associate with hotels
-    std::map <int, attraction> attraction_data = getAttractionData(link_to_data);
+    std::map <int, attraction> attraction_data = getAttractionData(data_folder, used_setting);
 
     // Extract intersection data and associate with hotels
-    std::vector<intersection> intersections_vector = intersectionOpenJson(link_to_data, attraction_data);
+    std::vector<intersection> intersections_vector = intersectionOpenJson(data_link_json, attraction_data);
     std::map <int, intersection> intersection_data = intersectionVectorToMapById(intersections_vector);
     addIntersectionDatatoHotel(intersection_data, hotel_data);
 
@@ -525,26 +535,28 @@ std::map <int, hotel> getHotelData(std::string& link_to_data) {
 /**
  * The grouping of all the functions used to obtain the intersections map.
  *
- * @param link_to_data The link to the data file in JSON format.
+ * @param link_to_data The link to the data folder.
  * @param current_setting_too_use The current settings to use.
  * 
  * @return The intersections map.
  * 
  */
-std::map <int, intersection> getIntersectionData(std::string& link_to_data, setting& current_setting_too_use) {
+std::map <int, intersection> getIntersectionData(std::string data_folder, setting& used_setting) {
+
+    std::string data_link_json = data_folder + "/data.json";
     // Obtain attraction data to associate with intersections
-    std::map <int, attraction> attraction_data = getAttractionData(link_to_data);
+    std::map<int, attraction> attraction_data = getAttractionData(data_folder, used_setting);
 
     // Extract intersection data and associate with attractions
-    std::vector<intersection> intersections_vector = intersectionOpenJson(link_to_data, attraction_data);
-    std::map <int, intersection> intersection_data = intersectionVectorToMapById(intersections_vector);
+    std::vector<intersection> intersections_vector = intersectionOpenJson(data_link_json, attraction_data);
+    std::map<int, intersection> intersection_data = intersectionVectorToMapById(intersections_vector);
 
     // Obtain hotel data to add a special hotel intersection
-    std::map  <int, hotel> hotel_data = getHotelData(link_to_data);
+    std::map<int, hotel> hotel_data = getHotelData(data_folder, used_setting);
 
     // Create a special intersection representing the hotel
     intersection hotel_intersection;
-    hotel hotel_to_add = hotel_data[current_setting_too_use.hotel_ID];
+    hotel hotel_to_add = hotel_data[used_setting.hotel_ID];
     hotel_intersection.ID = 0;
     hotel_intersection.name = hotel_to_add.name;
     hotel_intersection.intersection_linked = hotel_to_add.intersection_linked;

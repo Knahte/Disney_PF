@@ -13,7 +13,7 @@
  *
  * @return The shortest path found by the genetic algorithm.
  */
-std::vector<int> generatePath(setting& current_setting, int number_of_generation, int number_path);
+std::vector<int> generatePath(setting& current_setting, int number_of_generation, int number_path, std::string path_to_data);
 
 /**
  * Redirects the standard output to a file.
