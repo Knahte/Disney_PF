@@ -1,9 +1,11 @@
 ﻿#include "cMain.h"
 #include "Generating_path.h"
+#include <iostream>
 #include <streambuf>
 
 wxBEGIN_EVENT_TABLE(cMain, wxFrame)
 EVT_BUTTON(10001, StartGeneration)
+EVT_BUTTON(10002, ResetApplication)
 wxEND_EVENT_TABLE();
 
 
@@ -19,13 +21,12 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	appIcon.LoadFile("disney_logo_icon.ico", wxBITMAP_TYPE_ICO);
 	// Set the icon for the main window
 	SetIcon(appIcon);
-	
+
 	// Redirect debug output to a file if debug mode is enabled
 	if (current_setting.debug_mode) redirectOutputToFile((std::string)"DEBUG_OUTPUT_c_main.txt");
 
-	setting tmp_setting; // Temporary setting for path generation
 	// generate a path just to get the attraction data working
-	std::vector<int> path = generatePath(tmp_setting, 10, 1);
+	std::vector<int> path = generatePath(current_setting, 10, 1, current_setting.path_to_data);
 
 
 
@@ -34,7 +35,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 
 	// List box to display attractions (on the path)
 	list1 = new wxListBox(this, 20001, wxPoint(10, 70), wxSize(320, 500));
-	
+
 
 
 
@@ -44,21 +45,21 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	panel->SetSize(wxRect(340, 10, 320, 560));
 
 	// Create a sizer to arrange checkboxes vertically
-	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+	sizer = new wxBoxSizer(wxVERTICAL);
 
 	// Number of checkboxes
-	int numCheckboxes = current_setting.full_ID_list.size(); 
+	int numCheckboxes = current_setting.full_ID_list.size();
 
 	// Height of each checkbox
 	int checkboxHeight = 30;
-	
+
 	// Initial position in y-axis
 	int initialYPos = 20;
 
 
 	// Iterate through attraction IDs
 	int i = 0;
-	for (int& id : current_setting.full_ID_list){
+	for (int& id : current_setting.full_ID_list) {
 		// Get attraction name
 		wxString attractionName = wxString::FromUTF8(attraction_data[id].name);
 
@@ -66,7 +67,7 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 		wxCheckBox* checkbox = new wxCheckBox(panel, 30000 + id, attractionName);
 		checkbox->SetValue(true);
 		sizer->Add(checkbox, 0, wxALL, 2); // Add checkbox to sizer with a margin of 2 pixels
-		int yPos = initialYPos + i * checkboxHeight;  
+		int yPos = initialYPos + i * checkboxHeight;
 		++i;
 		checkbox->SetPosition(wxPoint(10, yPos));
 	}
@@ -123,16 +124,43 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	}
 	speed_comboBox = new wxComboBox(rightPanel, 40006, "", wxPoint(10, 140), wxDefaultSize, speed_choices);
 	speed_comboBox->SetSelection(3);
-	wxStaticText* messageTextSpeed = new wxStaticText(rightPanel, wxID_ANY, "Walking Speed (in km/h)", wxPoint(60, 143), wxSize(320-60, 30));
+	wxStaticText* messageTextSpeed = new wxStaticText(rightPanel, wxID_ANY, "Walking Speed (in km/h)", wxPoint(60, 143), wxSize(320 - 60, 30));
 
 	wxStaticText* messageTextSilder = new wxStaticText(rightPanel, wxID_ANY, "appoximative/fast generation       slow/precise generation", wxPoint(10, 170), wxSize(320, 30));
 	complexity_slider = new wxSlider(rightPanel, wxID_ANY, 0, 10, 400, wxPoint(10, 190), wxSize(300, -1)); // Les valeurs 0, 100 sont les valeurs min et max respectivement
 	complexity_slider->SetValue(current_setting.number_of_path);
 
+
+
+
+
+
+
+
+	std::vector<wxString> park_list = { wxString("Disney Land Paris"), wxString("Europapark")};
+
+	wxArrayString park_choices;
+	for (auto& park : park_list) {
+		park_choices.Add(park);
+	}
+
+	folderComboBox = new wxComboBox(rightPanel, 40007, "", wxPoint(10, 230), wxDefaultSize, park_choices);
+	folderComboBox->SetSelection(0);
+
+	// Créer un bouton pour réinitialiser l'application
+	resetButton = new wxButton(rightPanel, 10002, "Reset Application", wxPoint(10, 260), wxSize(300, -1));
+
+
+
+
+
+
+
+
+
+
 	//message by me (ﾟvﾟ)ノ
-	wxStaticText* messageTextInfo = new wxStaticText(rightPanel, wxID_ANY,
-		"Hi, it's the dev! And this is my app!\nIt generates the optimal route for a typical day at DisneyLand Paris.\nTo run a path simulation, press 'Start Generation' and it'll work (probably)....\n\nYou can customize your simulation: \n- deselect a checkbox and the path won't go there anymore!\n- switch to Single Rider mode, change your starting point, or change the path type from fastest to shortest.\n\nNow you know everything! \nThe Dev.\n\n\nDisclaimer: This project is not endorsed or supported by any other companies or entities, including Disney. It is solely developed and maintained by an independent developer (me :D)."
-		, wxPoint(10, 250), wxSize(300, 320));
+	wxStaticText* messageTextInfo = new wxStaticText(rightPanel, wxID_ANY,"Hi, it's the dev! And this is my app!\nIt generates the optimal route for a typical day at DisneyLand Paris.\nTo run a path simulation, press 'Start Generation' and it'll work (probably)....\n\nYou can customize your simulation: \n- deselect a checkbox and the path won't go there anymore!\n- switch to Single Rider mode, change your starting point, or change the path type from fastest to shortest.\n\nNow you know everything! \nThe Dev.\n\n\nDisclaimer: This project is not endorsed or supported by any other companies or entities, including Disney. It is solely developed and maintained by an independent developer (me :D).", wxPoint(10, 250), wxSize(300, 320));
 
 	// Restore debug output if debug mode is enabled
 	if (current_setting.debug_mode)
@@ -208,14 +236,14 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 
 	// Redirect output to a file if debug mode is enabled
 	if (current_setting.debug_mode)
-	redirectOutputToFile((std::string)"DEBUG_OUTPUT_generation.txt");
+		redirectOutputToFile((std::string)"DEBUG_OUTPUT_generation.txt");
 
 	// Clear the list box and disable the button temporarily
 	list1->Clear();
 	btn1->Enable(false);
 
 	// Generate the path using the current settings you are free too use what ever you want
-	std::vector<int> path = generatePath(current_setting, 150, current_setting.number_of_path);
+	std::vector<int> path = generatePath(current_setting, current_setting.ID_list.size() * 3, current_setting.number_of_path, current_setting.path_to_data);
 
 	double current_time = current_setting.entry_time;
 	int distance_to_next = 0;
@@ -230,18 +258,17 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 	for (int i = 0; i < path.size() - 1; i++) {
 
 		// Calculate the distance to the next location if not the first attraction
-		if (i != 0) 
-		distance_to_next = findShortestPath(intersection_data[path[i - 1] * 1000], intersection_data[path[i] * 1000]);
+		if (i != 0)
+			distance_to_next = findShortestPath(intersection_data[path[i - 1] * 1000], intersection_data[path[i] * 1000]);
 
 		// Update the current time based on walking time to the next location
 		current_time += distance_to_next / current_setting.walking_speed / 1000;
-		std::cout << "walking_time = " << distance_to_next / current_setting.walking_speed / 1000 << std::endl;
 
 		// Display the attraction in the list box
 		list1->AppendString(std::to_string((int)current_time % 24) + "h" + std::to_string((int)((current_time - (int)current_time) * 60)) + " - " + std::to_string((int)distance_to_next) + "m - " + attraction_data[path[i]].name);
 
 		// Update the current time based on the wait time at the attraction
-		current_time += attraction_data[path[i]].wait_time[(int)(current_time) % 24] / 60.0;
+		//current_time += attraction_data[path[i]].wait_time[(int)(current_time) % 24] / 60.0;
 
 	}
 
@@ -256,5 +283,31 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 
 	// Restore output if debug mode is enabled
 	if (current_setting.debug_mode)
+		restoreOutput();
+}
+
+void cMain::ResetApplication(wxCommandEvent& evt) {
+
+	redirectOutputToFile((std::string)"DEBUG_OUTPUT_closing.txt");
+	wxString folder_name = folderComboBox->GetStringSelection();
+	wxMessageBox(wxT("You'll need to restart the app (I'm working on that)"), wxT("Erreur"), wxICON_ERROR | wxOK);
+	if (!folder_name.IsEmpty()) {
+		wxString json_file_path = wxT("data/data.json");
+
+		wxString csv_file_path = wxT("data/waiting_time.csv");
+
+		wxString origin_folder = wxT("data/") + folder_name;
+		std::cout << origin_folder + wxT("/data.json") << std::endl;
+		if (!wxCopyFile(origin_folder + wxT("/data.json"), json_file_path, true)) {
+			wxMessageBox(wxT("Erreur lors de la copie du fichier data.json"), wxT("Erreur"), wxICON_ERROR | wxOK);
+		}
+
+		if (!wxCopyFile(origin_folder + wxT("/waiting_time.csv"), csv_file_path, true)){
+			wxMessageBox(wxT("Erreur lors de la copie du fichier waiting_time.csv"), wxT("Erreur"), wxICON_ERROR | wxOK);
+		}
+	}
+
+	exit(0);
+
 	restoreOutput();
 }
