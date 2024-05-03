@@ -450,8 +450,8 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
         // Print an detailed error message if no path is found
         std::cout << "Erreur : Aucun chemin trouvé de " << start_intersection.ID << " à " << end_intersection.ID << std::endl;
         // Debugging information for the intersection causing problems
-        intersectionDebug(start_intersection); 
-        intersectionDebug(end_intersection);
+        //intersectionDebug(start_intersection); 
+        //intersectionDebug(end_intersection);
         return -1; // Return -1 indicating no path found
     }
 }
@@ -594,7 +594,7 @@ double simulation(std::vector<int>& path, matrix_2d& graph_matrix, setting& curr
 
         // Check if the distance calculation was interrupted
         if (distance == -1) {
-            std::cout << "Calcule du chemin interompu de " << current_attraction_ID << " à " << next_attraction_ID << std::endl;
+            std::cout << "Calcule du chemin interrompu de " << current_attraction_ID << " ( " << attraction_data[current_attraction_ID].name << " ) a " << next_attraction_ID << " ( " << attraction_data[next_attraction_ID].name << " )" << std::endl;
             current_time = -1;
             break;
         }
@@ -713,12 +713,17 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
     attraction_data = getAttractionData(data_link, current_setting);
     hotel_data = getHotelData(data_link, current_setting);
     intersection_data = getIntersectionData(data_link, current_setting);
-
-    attractionsDebug(attraction_data);
+       
+    //attractionsDebug(attraction_data);
+    //std::cout << std::endl;
+    intersectionsDebug(intersection_data);
+    //std::cout << std::endl;
 
     // Generate matrix containing distances between attractions
     std::vector<int> id_list = current_setting.ID_list;
     matrix_2d graph_attraction_matrix = getMatrix(id_list, current_setting);
+
+    Matrix2dDebug(graph_attraction_matrix);
 
 
     std::vector<int> path = {};

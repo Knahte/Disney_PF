@@ -144,23 +144,19 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 		park_choices.Add(park);
 	}
 
-	folderComboBox = new wxComboBox(rightPanel, 40007, "", wxPoint(10, 230), wxDefaultSize, park_choices);
+	folderComboBox = new wxComboBox(rightPanel, 40007, "", wxPoint(10, 240), wxDefaultSize, park_choices);
 	folderComboBox->SetSelection(0);
 
 	// Créer un bouton pour réinitialiser l'application
-	resetButton = new wxButton(rightPanel, 10002, "Reset Application", wxPoint(10, 260), wxSize(300, -1));
-
-
-
-
-
-
+	resetButton = new wxButton(rightPanel, 10002, "Reset Application", wxPoint(10, 270), wxSize(300, -1));
 
 
 
 
 	//message by me (ﾟvﾟ)ノ
-	wxStaticText* messageTextInfo = new wxStaticText(rightPanel, wxID_ANY,"Hi, it's the dev! And this is my app!\nIt generates the optimal route for a typical day at DisneyLand Paris.\nTo run a path simulation, press 'Start Generation' and it'll work (probably)....\n\nYou can customize your simulation: \n- deselect a checkbox and the path won't go there anymore!\n- switch to Single Rider mode, change your starting point, or change the path type from fastest to shortest.\n\nNow you know everything! \nThe Dev.\n\n\nDisclaimer: This project is not endorsed or supported by any other companies or entities, including Disney. It is solely developed and maintained by an independent developer (me :D).", wxPoint(10, 250), wxSize(300, 320));
+	wxStaticText* messageTextInfo = new wxStaticText(rightPanel, wxID_ANY,
+		"Hi, it's the dev! And this is my app!\nIt generates the optimal route for a typical day at DisneyLand Paris.\nTo run a path simulation, press 'Start Generation' and it'll work (probably)....\n\nThe Dev.\n\n\nDisclaimer: This project is not endorsed or supported by any other companies or entities, including Disney. It is solely developed and maintained by an independent developer (me :D).",
+		wxPoint(10, 330), wxSize(300, 320));
 
 	// Restore debug output if debug mode is enabled
 	if (current_setting.debug_mode)
@@ -268,7 +264,7 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 		list1->AppendString(std::to_string((int)current_time % 24) + "h" + std::to_string((int)((current_time - (int)current_time) * 60)) + " - " + std::to_string((int)distance_to_next) + "m - " + attraction_data[path[i]].name);
 
 		// Update the current time based on the wait time at the attraction
-		//current_time += attraction_data[path[i]].wait_time[(int)(current_time) % 24] / 60.0;
+		current_time += attraction_data[path[i]].wait_time[(int)(current_time) % 24] / 60.0;
 
 	}
 
