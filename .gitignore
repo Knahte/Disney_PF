@@ -8,3 +8,5 @@ DEBUG_OUTPUT_SaveSetting.txt
 *.gpx
 *.zip
 DEBUG_OUTPUT_closing.txt
+data/data.json
+data/waiting_time.csv
