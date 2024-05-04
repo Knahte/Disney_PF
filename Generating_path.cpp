@@ -66,7 +66,8 @@ void restoreOutput() {
  * @param vector_data The vector containing integer elements to debug.
  *
  */
-void vectorDebug(std::vector<int>& vector_data) {
+template<typename T1>
+void vectorDebug(std::vector<T1>& vector_data) {
     std::cout << '{';
     if (not vector_data.empty()) { // Check if the vector is not empty
         for (size_t i = 0; i < vector_data.size() - 1; ++i) { // Loop through vector elements except the last one
@@ -441,6 +442,10 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
             }
         }
     }
+    /*std::cout << std::endl << start_intersection.name << " to " << end_intersection.name << std::endl;
+    for (auto& item_distance : distance) {
+        std::cout << intersection_data[item_distance.first].name << " : " << item_distance.second << std::endl;
+    }*/
 
     // Check if the destination intersection is reachable
     if (visited[end_intersection.ID]) {
@@ -467,6 +472,7 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
  */
 matrix_2d getMatrix(std::vector<int>& id_list, setting& current_setting) {
    
+    vectorDebug(id_list);
     // Create a fake attraction for the hotel to include in the distance calculation
     attraction attr_hotel;
     hotel source_hotel = hotel_data[current_setting.hotel_ID];
@@ -488,15 +494,16 @@ matrix_2d getMatrix(std::vector<int>& id_list, setting& current_setting) {
 
     // Initialize the distance matrix
     matrix_2d distance_matrix = {};
-
+    intersectionsDebug(intersection_data);
     // Iterate over each attraction ID in the list
     for (int attraction_id1 : id_list) {
-        attraction& attraction1 = attraction_data[attraction_id1];
         distance_matrix[attraction_id1] = std::map<int, double>();
 
         // Calculate distances from attraction1 to all other attractions in the list
-        for (int attraction_id2 : id_list) {
-            attraction& attraction2 = attraction_data[attraction_id2];
+        for (int attraction_id2 : id_list) {            
+            std::cout << attraction_id1 * 1000 << " -> " << attraction_id2 * 1000 << std::endl;
+            intersectionDebug(intersection_data[attraction_id1 * 1000]);
+            intersectionDebug(intersection_data[attraction_id2 * 1000]);
 
             double distance = findShortestPath(intersection_data[attraction_id1 * 1000], intersection_data[attraction_id2 * 1000]);
 
@@ -716,7 +723,7 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
        
     //attractionsDebug(attraction_data);
     //std::cout << std::endl;
-    intersectionsDebug(intersection_data);
+    //intersectionsDebug(intersection_data);
     //std::cout << std::endl;
 
     // Generate matrix containing distances between attractions

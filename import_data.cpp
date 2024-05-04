@@ -219,45 +219,41 @@ static std::vector<intersection> intersectionOpenJson(std::string& data_URL, std
 
         // Iterate over each attraction data in the JSON
         for (json& attr_data : data["Attractions"]) {
-
-            // Check if the attraction ID is in the list of full IDs
-            if (std::find(current_setting.full_ID_list.begin(), current_setting.full_ID_list.end(), attr_data["id"]) != current_setting.full_ID_list.end()) {
-
-                // Create a new intersection object
-                intersection new_inter;
+            
+            // Create a new intersection object
+            intersection new_inter;
 
 
-                new_inter.ID = attr_data["id"] * 1000; // Generate a unique ID for the attraction's intersection
 
-                // Extract attraction data
-                new_inter.name = attr_data["name"];
-                new_inter.location.lon = attr_data["location"]["lon"];
-                new_inter.location.lat = attr_data["location"]["lat"];
+            new_inter.ID = attr_data["id"] * 1000; // Generate a unique ID for the attraction's intersection
 
-                // Extract connected intersections from attraction data
-                for (auto& intersection_ID : attraction_data[attr_data["id"]].intersection_linked) {
-                    if (intersection_ID != new_inter.ID) {
-                        // Add connected intersection ID to the vector intersection_linked
-                        new_inter.intersection_linked.push_back(intersection_ID);
+            // Extract attraction data
+            new_inter.name = attr_data["name"];
+            new_inter.location.lon = attr_data["location"]["lon"];
+            new_inter.location.lat = attr_data["location"]["lat"];
 
-                    }
+            // Extract connected intersections from attraction data
+            for (auto& intersection_ID : attraction_data[attr_data["id"]].intersection_linked) {
+                if (intersection_ID != new_inter.ID) {
+                    // Add connected intersection ID to the vector intersection_linked
+                    new_inter.intersection_linked.push_back(intersection_ID);
                 }
-
-                // Extract direct way to attractions from attraction data
-                for (auto& attraction_ID : attr_data["direct_way_to_attractions"]) {
-                    if (std::find(current_setting.full_ID_list.begin(), current_setting.full_ID_list.end(), attraction_ID) != current_setting.full_ID_list.end())
-                    // Add direct way to attraction's intersection ID (with 3 extra zeros at the end) to the vector intersection_linked
-                    new_inter.intersection_linked.push_back(attraction_ID * 1000); 
-                }
-
-                // Add the ID of its own attraction to its attraction_linked vector
-                new_inter.attraction_linked.push_back(attr_data["id"]); 
-
-
-                // Add the new intersection to the vector
-                intersections.push_back(new_inter);
-
             }
+
+            // Extract direct way to attractions from attraction data
+            for (auto& attraction_ID : attr_data["direct_way_to_attractions"]) {
+                if (std::find(current_setting.full_ID_list.begin(), current_setting.full_ID_list.end(), attraction_ID) != current_setting.full_ID_list.end())
+                // Add direct way to attraction's intersection ID (with 3 extra zeros at the end) to the vector intersection_linked
+                new_inter.intersection_linked.push_back(attraction_ID * 1000); 
+            }
+
+            // Add the ID of its own attraction to its attraction_linked vector
+            new_inter.attraction_linked.push_back(attr_data["id"]); 
+
+
+            // Add the new intersection to the vector
+            intersections.push_back(new_inter);
+
         }
     }
 
