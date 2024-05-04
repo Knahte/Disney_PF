@@ -26,8 +26,8 @@
       "id":2,
       "name": "Puppet Boat Ride",
       "location": {
-        "lat": 7.72305,
-        "lon": 48.267
+        "lat": 48.267,
+        "lon": 7.72305
       },
       "visited": false,
       "single_rider":0,
