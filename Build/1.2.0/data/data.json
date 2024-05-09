@@ -1,506 +1,133 @@
 {
   "Attractions": [
     {
-      "id":1,
-      "name": "Elf Ride",
+      "id": 8,
+      "name": "Star Wars Hyperspace Mountain",
       "location": {
-        "lat": 48.26742,
-        "lon": 7.72281
+        "lat": 48.87363,
+        "lon": 2.7788
       },
       "visited": false,
-      "single_rider":0,
-      "direct_way_to_attractions": [ 5620, 5631 ]
+      "single_rider": 7278,
+      "direct_way_to_attractions": [ 6, 4, 7, 5 ]
     },
     {
-      "id": 5630,
-      "name": "Voletarium",
+      "id": 7278,
+      "name": "Single Rider Star Wars Hyperspace Mountain",
       "location": {
-        "lat": 48.26914,
-        "lon": 7.72243
+        "lat": 48.87363,
+        "lon": 2.7788
       },
       "visited": false,
-      "single_rider":0,
-      "direct_way_to_attractions": []
+      "single_rider": -1,
+      "direct_way_to_attractions": [ 6, 4, 7, 5 ]
     },
     {
-      "id":2,
-      "name": "Puppet Boat Ride",
+      "id": 9,
+      "name": "Star Tours: The Adventures Continue",
       "location": {
-        "lat": 7.72305,
-        "lon": 48.267
-      },
-      "visited": false,
-      "single_rider":0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5631,
-      "name": "Jim Button - Journey through Morrowland",
-      "location": {
-        "lat": 48.26721,
-        "lon": 7.72268
-      },
-      "visited": false,
-      "single_rider":0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id":3,
-      "name": "Silverstone Race Track",
-      "location": {
-        "lat": 48.26484,
-        "lon": 7.72127
+        "lat": 48.87463,
+        "lon": 2.77876
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [5]
+      "direct_way_to_attractions": [ 4573, 2707 ]
     },
     {
-      "id":4,
-      "name": "Cray Taxi",
+      "id": 5,
+      "name": "Buzz Lightyear Laser Blast",
       "location": {
-        "lat": 48.2655,
-        "lon": 7.72233
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [6, 7]
-    },
-    {
-      "id":5,
-      "name": "The British Carousel",
-      "location": {
-        "lat": 48.26469,
-        "lon": 7.72153
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [3]
-    },
-    {
-      "id":6,
-      "name": "London bus",
-      "location": {
-        "lat": 48.26539,
-        "lon": 7.72227
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [4, 7]
-    },
-    {
-      "id":7,
-      "name": "The queen's diamonds",
-      "location": {
-        "lat": 48.26533,
-        "lon": 7.72206
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [4, 7]
-    },
-    {
-      "id": 5621,
-      "name": "Arena of Football - Football Scooter",
-      "location": {
-        "lat": 48.26543,
-        "lon": 7.72118
+        "lat": 48.8734398,
+        "lon": 2.7779687
       },
       "visited": false,
       "single_rider": 0,
       "direct_way_to_attractions": []
     },
     {
-      "id": 5604,
-      "name": "Silver Star",
+      "id": 4,
+      "name": "Autopia, presented by Avis",
       "location": {
-        "lat": 48.26778,
-        "lon": 7.72015
+        "lat": 48.87345,
+        "lon": 2.77878
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": []
+      "direct_way_to_attractions": [ 8, 6, 7, 7278 ]
     },
     {
-      "id": 5619,
-      "name": "Euro-Tower",
+      "id": 2707,
+      "name": "Mickey's PhilharMagic",
       "location": {
-        "lat": 48.26702,
-        "lon": 7.72204
+        "lat": 48.87451,
+        "lon": 2.77963
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": []
+      "direct_way_to_attractions": [ 9, 4573 ]
     },
     {
-      "id": 5737,
-      "name": "Eurosat - CanCan Coaster",
+      "id": 7,
+      "name": "Orbitron",
       "location": {
-        "lat": 48.26742,
-        "lon": 7.72113
+        "lat": 48.87347,
+        "lon": 2.77844
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 5619 ]
+      "direct_way_to_attractions": [ 6, 5, 4, 8, 7278 ]
     },
     {
-      "id": 5608,
-      "name": "Pegasus",
+      "id": 6,
+      "name": "Les Mysteres du Nautilus",
       "location": {
-        "lat": 48.26771,
-        "lon": 7.71907
+        "lat": 48.87341,
+        "lon": 2.77962
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [5611]
-    },
-    {
-      "id": 5611,
-      "name": "Water rollercoaster Poseidon",
-      "location": {
-        "lat": 48.26668,
-        "lon": 7.71927
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 5608, 8 ]
-    },
-    {
-      "id":8,
-      "name": "Cassandra's Curse",
-      "location": {
-        "lat": 48.26626,
-        "lon": 7.71963
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 5608, 13349, 9 ]
-    },
-    {
-      "id":9,
-      "name": "Atlantis Adventure",
-      "location": {
-        "lat": 48.26622,
-        "lon": 7.72024
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 8, 13349 ]
-    },
-    {
-      "id":10,
-      "name": "Wichtelhausen / Dwarf City",
-      "location": {
-        "lat": 48.26406,
-        "lon": 7.72295
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id":11,
-      "name": "Red Baron",
-      "location": {
-        "lat": 48.26408,
-        "lon": 7.72108
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 13, 12 ]
-    },
-    {
-      "id":12,
-      "name": "Mini-Scooters",
-      "location": {
-        "lat": 48.26381,
-        "lon": 7.72085
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 13, 5617, 27 ]
-    },
-    {
-      "id":27 ,
-      "name": "Koffiekopjes",
-      "location": {
-        "lat": 48.2638,
-        "lon": 7.72038
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 12, 13, 5617 ]
-    },
-    {
-      "id": 5617,
-      "name": "Pirates in Batavia",
-      "location": {
-        "lat": 48.26356,
-        "lon": 7.72046
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [27, 12]
-    },
-    {
-      "id":13,
-      "name": "Flying Dutchman",
-      "location": {
-        "lat": 48.26393,
-        "lon": 7.7209
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 11, 12, 5617, 27 ]
-    },
-    {
-      "id":14,
-      "name": "Quipse Paddle Boats",
-      "location": {
-        "lat": 48.26619,
-        "lon": 7.72268
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id":15,
-      "name": "Sheep Rock",
-      "location": {
-        "lat": 48.26653,
-        "lon": 7.72365
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 16, 5623 ]
-    },
-    {
-      "id":16,
-      "name": "BIG-Bobby-Car Circuit",
-      "location": {
-        "lat": 48.26666,
-        "lon": 7.72376
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 15, 5623 ]
-    },
-    {
-      "id": 5626,
-      "name": "Old Mac Donald's Tractor Fun",
-      "location": {
-        "lat": 48.26644,
-        "lon": 7.723
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 17 ]
-    },
-    {
-      "id":17,
-      "name": "Spinning Dragons",
-      "location": {
-        "lat": 48.26631,
-        "lon": 7.72293
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 5626 ]
-    },
-    {
-      "id": 5623,
-      "name": "Dancing Dingie",
-      "location": {
-        "lat": 48.26659,
-        "lon": 7.72394
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 15, 16 ]
-    },
-    {
-      "id": 5622,
-      "name": "Ba-a-a Express",
-      "location": {
-        "lat": 48.26622,
-        "lon": 7.72321
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5603,
-      "name": "blue fire Megacoaster",
-      "location": {
-        "lat": 48.26241,
-        "lon": 7.71832
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5614,
-      "name": "Whale Adventures - Northern Lights",
-      "location": {
-        "lat": 48.26175,
-        "lon": 7.71922
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5620,
-      "name": "Volo da Vinci",
-      "location": {
-        "lat": 48.26756,
-        "lon": 7.72239
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 1, 5631 ]
-    },
-    {
-      "id": 18,
-      "name": "Ghost Castle",
-      "location": {
-        "lat": 48.26778,
-        "lon": 7.72195
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 19 ]
+      "direct_way_to_attractions": [ 4, 7, 8, 7278 ]
     },
     {
       "id": 19,
-      "name": "Piccolo Mondo",
+      "name": "it's a small world",
       "location": {
-        "lat": 48.26743,
-        "lon": 7.72191
+        "lat": 48.87454,
+        "lon": 2.77606
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 18 ]
-    },
-    {
-      "id": 5618,
-      "name": "ARTHUR",
-      "location": {
-        "lat": 48.26371,
-        "lon": 7.72415
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5627,
-      "name": "Poppy Tower",
-      "location": {
-        "lat": 48.26413,
-        "lon": 7.72394
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 20 ]
-    },
-    {
-      "id": 20,
-      "name": "Mul-Muls Carousel",
-      "location": {
-        "lat": 48.26419,
-        "lon": 7.72409
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 5627 ]
-    },
-    {
-      "id": 13349,
-      "name": "Voltron Nevera powered by Rimac",
-      "location": {
-        "lat": 48.26574,
-        "lon": 7.71976
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 21,
-      "name": "Les Montgolfières du Liechtenstein",
-      "location": {
-        "lat": 48.26587,
-        "lon": 7.7218
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5629,
-      "name": "Vienna Wave Swing",
-      "location": {
-        "lat": 48.26233,
-        "lon": 7.72297
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 5606 ]
+      "direct_way_to_attractions": [ 24 ]
     },
     {
       "id": 22,
-      "name": "Danube Steamer",
+      "name": "Peter Pan's Flight",
       "location": {
-        "lat": 48.2631,
-        "lon": 7.72284
+        "lat": 48.87383,
+        "lon": 2.77407
       },
       "visited": false,
       "single_rider": 0,
       "direct_way_to_attractions": []
     },
     {
-      "id": 5606,
-      "name": "Alpine Coaster 'Enzian'",
+      "id": 15,
+      "name": "Blanche-Neige et les Sept Nains",
       "location": {
-        "lat": 48.26206,
-        "lon": 7.7226
+        "lat": 48.87345,
+        "lon": 2.77532
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 5629 ]
+      "direct_way_to_attractions": [ 23, 16 ]
     },
+
     {
-      "id": 5609,
-      "name": "Tirol Log Flume",
+      "id": 20,
+      "name": "Mad Hatter's Tea Cups",
       "location": {
-        "lat": 48.26256,
-        "lon": 7.72218
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5624,
-      "name": "Josefina's Magical Imperial Journey",
-      "location": {
-        "lat": 48.26359,
-        "lon": 7.72187
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5610,
-      "name": "Atlantica SuperSplash",
-      "location": {
-        "lat": 48.26171,
-        "lon": 7.7211
+        "lat": 48.87447,
+        "lon": 2.77504
       },
       "visited": false,
       "single_rider": 0,
@@ -508,54 +135,120 @@
     },
     {
       "id": 23,
-      "name": "Sleigh Ride Snowflake",
+      "name": "Les Voyages de Pinocchio",
       "location": {
-        "lat": 48.26517,
-        "lon": 7.72052
+        "lat": 48.87356,
+        "lon": 2.77516
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 24 ]
+      "direct_way_to_attractions": [ 15, 16 ]
     },
     {
-      "id": 5605,
-      "name": "Euro-Mir",
+      "id": 14,
+      "name": "Alice's Curious Labyrinth",
       "location": {
-        "lat": 48.26495,
-        "lon": 7.7198
+        "lat": 48.87445,
+        "lon": 2.77451
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 5605 ]
+      "direct_way_to_attractions": [ 20, 13 ]
     },
     {
-      "id": 24,
-      "name": "Lada Autodrom",
+      "id": 16,
+      "name": "Le Carrousel de Lancelot",
       "location": {
-        "lat": 48.26481,
-        "lon": 7.72062
+        "lat": 48.87372,
+        "lon": 2.7752
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 24, 23 ]
+      "direct_way_to_attractions": [ 23, 15 ]
+    },
+    {
+      "id": 18,
+      "name": "Dumbo the Flying Elephant",
+      "location": {
+        "lat": 48.87416,
+        "lon": 2.77465
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 17,
+      "name": "Casey Jr. le Petit Train du Cirque",
+      "location": {
+        "lat": 48.87516,
+        "lon": 2.77429
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 21 ]
+    },
+    {
+      "id": 21,
+      "name": "Le Pays des Contes de Fees",
+      "location": {
+        "lat": 48.87519,
+        "lon": 2.77461
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 17 ]
+    },
+    {
+      "id": 3,
+      "name": "Pirates of the Caribbean",
+      "location": {
+        "lat": 48.87349,
+        "lon": 2.77338
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 2,
+      "name": "Indiana Jones and the Temple of Peril",
+      "location": {
+        "lat": 48.87239,
+        "lon": 2.77206
+      },
+      "visited": false,
+      "single_rider": 7306,
+      "direct_way_to_attractions": [ 1 ]
+    },
+    {
+      "id": 7306,
+      "name": "Single Rider Indiana Jones and the Temple of Peril",
+      "location": {
+        "lat": 48.87239,
+        "lon": 2.77206
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": [ 1 ]
+    },
+    {
+      "id": 1,
+      "name": "La Cabane des Robinson",
+      "location": {
+        "lat": 48.87243,
+        "lon": 2.77393
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 2, 7306 ]
     },
     {
       "id": 25,
-      "name": "Matterhorn-Blitz",
+      "name": "Big Thunder Mountain",
       "location": {
-        "lat": 48.26686,
-        "lon": 7.72045
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 26 ]
-    },
-    {
-      "id": 5613,
-      "name": "Swiss Bob Run",
-      "location": {
-        "lat": 48.26635,
-        "lon": 7.72162
+        "lat": 48.87153,
+        "lon": 2.77481
       },
       "visited": false,
       "single_rider": 0,
@@ -563,69 +256,247 @@
     },
     {
       "id": 26,
-      "name": "Jungfrau Glacier Flight",
+      "name": "Phantom Manor",
       "location": {
-        "lat": 48.26698,
-        "lon": 7.72067
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 25 ]
-    },
-    {
-      "id": 7301,
-      "name": "Snorri touren",
-      "location": {
-        "lat": 48.26286,
-        "lon": 7.72016
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 5628 ]
-    },
-    {
-      "id": 5628,
-      "name": "Vindjammer",
-      "location": {
-        "lat": 48.26271,
-        "lon": 7.7207
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": [ 7301 ]
-    },
-    {
-      "id": 5612,
-      "name": "Fjord-Rafting",
-      "location": {
-        "lat": 48.26292,
-        "lon": 7.71969
-      },
-      "visited": false,
-      "single_rider": 0,
-      "direct_way_to_attractions": []
-    },
-    {
-      "id": 5625,
-      "name": "Kolumbusjolle",
-      "location": {
-        "lat": 48.26164,
-        "lon": 7.72324
+        "lat": 48.87098,
+        "lon": 2.77681
       },
       "visited": false,
       "single_rider": 0,
       "direct_way_to_attractions": [ 28 ]
     },
     {
-      "id":28,
-      "name": "Feria Swing",
+      "id": 28,
+      "name": "Thunder Mesa Riverboat Landing",
       "location": {
-        "lat": 48.26144,
-        "lon": 7.72311
+        "lat": 48.87119,
+        "lon": 2.77653
       },
       "visited": false,
       "single_rider": 0,
-      "direct_way_to_attractions": [ 5625 ]
+      "direct_way_to_attractions": [ 26 ]
+    },
+    {
+      "id": 24,
+      "name": "Princess Pavilion",
+      "location": {
+        "lat": 48.87475,
+        "lon": 2.77555
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 19 ]
+    },
+    {
+      "id": 13,
+      "name": "Meet Mickey Mouse",
+      "location": {
+        "lat": 48.87439,
+        "lon": 2.77384
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 4573,
+      "name": "Welcome to Starport: A Star Wars Encounter",
+      "location": {
+        "lat": 48.87458,
+        "lon": 2.77898
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 9, 2707 ]
+    },
+
+
+    {
+      "id": 29,
+      "name": "Cars ROAD TRIP",
+      "location": {
+        "lat": 48.86635,
+        "lon": 2.77487
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 37,
+      "name": "Ratatouille: The Adventure",
+      "location": {
+        "lat": 48.86756,
+        "lon": 2.77624
+      },
+      "visited": false,
+      "single_rider": 7279,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 7279,
+      "name": "Single Rider Ratatouille: The Adventure",
+      "location": {
+        "lat": 48.86756,
+        "lon": 2.77624
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 32,
+      "name": "Crush's Coaster",
+      "location": {
+        "lat": 48.86808,
+        "lon": 2.77818
+      },
+      "visited": false,
+      "single_rider": 7277,
+      "direct_way_to_attractions": [ 33 ]
+    },
+    {
+      "id": 7277,
+      "name": "Single Rider Crush's Coaster",
+      "location": {
+        "lat": 48.86808,
+        "lon": 2.77818
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": [ 33 ]
+    },
+    {
+      "id": 35,
+      "name": "Toy Soldiers Parachute Drop",
+      "location": {
+        "lat": 48.8672,
+        "lon": 2.77724
+      },
+      "visited": false,
+      "single_rider": 7281,
+      "direct_way_to_attractions": [ 36 ]
+    },
+    {
+      "id": 7281,
+      "name": "Single Rider Toy Soldiers Parachute Drop",
+      "location": {
+        "lat": 48.8672,
+        "lon": 2.77724
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": [ 36 ]
+    },
+    {
+      "id": 34,
+      "name": "RC Racer",
+      "location": {
+        "lat": 48.86692,
+        "lon": 2.77655
+      },
+      "visited": false,
+      "single_rider": 7280,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 7280,
+      "name": "Single Rider RC Racer",
+      "location": {
+        "lat": 48.86692,
+        "lon": 2.77655
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 36,
+      "name": "Slinky Dog Zigzag Spin",
+      "location": {
+        "lat": 48.86708,
+        "lon": 2.77688
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 35, 7281 ]
+    },
+    {
+      "id": 31,
+      "name": "Cars Quatre Roues Rallye",
+      "location": {
+        "lat": 48.86773,
+        "lon": 2.77789
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 10848,
+      "name": "Avengers Assemble: Flight Force",
+      "location": {
+        "lat": 48.86515,
+        "lon": 2.77931
+      },
+      "visited": false,
+      "single_rider": 10849,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 10849,
+      "name": "Single Rider Avengers Assemble: Flight Force",
+      "location": {
+        "lat": 48.86515,
+        "lon": 2.77931
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 10845,
+      "name": "Spider-Man W.E.B. Adventure",
+      "location": {
+        "lat": 48.86596,
+        "lon": 2.77952
+      },
+      "visited": false,
+      "single_rider": 10846,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 10846,
+      "name": "Single Rider Spider-Man W.E.B. Adventure",
+      "location": {
+        "lat": 48.86596,
+        "lon": 2.77952
+      },
+      "visited": false,
+      "single_rider": -1,
+      "direct_way_to_attractions": []
+    },
+    {
+      "id": 33,
+      "name": "Les Tapis Volants - Flying Carpets Over Agrabah",
+      "location": {
+        "lat": 48.86822,
+        "lon": 2.77853
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": [ 32, 7277 ]
+    },
+    {
+      "id": 40,
+      "name": "The Twilight Zone Tower of Terror",
+      "location": {
+        "lat": 48.86675,
+        "lon": 2.77877
+      },
+      "visited": false,
+      "single_rider": 0,
+      "direct_way_to_attractions": []
     }
   ],
   "Hotels": [
@@ -633,65 +504,83 @@
       "id": 0,
       "name": "No Hotel / SNCF Train+Bus Station / Parking Lot",
       "location": {
-        "lat": 48.26951,
-        "lon": 7.71898
+        "lat": 48.86919,
+        "lon": 2.7819
       }
     },
     {
       "id": 1,
-      "name": "Bell Rock",
+      "name": "Disneyland Hotel *****",
       "location": {
-        "lat": 48.26036,
-        "lon": 7.72591
+        "lat": 48.87043,
+        "lon": 2.77971
       }
     },
     {
       "id": 2,
-      "name": "Colosseo",
+      "name": "Diney Hotel New York - The art of Marvel ****",
       "location": {
-        "lat": 48.25993,
-        "lon": 7.72274
+        "lat": 48.8704,
+        "lon": 2.78779
       }
     },
     {
       "id": 3,
-      "name": "Santa Isabel / El Andaluz / Castillo Alcazar",
+      "name": "Disney Newport Bay Club ****",
       "location": {
-        "lat": 48.26037,
-        "lon": 7.72177
+        "lat": 48.86568,
+        "lon": 2.78921
+      }
+    },
+    {
+      "id": 4,
+      "name": "Disney Sequoia Lodge ***",
+      "location": {
+        "lat": 48.86863,
+        "lon": 2.79014
       }
     }
   ],
   "Intersections": [
     {
       "id": 1,
-      "name": "",
+      "name": "Central Plaza",
       "location": {
-        "lat": 48.26874,
-        "lon": 7.72209
+        "lat": 48.8726,
+        "lon": 2.77676
       },
       "connected_to_intersections": [
-        2
+        2,
+        5,
+        7,
+        13,
+        15,
+        17
       ],
       "connected_to_attractions": [
-        5630
+        15,
+        23,
+        16
       ],
       "connected_to_hotels": [
-        0
+        1
       ]
     },
     {
       "id": 2,
-      "name": "",
+      "name": "Frontierland_NE",
       "location": {
-        "lat": 48.26835,
-        "lon": 7.72337
+        "lat": 48.87152,
+        "lon": 2.77602
       },
       "connected_to_intersections": [
-        1, 3
+        1,
+        15
       ],
       "connected_to_attractions": [
-
+        26,
+        28,
+        25
       ],
       "connected_to_hotels": [
 
@@ -699,18 +588,16 @@
     },
     {
       "id": 3,
-      "name": "",
+      "name": "Frontierland_NO",
       "location": {
-        "lat": 48.26767,
-        "lon": 7.72231
+        "lat": 48.87151,
+        "lon": 2.77427
       },
       "connected_to_intersections": [
-        2, 4, 5
+        4
       ],
       "connected_to_attractions": [
-        18,
-        5620,
-        19
+        25
       ],
       "connected_to_hotels": [
 
@@ -718,36 +605,19 @@
     },
     {
       "id": 4,
-      "name": "",
+      "name": "AdventureLand_S",
       "location": {
-        "lat": 48.26721,
-        "lon": 7.72193
+        "lat": 48.87186,
+        "lon": 2.77412
       },
       "connected_to_intersections": [
-        37, 3, 5, 39, 44, 6, 36
+        3,
+        5,
+        6
       ],
       "connected_to_attractions": [
-        19,
-        5619,
-        5737
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 5,
-      "name": "",
-      "location": {
-        "lat": 48.26714,
-        "lon": 7.72301
-      },
-      "connected_to_intersections": [
-        3, 39, 37
-      ],
-      "connected_to_attractions": [
-        5631,
         2,
+        7306,
         1
       ],
       "connected_to_hotels": [
@@ -755,18 +625,40 @@
       ]
     },
     {
-      "id": 6,
-      "name": "",
+      "id": 5,
+      "name": "AdventureLand_E",
       "location": {
-        "lat": 48.26713,
-        "lon": 7.721
+        "lat": 48.87238,
+        "lon": 2.77487
       },
       "connected_to_intersections": [
-        44, 4, 37, 7
+        1,
+        4,
+        6
       ],
       "connected_to_attractions": [
-        5737,
-        26
+
+      ],
+      "connected_to_hottels": [
+
+      ]
+    },
+    {
+      "id": 6,
+      "name": "AdventureLand_N",
+      "location": {
+        "lat": 48.8733,
+        "lon": 2.77345
+      },
+      "connected_to_intersections": [
+        4,
+        5,
+        8,
+        7
+      ],
+      "connected_to_attractions": [
+        3,
+        1
       ],
       "connected_to_hotels": [
 
@@ -774,283 +666,37 @@
     },
     {
       "id": 7,
-      "name": "",
+      "name": "Fantasyland_C",
       "location": {
-        "lat": 48.26664,
-        "lon": 7.72064
+        "lat": 48.87388,
+        "lon": 2.77518
       },
       "connected_to_intersections": [
-        8, 36, 6, 46
+        1,
+        11,
+        12
       ],
       "connected_to_attractions": [
-        25, 26
+        15,
+        16,
+        23,
+        18
       ],
-      "connected_to_hotels": [
+      "connected_to_hottels": [
 
       ]
     },
     {
       "id": 8,
-      "name": "",
+      "name": "FantasyLand_O",
       "location": {
-        "lat": 48.26602,
-        "lon": 7.71993
+        "lat": 48.87379,
+        "lon": 2.7742
       },
       "connected_to_intersections": [
-        45, 9, 7
-      ],
-      "connected_to_attractions": [
-        13349,
-        9,
-        8
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 9,
-      "name": "",
-      "location": {
-        "lat": 48.26545,
-        "lon": 7.72069
-      },
-      "connected_to_intersections": [
-        8, 35, 36, 10
-      ],
-      "connected_to_attractions": [
-        5621,
-        23
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 10,
-      "name": "",
-      "location": {
-        "lat": 48.26504,
-        "lon": 7.72012
-      },
-      "connected_to_intersections": [
-        11, 9
-      ],
-      "connected_to_attractions": [
-        5605,
-        23,
-        24
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 11,
-      "name": "",
-      "location": {
-        "lat": 48.26452,
-        "lon": 7.72091
-      },
-      "connected_to_intersections": [
-        16, 15, 10, 12
-      ],
-      "connected_to_attractions": [
-        24,
-        3,
-        5,
-        11
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 12,
-      "name": "",
-      "location": {
-        "lat": 48.26396,
-        "lon": 7.72075
-      },
-      "connected_to_intersections": [
-        13, 11
-      ],
-      "connected_to_attractions": [
-        13,
-        11,
-        12,
-        27,
-        5617
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 13,
-      "name": "",
-      "location": {
-        "lat": 48.26346,
-        "lon": 7.72103
-      },
-      "connected_to_intersections": [
-        17, 14, 12
-      ],
-      "connected_to_attractions": [
-        12
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 14,
-      "name": "",
-      "location": {
-        "lat": 48.26355,
-        "lon": 7.72164
-      },
-      "connected_to_intersections": [
-        13, 21, 16
-      ],
-      "connected_to_attractions": [
-        5624
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 15,
-      "name": "",
-      "location": {
-        "lat": 48.26497,
-        "lon": 7.72149
-      },
-      "connected_to_intersections": [
-        35, 11,33
-      ],
-      "connected_to_attractions": [
-        5,
-        3,
-        10
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 16,
-      "name": "",
-      "location": {
-        "lat": 48.26422,
-        "lon": 7.72148
-      },
-      "connected_to_intersections": [
-        14, 11
-      ],
-      "connected_to_attractions": [
-        11
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 17,
-      "name": "",
-      "location": {
-        "lat": 48.26313,
-        "lon": 7.7207
-      },
-      "connected_to_intersections": [
-        13, 18, 47
-      ],
-      "connected_to_attractions": [
-        7301
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 18,
-      "name": "",
-      "location": {
-        "lat": 48.26291,
-        "lon": 7.72112
-      },
-      "connected_to_intersections": [
-        29, 17, 20
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 19,
-      "name": "",
-      "location": {
-        "lat": 48.26182,
-        "lon": 7.71996
-      },
-      "connected_to_intersections": [
-        30, 20
-      ],
-      "connected_to_attractions": [
-        5614
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 20,
-      "name": "",
-      "location": {
-        "lat": 48.26254,
-        "lon": 7.72095
-      },
-      "connected_to_intersections": [
-        47, 18, 28
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 21,
-      "name": "",
-      "location": {
-        "lat": 48.26325,
-        "lon": 7.72185
-      },
-      "connected_to_intersections": [
-        14, 29, 22, 23
-      ],
-      "connected_to_attractions": [
-        5609
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 22,
-      "name": "",
-      "location": {
-        "lat": 48.2629,
-        "lon": 7.72282
-      },
-      "connected_to_intersections": [
-        21, 33
+        7,
+        6,
+        9
       ],
       "connected_to_attractions": [
         22
@@ -1060,160 +706,59 @@
       ]
     },
     {
-      "id": 23,
-      "name": "",
+      "id": 9,
+      "name": "FantasyLand_NO",
       "location": {
-        "lat": 48.26251,
-        "lon": 7.72261
+        "lat": 48.87418,
+        "lon": 2.77419
       },
       "connected_to_intersections": [
-        21, 24
+        8,
+        11
       ],
       "connected_to_attractions": [
-        5609,
-        5629,
-        5606
+        13,
+        18
       ],
       "connected_to_hotels": [
 
       ]
     },
     {
-      "id": 24,
-      "name": "",
+      "id": 10,
+      "name": "FantasyLand_N",
       "location": {
-        "lat": 48.26188,
-        "lon": 7.72319
+        "lat": 48.87473,
+        "lon": 2.77502
       },
       "connected_to_intersections": [
-        23, 25
+        11,
+        12
       ],
       "connected_to_attractions": [
-        5629,
-        5625,
-        28,
-        5606
+        21,
+        17,
+        24
       ],
       "connected_to_hotels": [
 
       ]
     },
     {
-      "id": 25,
-      "name": "",
+      "id": 11,
+      "name": "FantasyLand_NC",
       "location": {
-        "lat": 48.2613,
-        "lon": 7.72276
+        "lat": 48.87428,
+        "lon": 2.77464
       },
       "connected_to_intersections": [
-        24, 26, 51
+        9,
+        10,
+        7
       ],
       "connected_to_attractions": [
-        28,
-        5625
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 26,
-      "name": "",
-      "location": {
-        "lat": 48.2614,
-        "lon": 7.7222
-      },
-      "connected_to_intersections": [
-        25, 27
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 27,
-      "name": "",
-      "location": {
-        "lat": 48.26215,
-        "lon": 7.72201
-      },
-      "connected_to_intersections": [
-        26, 29, 28
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 28,
-      "name": "",
-      "location": {
-        "lat": 48.2621,
-        "lon": 7.72141
-      },
-      "connected_to_intersections": [
-        20, 29, 27
-      ],
-      "connected_to_attractions": [
-        5610
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 29,
-      "name": "",
-      "location": {
-        "lat": 48.26302,
-        "lon": 7.72139
-      },
-      "connected_to_intersections": [
-        28, 18, 21, 27
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 30,
-      "name": "",
-      "location": {
-        "lat": 48.26261,
-        "lon": 7.71893
-      },
-      "connected_to_intersections": [
-        47, 19
-      ],
-      "connected_to_attractions": [
-        5603
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 32,
-      "name": "",
-      "location": {
-        "lat": 48.26395,
-        "lon": 7.72423
-      },
-      "connected_to_intersections": [
-        33
-      ],
-      "connected_to_attractions": [
-        5618,
-        5627,
+        14,
+        18,
         20
       ],
       "connected_to_hotels": [
@@ -1221,338 +766,367 @@
       ]
     },
     {
-      "id": 33,
-      "name": "",
+      "id": 12,
+      "name": "FantasyLand_NE",
       "location": {
-        "lat": 48.26393,
-        "lon": 7.72312
+        "lat": 48.8745,
+        "lon": 2.77587
       },
       "connected_to_intersections": [
-        22, 32, 15
-      ],
-      "connected_to_attractions": [
-        10
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 34,
-      "name": "",
-      "location": {
-        "lat": 48.26562,
-        "lon": 7.72138
-      },
-      "connected_to_intersections": [
-        43, 35, 36
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 35,
-      "name": "",
-      "location": {
-        "lat": 48.26521,
-        "lon": 7.72121
-      },
-      "connected_to_intersections": [
-        34, 15, 9
-      ],
-      "connected_to_attractions": [
-        5621
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 36,
-      "name": "",
-      "location": {
-        "lat": 48.26609,
-        "lon": 7.72165
-      },
-      "connected_to_intersections": [
-        7, 38, 9, 37
-      ],
-      "connected_to_attractions": [
-        21,
-        5621,
-        5613
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 37,
-      "name": "",
-      "location": {
-        "lat": 48.26692,
-        "lon": 7.7221
-      },
-      "connected_to_intersections": [
-        39, 5, 4, 6, 36
-      ],
-      "connected_to_attractions": [
-        5619,
-        5613,
-        2
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 38,
-      "name": "",
-      "location": {
-        "lat": 48.26646,
-        "lon": 7.72236
-      },
-      "connected_to_intersections": [
-        39, 36, 40
-      ],
-      "connected_to_attractions": [
-        14,
-        5613
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 39,
-      "name": "",
-      "location": {
-        "lat": 48.26673,
-        "lon": 7.72294
-      },
-      "connected_to_intersections": [
-        5, 37, 38
-      ],
-      "connected_to_attractions": [
-        2
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 40,
-      "name": "",
-      "location": {
-        "lat": 48.26621,
-        "lon": 7.72279
-      },
-      "connected_to_intersections": [
-        42, 41, 38
-      ],
-      "connected_to_attractions": [
-        14,
-        17
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 41,
-      "name": "",
-      "location": {
-        "lat": 48.26646,
-        "lon": 7.72347
-      },
-      "connected_to_intersections": [
-        40, 42
-      ],
-      "connected_to_attractions": [
-        15,
-        16,
-        5622,
-        5626,
-        5623
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 42,
-      "name": "",
-      "location": {
-        "lat": 48.26606,
-        "lon": 7.72333
-      },
-      "connected_to_intersections": [
-        40, 41
-      ],
-      "connected_to_attractions": [
-        5622
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 43,
-      "name": "",
-      "location": {
-        "lat": 48.26546,
-        "lon": 7.72204
-      },
-      "connected_to_intersections": [
-        34
-      ],
-      "connected_to_attractions": [
-        7,
-        4,
-        6
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 44,
-      "name": "",
-      "location": {
-        "lat": 48.26759,
-        "lon": 7.7211
-      },
-      "connected_to_intersections": [
-        4, 6
-      ],
-      "connected_to_attractions": [
-        5737,
-        5604
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 45,
-      "name": "",
-      "location": {
-        "lat": 48.26636,
-        "lon": 7.71968
-      },
-      "connected_to_intersections": [
-        8
-      ],
-      "connected_to_attractions": [
-        8,
-        9,
-        5611
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 46,
-      "name": "",
-      "location": {
-        "lat": 48.26733,
-        "lon": 7.71987
-      },
-      "connected_to_intersections": [
+        10,
+        13,
         7
       ],
       "connected_to_attractions": [
+        24,
+        19
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 13,
+      "name": "FantasyLand_E",
+      "location": {
+        "lat": 48.87446,
+        "lon": 2.7765
+      },
+      "connected_to_intersections": [
+        12,
+        15,
+        1
+      ],
+      "connected_to_attractions": [
+        19
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 14,
+      "name": "DiscoveryLand_NO",
+      "location": {
+        "lat": 48.87444,
+        "lon": 2.77881
+      },
+      "connected_to_intersections": [
+        16
+      ],
+      "connected_to_attractions": [
+        9,
+        4573,
+        2707
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 15,
+      "name": "DiscoveryLand_SO",
+      "location": {
+        "lat": 48.87295,
+        "lon": 2.77734
+      },
+      "connected_to_intersections": [
+        16,
+        1,
+        13
+      ],
+      "connected_to_attractions": [
+        5
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 16,
+      "name": "DiscoveryLand_C",
+      "location": {
+        "lat": 48.87334,
+        "lon": 2.77826
+      },
+      "connected_to_intersections": [
+        14,
+        15
+      ],
+      "connected_to_attractions": [
+        5,
+        7,
+        4,
+        6,
+        8,
+        7278
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 17,
+      "name": "HUB",
+      "location": {
+        "lat": 48.86951,
+        "lon": 2.78082
+      },
+      "connected_to_intersections": [
+        1,
+        18,
+        27
+      ],
+      "connected_to_attractions": [
+
+      ],
+      "connected_to_hotels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Place_des_Frères_Lumières",
+      "location": {
+        "lat": 48.86807,
+        "lon": 2.78039
+      },
+      "connected_to_intersections": [
+        17,
+        19
+      ],
+      "connected_to_attractions": [
+
+      ],
+      "connected_to_hotels": [
+        0
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Studio_1",
+      "location": {
+        "lat": 48.86734,
+        "lon": 2.77915
+      },
+      "connected_to_intersections": [
+        20,
         25,
-        5608
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 47,
-      "name": "",
-      "location": {
-        "lat": 48.2627,
-        "lon": 7.72009
-      },
-      "connected_to_intersections": [
-        30, 17
-      ],
-      "connected_to_attractions": [
-        7301,
-        5612,
-        5628
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 48,
-      "name": "",
-      "location": {
-        "lat": 48.26048,
-        "lon": 7.72259
-      },
-      "connected_to_intersections": [
-        51
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-        2, 3
-      ]
-    },
-    {
-      "id": 49,
-      "name": "",
-      "location": {
-        "lat": 48.26177,
-        "lon": 7.72375
-      },
-      "connected_to_intersections": [
-        51, 50
-      ],
-      "connected_to_attractions": [
-
-      ],
-      "connected_to_hotels": [
-
-      ]
-    },
-    {
-      "id": 50,
-      "name": "",
-      "location": {
-        "lat": 48.26032,
-        "lon": 7.72478
-      },
-      "connected_to_intersections": [
-        49
+        18,
+        32
       ],
       "connected_to_attractions": [
         
       ],
       "connected_to_hotels": [
-        1
+
       ]
     },
     {
-      "id": 51,
-      "name": "",
+      "id": 20,
+      "name": "Worlds_of_Pixar",
       "location": {
-        "lat": 48.26098,
-        "lon": 7.72296
+        "lat": 48.86794,
+        "lon": 2.77829
       },
       "connected_to_intersections": [
-        25, 48, 49
+        19,21
+
+      ],
+      "connected_to_attractions": [
+        33,32,7277,31
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Buzz_statue",
+      "location": {
+        "lat": 48.86741,
+        "lon": 2.77755
+      },
+      "connected_to_intersections": [
+        20,32,24,22
+      ],
+      "connected_to_attractions": [
+        31,35
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Place_de_Rémy",
+      "location": {
+        "lat": 48.86736,
+        "lon": 2.77638
+      },
+      "connected_to_intersections": [
+        21,23
+      ],
+      "connected_to_attractions": [
+        37,7279
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Toy_Story_Playland_O",
+      "location": {
+        "lat": 48.86706,
+        "lon": 2.77629
+      },
+      "connected_to_intersections": [
+        22,
+        24
+      ],
+      "connected_to_attractions": [
+        29,34,7280
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Toy_Story_Playland_C",
+      "location": {
+        "lat": 48.86696,
+        "lon": 2.77693
+      },
+      "connected_to_intersections": [
+        21,23
+      ],
+      "connected_to_attractions": [
+        34,7280,36,35,7281
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 25,
+      "name": "A_logo",
+      "location": {
+        "lat": 48.86639,
+        "lon": 2.77963
+      },
+      "connected_to_intersections": [
+        32,
+        19,
+        26
+      ],
+      "connected_to_attractions": [
+        10845,
+        10846,
+        40
+      ],
+      "connected_to_hotels": [
+
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Big_A_logo",
+      "location": {
+        "lat": 48.86555,
+        "lon": 2.77943
+      },
+      "connected_to_intersections": [
+        25
+      ],
+      "connected_to_attractions": [
+        10845,
+        10846,
+        10848,
+        10849
+      ],
+      "connected_to_hotels": [
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Dinsey_Village_E",
+      "location": {
+        "lat": 48.86909,
+        "lon": 2.78635
+      },
+      "connected_to_intersections": [
+        31,28,17
+      ],
+      "connected_to_attractions": [
+        11469
+      ],
+      "connected_to_hotels": [
+        0
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Lac_Buna_Vista_N",
+      "location": {
+        "lat": 48.86973,
+        "lon": 2.788
+      },
+      "connected_to_intersections": [
+        27,29
+      ],
+      "connected_to_attractions": [
+
+      ],
+      "connected_to_hotels": [
+        2
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Lac_Buna_Vista_E",
+      "location": {
+        "lat": 48.86848,
+        "lon": 2.78918
+      },
+      "connected_to_intersections": [
+        28,30
+      ],
+      "connected_to_attractions": [
+
+      ],
+      "connected_to_hotels": [
+        4
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Lac_Buna_Vista_S",
+      "location": {
+        "lat": 48.86601,
+        "lon": 2.78911
+      },
+      "connected_to_intersections": [
+        29,31
+      ],
+      "connected_to_attractions": [
+
+      ],
+      "connected_to_hotels": [
+        3
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Disney_Village_SE",
+      "location": {
+        "lat": 48.86836,
+        "lon": 2.78629
+      },
+      "connected_to_intersections": [
+        30,27,17
       ],
       "connected_to_attractions": [
 
@@ -1560,6 +1134,24 @@
       "connected_to_hotels": [
 
       ]
+    },
+    {
+      "id": 32,
+      "name": "Hollywood_Blvd_SO",
+      "location": {
+        "lat": 48.86692,
+        "lon": 2.77836
+      },
+      "connected_to_intersections": [
+        21,19,25
+      ],
+      "connected_to_attractions": [
+        40
+      ],
+      "connected_to_hotels": [
+
+      ]
     }
+
   ]
 }
