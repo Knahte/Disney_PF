@@ -12,33 +12,6 @@ static setting current_setting; // the used setting (not important) just to used
 //---data-functions---//
 ////////////////////////
 
-static void settingDebug(setting used_setting) {
-    std::cout << "single_rider: " << used_setting.single_rider << std::endl;
-    std::cout << "entry_time: " << used_setting.entry_time << std::endl;
-    std::cout << "hotel_ID: " << used_setting.hotel_ID << std::endl;
-    std::cout << "walking_speed: " << used_setting.walking_speed << std::endl;
-    std::cout << "full_ID_list: ";
-    for (int id : used_setting.full_ID_list) {
-        std::cout << id << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "ID_list: ";
-    for (int id : used_setting.ID_list) {
-        std::cout << id << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "single_rider_list: ";
-    for (int id : used_setting.single_rider_list) {
-        std::cout << id << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "consider_waiting_times: " << used_setting.consider_waiting_times << std::endl;
-    std::cout << "number_of_path: " << used_setting.number_of_path << std::endl;
-    std::cout << "path_to_data: " << used_setting.path_to_data << std::endl;
-    std::cout << "debug_mode: " << used_setting.debug_mode << std::endl;
-}
-
-
 /**
  * Opens the JSON file and extracts the attractions to store them in a vector of attractions.
  *
@@ -84,7 +57,6 @@ static std::vector<attraction> attractionsOpenJson(std::string& data_URL, settin
             }
             else if (attraction_data["single_rider"] == -1) {  // Check if the attraction is a single_rider
                 new_attraction.single_rider = attraction_data["id"];
-                //used_setting.single_rider_list.push_back(new_attraction.ID);
             }
             else {
                 new_attraction.single_rider = attraction_data["single_rider"]; // Otherwise, extract single rider information
@@ -509,8 +481,6 @@ static std::map<int, attraction> addSingleRiderData(std::map<int, attraction>& a
  */
 std::map <int, attraction>getAttractionData(std::string data_folder, setting& used_setting) {
     
-    std::cout << "ATTR gen" << std::endl;
-    //settingDebug(used_setting);
 
     std::string data_link_json = data_folder + "/data.json";
     // Open JSON file and extract attractions
@@ -545,8 +515,6 @@ std::map <int, attraction>getAttractionData(std::string data_folder, setting& us
  * 
  */
 std::map <int, hotel> getHotelData(std::string data_folder, setting& used_setting) {
-    std::cout << "HOTEL gen" << std::endl;
-    //settingDebug(used_setting);
 
     std::string data_link_json = data_folder + "/data.json";
     // Open JSON file and extract hotels
@@ -576,9 +544,7 @@ std::map <int, hotel> getHotelData(std::string data_folder, setting& used_settin
  * 
  */
 std::map <int, intersection> getIntersectionData(std::string data_folder, setting& used_setting) {
-    std::cout << "INTER gen" << std::endl;
-    //settingDebug(used_setting);
-
+ 
     std::string data_link_json = data_folder + "/data.json";
     // Obtain attraction data to associate with intersections
     std::map<int, attraction> attraction_data = getAttractionData(data_folder, used_setting);
@@ -598,7 +564,7 @@ std::map <int, intersection> getIntersectionData(std::string data_folder, settin
     hotel_intersection.intersection_linked = hotel_to_add.intersection_linked;
     hotel_intersection.location = hotel_to_add.location;
 
-    // Add the fake intersection to the intersection data at ID 0
+    // Add the "fake" intersection to the intersection data at ID 0
     intersection_data[0] = hotel_intersection;
 
     return intersection_data;

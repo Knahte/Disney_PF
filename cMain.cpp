@@ -3,11 +3,11 @@
 #include <iostream>
 #include <streambuf>
 
+
 wxBEGIN_EVENT_TABLE(cMain, wxFrame)
 EVT_BUTTON(10001, StartGeneration)
 EVT_BUTTON(10002, ResetApplication)
 wxEND_EVENT_TABLE();
-
 
 
 setting current_setting;
@@ -60,16 +60,22 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "DISNEY path finder", wxPoint(30, 30
 	// Iterate through attraction IDs
 	int i = 0;
 	for (int& id : current_setting.full_ID_list) {
-		// Get attraction name
-		wxString attractionName = wxString::FromUTF8(attraction_data[id].name);
+		bool is_single_rider = false;
 
-		// Create and initialize checkbox
-		wxCheckBox* checkbox = new wxCheckBox(panel, 30000 + id, attractionName);
-		checkbox->SetValue(true);
-		sizer->Add(checkbox, 0, wxALL, 2); // Add checkbox to sizer with a margin of 2 pixels
-		int yPos = initialYPos + i * checkboxHeight;
-		++i;
-		checkbox->SetPosition(wxPoint(10, yPos));
+
+
+		if (!is_single_rider) {
+			// Get attraction name
+			wxString attractionName = wxString::FromUTF8(attraction_data[id].name);
+
+			// Create and initialize checkbox
+			wxCheckBox* checkbox = new wxCheckBox(panel, 30000 + id, attractionName);
+			checkbox->SetValue(true);
+			sizer->Add(checkbox, 0, wxALL, 2); // Add checkbox to sizer with a margin of 2 pixels
+			int yPos = initialYPos + i * checkboxHeight;
+			++i;
+			checkbox->SetPosition(wxPoint(10, yPos));
+		}
 	}
 
 	panel->SetSizer(sizer);
@@ -173,10 +179,10 @@ cMain::~cMain()
 
 void cMain::StartGeneration(wxCommandEvent& evt) {
 
-	//save Setting
-	// Redirect output to a file if debug mode is enabled
+
+
 	if (current_setting.debug_mode)
-		redirectOutputToFile((std::string)"DEBUG_OUTPUT_SaveSetting.txt");
+		redirectOutputToFile((std::string)"DEBUG_OUTPUT_generation.txt");
 
 	// Update the setting based on user input
 	current_setting.consider_waiting_times = !(checkbox1->GetValue());
@@ -203,19 +209,11 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 	current_setting.number_of_path = complexity_slider->GetValue();
 
 
-	// Restore output and skip event processing if debug mode is enabled
-	if (current_setting.debug_mode)
-		restoreOutput();
-
-
-
-	//Save attractions selected
 	// Iterate through all attractions
 	current_setting.ID_list = {};
 
 	// Iterate through all attractions
-	for (auto it = attraction_data.begin(); it != attraction_data.end(); ++it) {
-		int id = it->first;
+	for (int id : current_setting.full_ID_list) {
 		// Get the ID of the checkbox associated with this attraction
 		int checkboxID = 30000 + attraction_data[id].ID;
 
@@ -227,12 +225,7 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 		}
 	}
 
-
-
-
-	// Redirect output to a file if debug mode is enabled
-	if (current_setting.debug_mode)
-		redirectOutputToFile((std::string)"DEBUG_OUTPUT_generation.txt");
+	vectorDebug(current_setting.ID_list);
 
 	// Clear the list box and disable the button temporarily
 	list1->Clear();
@@ -250,6 +243,8 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 	// Calculate the distance to the next location
 	distance_to_next = findShortestPath(intersection_data[0], intersection_data[path[0] * 1000]);
 
+	current_time += distance_to_next / current_setting.walking_speed / 1000;
+
 	// Iterate over the path and display each attraction in the list box
 	for (int i = 0; i < path.size() - 1; i++) {
 
@@ -258,14 +253,13 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 			distance_to_next = findShortestPath(intersection_data[path[i - 1] * 1000], intersection_data[path[i] * 1000]);
 
 		// Update the current time based on walking time to the next location
-		current_time += distance_to_next / current_setting.walking_speed / 1000;
+		
 
 		// Display the attraction in the list box
 		list1->AppendString(std::to_string((int)current_time % 24) + "h" + std::to_string((int)((current_time - (int)current_time) * 60)) + " - " + std::to_string((int)distance_to_next) + "m - " + attraction_data[path[i]].name);
 
-		// Update the current time based on the wait time at the attraction
-		current_time += attraction_data[path[i]].wait_time[(int)(current_time) % 24] / 60.0;
-
+		// update current time
+		current_time += getTimeTaken(distance_to_next, current_time, path[i], current_setting);
 	}
 
 	// Display the last attraction in the list box
@@ -283,26 +277,34 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 }
 
 void cMain::ResetApplication(wxCommandEvent& evt) {
-
 	redirectOutputToFile((std::string)"DEBUG_OUTPUT_closing.txt");
-	wxString folder_name = folderComboBox->GetStringSelection();
-	wxMessageBox(wxT("You'll need to restart the app (I'm working on that)"), wxT("Erreur"), wxICON_ERROR | wxOK);
-	if (!folder_name.IsEmpty()) {
-		wxString json_file_path = wxT("data/data.json");
 
+	// Retrieves the selected folder name from the dropdown list
+	wxString folder_name = folderComboBox->GetStringSelection();
+
+	// Displays a message indicating that the application needs to be restarted
+	wxMessageBox(wxT("You'll need to restart the app (I'm working on that)"), wxT("Error"), wxICON_ERROR | wxOK);
+
+	if (!folder_name.IsEmpty()) {
+		// Paths to the files to be copied
+		wxString json_file_path = wxT("data/data.json");
 		wxString csv_file_path = wxT("data/waiting_time.csv");
 
+		// Path of the original folder containing the files to be copied
 		wxString origin_folder = wxT("data/") + folder_name;
-		std::cout << origin_folder + wxT("/data.json") << std::endl;
+
+		// Copies the data.json file from the original folder to the application folder
 		if (!wxCopyFile(origin_folder + wxT("/data.json"), json_file_path, true)) {
-			wxMessageBox(wxT("Erreur lors de la copie du fichier data.json"), wxT("Erreur"), wxICON_ERROR | wxOK);
+			wxMessageBox(wxT("Error copying data.json file"), wxT("Error"), wxICON_ERROR | wxOK);
 		}
 
-		if (!wxCopyFile(origin_folder + wxT("/waiting_time.csv"), csv_file_path, true)){
-			wxMessageBox(wxT("Erreur lors de la copie du fichier waiting_time.csv"), wxT("Erreur"), wxICON_ERROR | wxOK);
+		// Copies the waiting_time.csv file from the original folder to the application folder
+		if (!wxCopyFile(origin_folder + wxT("/waiting_time.csv"), csv_file_path, true)) {
+			wxMessageBox(wxT("Error copying waiting_time.csv file"), wxT("Error"), wxICON_ERROR | wxOK);
 		}
 	}
 
+	// Terminates the execution of the application
 	exit(0);
 
 	restoreOutput();

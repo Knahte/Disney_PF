@@ -62,9 +62,11 @@ void restoreOutput() {
 
 /**
  * Debug function to print integer elements stored in a vector.
- *
+ * 
  * @param vector_data The vector containing integer elements to debug.
  *
+ * @tparam T1 The type of data stored in the dubuged vector
+ * 
  */
 template<typename T1>
 void vectorDebug(std::vector<T1>& vector_data) {
@@ -183,6 +185,38 @@ void intersectionsDebug(std::map<int, intersection>& intersections_data) {
         intersection& inter_to_print = pair.second;
         intersectionDebug(inter_to_print);
     }
+}
+
+/**
+ * Debug function to print information about setting.
+ *
+ * @param used_setting The settings object containing information about the current configuration.
+ *
+ */
+void settingDebug(setting used_setting) {
+    std::cout << "single_rider: " << used_setting.single_rider << std::endl;
+    std::cout << "entry_time: " << used_setting.entry_time << std::endl;
+    std::cout << "hotel_ID: " << used_setting.hotel_ID << std::endl;
+    std::cout << "walking_speed: " << used_setting.walking_speed << std::endl;
+    std::cout << "full_ID_list: ";
+    for (int id : used_setting.full_ID_list) {
+        std::cout << id << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "ID_list: ";
+    for (int id : used_setting.ID_list) {
+        std::cout << id << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "single_rider_list: ";
+    for (int id : used_setting.single_rider_list) {
+        std::cout << id << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "consider_waiting_times: " << used_setting.consider_waiting_times << std::endl;
+    std::cout << "number_of_path: " << used_setting.number_of_path << std::endl;
+    std::cout << "path_to_data: " << used_setting.path_to_data << std::endl;
+    std::cout << "debug_mode: " << used_setting.debug_mode << std::endl;
 }
 
 /**
@@ -319,18 +353,44 @@ double getTimeTaken(double distance, double current_time, int attr_ID, setting& 
     // Calculate travel time based on walking speed and distance
     double travel_time = distance / current_setting.walking_speed / 1000;
 
-    double waiting_time = 0;
+    double waiting_time = 0.0;
 
     // Check if single rider option is enabled in settings
     if (current_setting.single_rider) {
         // If single rider option is enabled and waiting times are considered
-        if (current_setting.consider_waiting_times)
-            waiting_time = attraction_data[attr_ID].wait_time_sinlge_rider[(int)(current_time + travel_time) % 24] / 60.0;
+        if (current_setting.consider_waiting_times) {
+            // Performing interpolation (linear variation assumed)
+            int current_time_fromated = (int)(current_time + travel_time) % 24;
+            double waiting_time_early = attraction_data[attr_ID].wait_time_sinlge_rider[current_time_fromated] / 60.0;
+            double waiting_time_late = attraction_data[attr_ID].wait_time_sinlge_rider[(current_time_fromated + 1) % 24] / 60.0;
+            double dif_time = waiting_time_late - waiting_time_early;
+            double time_ratio = (current_time - current_time_fromated)/60.0;
+            if (dif_time > 3) { // To avoid problems with the latest timetable, which increases waiting time from 0.5 to 7 hours.
+                waiting_time = waiting_time_early;
+            } 
+            else {
+                waiting_time = waiting_time_early + (time_ratio * dif_time)/60.0;
+            }
+
+
+        }
     }
     else {
         // If single rider option is not enabled and waiting times are considered
-        if (current_setting.consider_waiting_times)
-            waiting_time = attraction_data[attr_ID].wait_time[(int)(current_time + travel_time) % 24] / 60.0;
+        if (current_setting.consider_waiting_times) {
+            // Performing interpolation (linear variation assumed)
+            int current_time_fromated = (int)(current_time + travel_time) % 24;
+            double waiting_time_early = attraction_data[attr_ID].wait_time[current_time_fromated] / 60.0;
+            double waiting_time_late = attraction_data[attr_ID].wait_time[(current_time_fromated + 1) % 24] / 60.0;
+            double dif_time = waiting_time_late - waiting_time_early;
+            double time_ratio = (current_time - current_time_fromated) / 60.0;
+            if (dif_time > 3) { // To avoid problems with the latest timetable, which increases waiting time from 0.5 to 7 hours.
+                waiting_time = waiting_time_early;
+            }
+            else {
+                waiting_time = waiting_time_early + (time_ratio * dif_time) / 60.0;
+            }
+        }
     }
 
     // Calculate total time taken as sum of travel time and waiting time
@@ -442,10 +502,6 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
             }
         }
     }
-    /*std::cout << std::endl << start_intersection.name << " to " << end_intersection.name << std::endl;
-    for (auto& item_distance : distance) {
-        std::cout << intersection_data[item_distance.first].name << " : " << item_distance.second << std::endl;
-    }*/
 
     // Check if the destination intersection is reachable
     if (visited[end_intersection.ID]) {
@@ -454,9 +510,8 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
     else {
         // Print an detailed error message if no path is found
         std::cout << "Erreur : Aucun chemin trouvé de " << start_intersection.ID << " à " << end_intersection.ID << std::endl;
-        // Debugging information for the intersection causing problems
-        //intersectionDebug(start_intersection); 
-        //intersectionDebug(end_intersection);
+        intersectionDebug(start_intersection); 
+        intersectionDebug(end_intersection);
         return -1; // Return -1 indicating no path found
     }
 }
@@ -472,7 +527,6 @@ double findShortestPath(intersection& start_intersection, intersection& end_inte
  */
 matrix_2d getMatrix(std::vector<int>& id_list, setting& current_setting) {
    
-    vectorDebug(id_list);
     // Create a fake attraction for the hotel to include in the distance calculation
     attraction attr_hotel;
     hotel source_hotel = hotel_data[current_setting.hotel_ID];
@@ -494,16 +548,12 @@ matrix_2d getMatrix(std::vector<int>& id_list, setting& current_setting) {
 
     // Initialize the distance matrix
     matrix_2d distance_matrix = {};
-    intersectionsDebug(intersection_data);
     // Iterate over each attraction ID in the list
     for (int attraction_id1 : id_list) {
         distance_matrix[attraction_id1] = std::map<int, double>();
 
         // Calculate distances from attraction1 to all other attractions in the list
         for (int attraction_id2 : id_list) {            
-            std::cout << attraction_id1 * 1000 << " -> " << attraction_id2 * 1000 << std::endl;
-            intersectionDebug(intersection_data[attraction_id1 * 1000]);
-            intersectionDebug(intersection_data[attraction_id2 * 1000]);
 
             double distance = findShortestPath(intersection_data[attraction_id1 * 1000], intersection_data[attraction_id2 * 1000]);
 
@@ -720,18 +770,12 @@ std::vector<int> generatePath(setting& current_setting, int number_of_generation
     attraction_data = getAttractionData(data_link, current_setting);
     hotel_data = getHotelData(data_link, current_setting);
     intersection_data = getIntersectionData(data_link, current_setting);
-       
-    //attractionsDebug(attraction_data);
-    //std::cout << std::endl;
-    //intersectionsDebug(intersection_data);
-    //std::cout << std::endl;
 
     // Generate matrix containing distances between attractions
     std::vector<int> id_list = current_setting.ID_list;
     matrix_2d graph_attraction_matrix = getMatrix(id_list, current_setting);
 
-    Matrix2dDebug(graph_attraction_matrix);
-
+    settingDebug(current_setting);
 
     std::vector<int> path = {};
     std::vector<std::pair<double, std::vector<int>>> path_data = {};
