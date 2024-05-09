@@ -37,8 +37,6 @@ If you want to explore my code the interesting parts are in [cMain.cpp](https://
 
 ## Roadmap
 
-- Add other attractions (I'm currently working on Europapark)
-
 - Enhance generation quality and speed through optimization techniques.
 
 - Incorporate restaurant data into the path generation process to provide more comprehensive itineraries.

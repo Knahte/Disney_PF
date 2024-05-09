@@ -225,8 +225,6 @@ void cMain::StartGeneration(wxCommandEvent& evt) {
 		}
 	}
 
-	vectorDebug(current_setting.ID_list);
-
 	// Clear the list box and disable the button temporarily
 	list1->Clear();
 	btn1->Enable(false);
